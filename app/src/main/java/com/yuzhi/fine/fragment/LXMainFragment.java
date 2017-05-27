@@ -18,6 +18,7 @@ import com.yuzhi.fine.activity.ImageGalleryActivity;
 import com.yuzhi.fine.ui.GridImageAdapter;
 import com.yuzhi.fine.ui.loopviewpager.AutoLoopViewPager;
 import com.yuzhi.fine.ui.viewpagerindicator.CirclePageIndicator;
+import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,7 +108,10 @@ public class LXMainFragment extends Fragment {
         indicator.setPadding(5, 5, 10, 5);
 
         // 添加元素给gridview
-        mLxMainGridView.setAdapter(new GridImageAdapter(getActivity(), icon, iconName));
+        GridImageAdapter adapter =  new GridImageAdapter(getActivity(), icon, iconName);
+        CommUtil.setGridViewHeightBasedOnChildren(mLxMainGridView,adapter);
+        mLxMainGridView.setAdapter(adapter);
+
     }
 
 

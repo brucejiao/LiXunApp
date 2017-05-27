@@ -4,7 +4,7 @@
     android:layout_gravity="bottom"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/main_footer_bg">
+    android:background="@color/white">
     <!--android:background="@color/main_footer_bg" 50dp-->
 
     <!--<LinearLayout

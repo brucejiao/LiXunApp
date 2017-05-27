@@ -60,5 +60,6 @@
 	<color name="gray_white">#F5F5F5</color>
 	<color name="gray_slate">#708090</color>
 	<color name="blue_light">#0083FF</color>
+	<color name="line">#E5E5E5</color>
 
 </resources>
