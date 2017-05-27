@@ -3,8 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <!--<include layout="@layout/layout_main_header" />-->
     <include layout="@layout/header_first_lixun" />
@@ -12,7 +15,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#d8d8d8"
+        android:background="@color/white"
         android:fadingEdge="none"
         android:scrollbars="none">
 
@@ -42,23 +45,60 @@
                     android:padding="5dp" />
             </RelativeLayout>
 
-           <!-- <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/background_color" />-->
+            <!--分类-->
             <GridView
                 android:id="@+id/lxmain_gridview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:numColumns="4"
                 android:stretchMode="columnWidth"
-                android:horizontalSpacing="44dp"
-                android:verticalSpacing="39dp"
                 android:scrollbars="none"
                 />
+             <View
+                     android:layout_width="match_parent"
+                     android:layout_height="1dp"
+                     android:background="@color/line" />
+            <!--签到-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginLeft="19dp"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/text_size_13"
+                     android:text="签到加积分"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_9"
+                        android:text="可在积分商城直接退换商品开发中"/>
+                </LinearLayout>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="90dp"
+                    android:background="@color/line" />
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:text="签到+积分"
+                        android:textSize="@dimen/text_size_13"
+                        android:textColor="@color/green"
+                        android:background="@drawable/btn_hollow_blue_md"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
