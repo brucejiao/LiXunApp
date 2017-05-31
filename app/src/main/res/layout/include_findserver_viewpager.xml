@@ -1,21 +1,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".common.AppContext">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tl"
+        android:id="@+id/tab_FindFragment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextColor="#FF000000"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/green"
+        app:tabSelectedTextColor="@color/green"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabTextColor="@color/black"
+
         />
+<!--
+
+ app:tabIndicatorColor="@color/green"
+        app:tabSelectedTextColor="@color/green"
+
+app:tabIndicatorColor="@color/white"                 // 下方滚动的下划线颜色
+app:tabSelectedTextColor="@color/gray"               // tab被选中后，文字的颜色
+app:tabTextColor="@color/white"                      // tab默认的文字颜色 -->
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/vp_FindFragment_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="500dp"
+        />
 
 </LinearLayout>

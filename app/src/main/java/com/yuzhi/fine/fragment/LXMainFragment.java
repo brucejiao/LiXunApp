@@ -2,25 +2,23 @@ package com.yuzhi.fine.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.activity.ImageGalleryActivity;
+import com.yuzhi.fine.ui.Find_tab_Adapter;
+import com.yuzhi.fine.ui.GalleryPagerAdapter;
 import com.yuzhi.fine.ui.GridImageAdapter;
 import com.yuzhi.fine.ui.loopviewpager.AutoLoopViewPager;
 import com.yuzhi.fine.ui.viewpagerindicator.CirclePageIndicator;
-import com.yuzhi.fine.ui.viewpagerindicator.FindServerVierAdapter;
 import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
@@ -44,17 +42,14 @@ public class LXMainFragment extends Fragment {
 
     @Bind(R.id.lixunviewpager)
     ViewPager mainviewpage;
-
-    //初始化页面
-    @Bind(R.id.tl)
-    TabLayout mTabLayout;
-    //添加 标题
-    @Bind(R.id.viewpager)
-    ViewPager mViewPager;
-    //找寻服务适配器
-    FindServerVierAdapter findServerAdapter;
-    private List<String> mTitle = new ArrayList<String>();
-    private List<String> mDatas = new ArrayList<String>();
+//////////////////////////
+   private TabLayout tab_FindFragment_title;                            //定义TabLayout
+    private ViewPager vp_FindFragment_pager;                             //定义viewPager
+    private FragmentPagerAdapter fAdapter;                               //定义adapter
+    private List<Fragment> list_fragment;                                //定义要装fragment的列表
+    private List<String> list_title;                                     //tab名称列表
+    private LXFindXSFranmet xsFragment;              //悬赏找寻服务fragment
+    private LXFindPTFragment ptFragment;            //普通找寻服务fragment
 
 
 
@@ -117,10 +112,10 @@ public class LXMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-
+        findServersViewPager();//悬赏/普通找寻服务
         initGalleryViewPager();//图片切换
 
-        findServersViewPager();
+
 
     }
 
@@ -128,7 +123,7 @@ public class LXMainFragment extends Fragment {
     void initView() {
         imageViewIds = new int[] { R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
 
-        galleryAdapter = new GalleryPagerAdapter();
+        galleryAdapter = new GalleryPagerAdapter(imageViewIds,imageList,getActivity());
         pager.setAdapter(galleryAdapter);
         indicator.setViewPager(pager);
         indicator.setPadding(5, 5, 10, 5);
@@ -202,7 +197,7 @@ public class LXMainFragment extends Fragment {
 //        mViewPager.setAdapter(pagerAdapter);
 
 
-        galleryAdapter = new GalleryPagerAdapter();
+        galleryAdapter = new GalleryPagerAdapter(imageViewIds,imageList,getActivity());
         mainviewpage.setAdapter(galleryAdapter);
 
 
@@ -212,98 +207,78 @@ public class LXMainFragment extends Fragment {
     //悬赏/普通找寻服务
     public void findServersViewPager(){
 
-        /**
-         *   //初始化页面
-         @Bind(R.id.tab_FindFragment_title)
-         TabLayout find_viewpager;
-         //添加 标题
-         @Bind(R.id.vp_FindFragment_pager)
-         ViewPager find_viewtabpager;
-         */
-        mTitle.add("热门推荐");
-        mTitle.add("热门收藏");
-
-        mDatas.add("热门推荐");
-        mDatas.add("热门收藏");
-
-        findServerAdapter = new FindServerVierAdapter(getActivity(),mTitle,mDatas);
-        //1，设置Tab的标题来自PagerAdapter.getPageTitle()
-        mTabLayout.setTabsFromPagerAdapter(findServerAdapter);
+        tab_FindFragment_title = (TabLayout)getActivity().findViewById(R.id.tab_FindFragment_title);
+        vp_FindFragment_pager = (ViewPager)getActivity().findViewById(R.id.vp_FindFragment_pager);
 
 
-        //2，设置TabLayout的选项卡监听
-        /*
-        find_viewpager.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        //初始化各fragment
+        xsFragment = new LXFindXSFranmet();//悬赏找寻服务fragment
+        ptFragment = new LXFindPTFragment(); //普通找寻服务fragment
+
+
+            //将fragment装进列表中
+            list_fragment = new ArrayList<Fragment>();
+            list_fragment.add(xsFragment);
+            list_fragment.add(ptFragment);
+
+            //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
+            list_title = new ArrayList<String>();
+            list_title.add("悬赏找寻服务");
+            list_title.add("普通找寻服务");
+
+            //设置TabLayout的模式
+            tab_FindFragment_title.setTabMode(TabLayout.MODE_FIXED);
+            //为TabLayout添加tab名称
+            tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(0)));
+            tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(1)));
+
+            fAdapter = new Find_tab_Adapter(getChildFragmentManager(),list_fragment,list_title);//   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失
+
+            //viewpager加载adapter
+            vp_FindFragment_pager.setAdapter(fAdapter);
+//            tab_FindFragment_title.setViewPager(vp_FindFragment_pager);
+            //TabLayout加载viewpager
+            tab_FindFragment_title.setupWithViewPager(vp_FindFragment_pager);
+            tab_FindFragment_title.setTabsFromPagerAdapter(fAdapter);
+
+        //tabLayout事件
+        vp_FindFragment_pager.setCurrentItem(0);
+        tab_FindFragment_title.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
+                //选中了tab的逻辑
+              if(tab == tab_FindFragment_title.getTabAt(0)){//悬赏找寻服务
+                  vp_FindFragment_pager.setCurrentItem(0);
+//                    CommUtil.showAlert("okok",getActivity());
+
+              }else if(tab == tab_FindFragment_title.getTabAt(1)){//普通找寻服务
+                  vp_FindFragment_pager.setCurrentItem(1);
+//                  CommUtil.showAlert("okok2",getActivity());
+
+              }
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                //未选中tab的逻辑
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                //再次选中tab的逻辑
 
             }
-        });*/
-        //3，设置TabLayout.TabLayoutOnPageChangeListener监听给ViewPager
-        /*TabLayout.TabLayoutOnPageChangeListener listener =
-                new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
-        mViewPager.addOnPageChangeListener(listener);*/
-
-        //4，viewpager设置适配器
-        mViewPager.setAdapter(findServerAdapter);
-        //这个方法是addOnPageChangeListener和setOnTabSelectedListener的封装。代替2,3步骤
-        mTabLayout.setupWithViewPager(mViewPager);
+        });
 
 
-    }
 
-    //轮播图适配器
-    public class GalleryPagerAdapter extends PagerAdapter {
-
-        @Override
-        public int getCount() {
-            return imageViewIds.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImageView item = new ImageView(getActivity());
-            item.setImageResource(imageViewIds[position]);
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
-            item.setLayoutParams(params);
-            item.setScaleType(ImageView.ScaleType.FIT_XY);
-            container.addView(item);
-
-            final int pos = position;
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ImageGalleryActivity.class);
-                    intent.putStringArrayListExtra("images", (ArrayList<String>) imageList);
-                    intent.putExtra("position", pos);
-                    startActivity(intent);
-                }
-            });
-
-            return item;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup collection, int position, Object view) {
-            collection.removeView((View) view);
-        }
     }
 
 
 }
+
+
+
 
 
 
