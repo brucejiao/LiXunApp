@@ -13,15 +13,16 @@
     <include layout="@layout/header_first_lixun" />
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/mainscrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/white"
         android:fadingEdge="none"
         android:scrollbars="none">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -53,7 +54,7 @@
             <GridView
                 android:id="@+id/lxmain_gridview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:numColumns="4"
                 android:stretchMode="columnWidth"
                 android:background="@color/white"
@@ -62,14 +63,15 @@
 
              <View
                      android:layout_width="match_parent"
-                     android:layout_height="10dp"
-                     android:background="@color/white" />
+                     android:layout_height="1dp"
+                     android:background="@color/line" />
             <!--签到-->
             <LinearLayout
                 android:id="@+id/qiandao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="19dp"
                 android:visibility="visible"
                 android:orientation="horizontal">
@@ -99,27 +101,35 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="@dimen/space_20"
+                        android:layout_marginRight="@dimen/space_10"
                         android:text="签到+积分"
                         android:textSize="@dimen/text_size_13"
                         android:textColor="@color/green"
-                        android:background="@drawable/btn_hollow_blue_md"/>
+                        android:background="@drawable/editsharp_green"/>
 
             </LinearLayout>
 
 
             <android.support.v4.view.ViewPager
-                android:id="@+id/mainviewpage"
+                android:id="@+id/lixunviewpager"
                 android:layout_width="match_parent"
                 android:layout_height="125dp" />
 
-
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="@color/green" />
+                android:layout_height="1dp"
+                android:background="@color/line" />
+            <!--选项 悬赏/普通找寻服务 start-->
+            <include layout="@layout/include_findserver_viewpager" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:text="===测试==="/>
+
+            <!--选项 悬赏/普通找寻服务 end-->
+
         </LinearLayout>
 
     </ScrollView>

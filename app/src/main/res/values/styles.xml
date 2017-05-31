@@ -95,4 +95,11 @@
 		<item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
 		<item name="android:windowExitAnimation">@anim/push_bottom_out</item>
 	</style>
+
+<!--TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse-->
+	<style name="tabLayoutTextSize">
+		<item name="android:textSize">16dp</item>
+		<item name="android:textAllCaps">false</item>
+	</style>
+
 </resources>

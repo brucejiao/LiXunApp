@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,6 +20,7 @@ import com.yuzhi.fine.activity.ImageGalleryActivity;
 import com.yuzhi.fine.ui.GridImageAdapter;
 import com.yuzhi.fine.ui.loopviewpager.AutoLoopViewPager;
 import com.yuzhi.fine.ui.viewpagerindicator.CirclePageIndicator;
+import com.yuzhi.fine.ui.viewpagerindicator.FindServerVierAdapter;
 import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
@@ -40,11 +42,20 @@ public class LXMainFragment extends Fragment {
     @Bind(R.id.lxmain_gridview)
     GridView mLxMainGridView;
 
-    @Bind(R.id.mainviewpage)
+    @Bind(R.id.lixunviewpager)
     ViewPager mainviewpage;
 
+    //初始化页面
+    @Bind(R.id.tl)
+    TabLayout mTabLayout;
+    //添加 标题
+    @Bind(R.id.viewpager)
+    ViewPager mViewPager;
+    //找寻服务适配器
+    FindServerVierAdapter findServerAdapter;
+    private List<String> mTitle = new ArrayList<String>();
+    private List<String> mDatas = new ArrayList<String>();
 
-    private List<View> views = new ArrayList<View>();
 
 
     private int[] imageViewIds;
@@ -65,7 +76,6 @@ public class LXMainFragment extends Fragment {
     private String[] iconName = { "委托寻人", "委托寻物", "招领认领", "招商加盟", "网络曝光", "网络求助", "立寻圈子",
             "积分商城" };
 
-    private LayoutInflater mInflater;
 
 
     public LXMainFragment() {
@@ -99,7 +109,6 @@ public class LXMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lxmain, container, false);
-        mInflater = LayoutInflater.from(getActivity());
         ButterKnife.bind(this, view);
         return view;
     }
@@ -110,6 +119,8 @@ public class LXMainFragment extends Fragment {
         initView();
 
         initGalleryViewPager();//图片切换
+
+        findServersViewPager();
 
     }
 
@@ -126,8 +137,6 @@ public class LXMainFragment extends Fragment {
         GridImageAdapter adapter =  new GridImageAdapter(getActivity(), icon, iconName);
         mLxMainGridView.setAdapter(adapter);
         CommUtil.calGridViewWidthAndHeigh(4,mLxMainGridView);
-//        CommUtil.setGridViewHeightBasedOnChildren(mLxMainGridView,adapter);
-
 
 
     }
@@ -200,7 +209,56 @@ public class LXMainFragment extends Fragment {
 
     }
 
+    //悬赏/普通找寻服务
+    public void findServersViewPager(){
 
+        /**
+         *   //初始化页面
+         @Bind(R.id.tab_FindFragment_title)
+         TabLayout find_viewpager;
+         //添加 标题
+         @Bind(R.id.vp_FindFragment_pager)
+         ViewPager find_viewtabpager;
+         */
+        mTitle.add("热门推荐");
+        mTitle.add("热门收藏");
+
+        mDatas.add("热门推荐");
+        mDatas.add("热门收藏");
+
+        findServerAdapter = new FindServerVierAdapter(getActivity(),mTitle,mDatas);
+        //1，设置Tab的标题来自PagerAdapter.getPageTitle()
+        mTabLayout.setTabsFromPagerAdapter(findServerAdapter);
+
+
+        //2，设置TabLayout的选项卡监听
+        /*
+        find_viewpager.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });*/
+        //3，设置TabLayout.TabLayoutOnPageChangeListener监听给ViewPager
+        /*TabLayout.TabLayoutOnPageChangeListener listener =
+                new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
+        mViewPager.addOnPageChangeListener(listener);*/
+
+        //4，viewpager设置适配器
+        mViewPager.setAdapter(findServerAdapter);
+        //这个方法是addOnPageChangeListener和setOnTabSelectedListener的封装。代替2,3步骤
+        mTabLayout.setupWithViewPager(mViewPager);
+
+
+    }
 
     //轮播图适配器
     public class GalleryPagerAdapter extends PagerAdapter {
@@ -243,6 +301,7 @@ public class LXMainFragment extends Fragment {
             collection.removeView((View) view);
         }
     }
+
 
 }
 
