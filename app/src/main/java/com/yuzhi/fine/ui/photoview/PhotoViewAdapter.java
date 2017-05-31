@@ -2,9 +2,9 @@ package com.yuzhi.fine.ui.photoview;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.List;
 
 public class PhotoViewAdapter extends PagerAdapter {
@@ -12,6 +12,8 @@ public class PhotoViewAdapter extends PagerAdapter {
 	protected final Context mContext;
 	private List<String> imgUrls;
 	protected OnItemChangeListener mOnItemChangeListener;
+
+	private ViewPager pager;
 
 	public PhotoViewAdapter(Context mContext, List<String> imgUrls) {
 		this.mContext = mContext;
@@ -34,12 +36,11 @@ public class PhotoViewAdapter extends PagerAdapter {
 	public View instantiateItem(ViewGroup container, int position) {
 		final PhotoViewWrapper iv = new PhotoViewWrapper(mContext);
 		iv.setUrl(imgUrls.get(position));
-		iv.setLayoutParams(new ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT));
-
+		iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
 		container.addView(iv, 0);
 		return iv;
+
+
 	}
 
 	@Override

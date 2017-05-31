@@ -43,6 +43,10 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="5dp"
                     android:padding="5dp" />
+
+
+
+
             </RelativeLayout>
 
             <!--分类-->
@@ -52,18 +56,22 @@
                 android:layout_height="wrap_content"
                 android:numColumns="4"
                 android:stretchMode="columnWidth"
+                android:background="@color/white"
                 android:scrollbars="none"
                 />
+
              <View
                      android:layout_width="match_parent"
-                     android:layout_height="1dp"
-                     android:background="@color/line" />
+                     android:layout_height="10dp"
+                     android:background="@color/white" />
             <!--签到-->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/qiandao"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 android:layout_marginLeft="19dp"
+                android:visibility="visible"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -100,6 +108,18 @@
 
             </LinearLayout>
 
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/mainviewpage"
+                android:layout_width="match_parent"
+                android:layout_height="125dp" />
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/green" />
         </LinearLayout>
 
     </ScrollView>

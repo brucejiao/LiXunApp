@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -314,32 +315,40 @@ public class CommUtil {
 			listView.setLayoutParams(params);
 		}
 
-	// 自定义listView每个Itenview的高度
-	public static void setGridViewHeightBasedOnChildren(GridView gridView, BaseAdapter adapter) {
-		// 获取listview的adapter
-		if (adapter == null) {
+	/**
+	 * 计算GridView宽高
+	 * @param gridView
+	 */
+	public static void calGridViewWidthAndHeigh(int numColumns ,GridView gridView) {
+
+		// 获取GridView对应的Adapter
+		ListAdapter listAdapter = gridView.getAdapter();
+		if (listAdapter == null) {
 			return;
 		}
-		// 固定列宽，有多少列
-		int col = 1;// listView.getNumColumns();
+
 		int totalHeight = 0;
-		// i每次加4，相当于listAdapter.getCount()小于等于4时 循环一次，计算一次item的高度，
-		// listAdapter.getCount()小于等于8时计算两次高度相加
-		for (int i = 0; i < adapter.getCount(); i += col) {
-			// 获取listview的每一个item
-			View listItem = adapter.getView(i, null, gridView);
-			listItem.measure(0, 0);
-			// 获取item的高度和
-			totalHeight += listItem.getMeasuredHeight();
+		for (int i = 0, len = listAdapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目
+			View listItem = listAdapter.getView(i, null, gridView);
+			listItem.measure(0, 0); // 计算子项View 的宽高
+
+			if ((i+1)%numColumns == 0) {
+				totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+			}
+
+			if ((i+1) == len && (i+1)%numColumns != 0) {
+				totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+			}
 		}
 
-		// 获取listview的布局参数
+		totalHeight += 10;
+
 		ViewGroup.LayoutParams params = gridView.getLayoutParams();
-		// 设置高度
 		params.height = totalHeight;
-		// 设置margin
-		((MarginLayoutParams) params).setMargins(10, 10, 10, 10);
-		// 设置参数
+		// listView.getDividerHeight()获取子项间分隔符占用的高度
+		// params.height最后得到整个ListView完整显示需要的高度
 		gridView.setLayoutParams(params);
 	}
+
+
 }

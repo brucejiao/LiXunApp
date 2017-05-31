@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,17 @@ public class LXMainFragment extends Fragment {
     AutoLoopViewPager pager;
     @Bind(R.id.indicator)
     CirclePageIndicator indicator;
+
     @Bind(R.id.lxmain_gridview)
     GridView mLxMainGridView;
+
+    @Bind(R.id.mainviewpage)
+    ViewPager mainviewpage;
+
+
+    private List<View> views = new ArrayList<View>();
+
+
     private int[] imageViewIds;
     private List<String> imageList = new ArrayList<String>(Arrays.asList(
             "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
@@ -54,6 +64,8 @@ public class LXMainFragment extends Fragment {
             R.drawable.menu_wlqz, R.drawable.menu_quanzi, R.drawable.menu_shop };
     private String[] iconName = { "委托寻人", "委托寻物", "招领认领", "招商加盟", "网络曝光", "网络求助", "立寻圈子",
             "积分商城" };
+
+    private LayoutInflater mInflater;
 
 
     public LXMainFragment() {
@@ -86,8 +98,8 @@ public class LXMainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_lxmain, container, false);
+        mInflater = LayoutInflater.from(getActivity());
         ButterKnife.bind(this, view);
         return view;
     }
@@ -96,6 +108,9 @@ public class LXMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+
+        initGalleryViewPager();//图片切换
+
     }
 
 
@@ -109,8 +124,11 @@ public class LXMainFragment extends Fragment {
 
         // 添加元素给gridview
         GridImageAdapter adapter =  new GridImageAdapter(getActivity(), icon, iconName);
-        CommUtil.setGridViewHeightBasedOnChildren(mLxMainGridView,adapter);
         mLxMainGridView.setAdapter(adapter);
+        CommUtil.calGridViewWidthAndHeigh(4,mLxMainGridView);
+//        CommUtil.setGridViewHeightBasedOnChildren(mLxMainGridView,adapter);
+
+
 
     }
 
@@ -148,6 +166,41 @@ public class LXMainFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
+
+    /**
+     *图片切换
+     */
+    private void initGalleryViewPager() {
+       //PhotoViewAdapter pagerAdapter = new PhotoViewAdapter(getActivity(),(ArrayList<String>) imageList);
+//        pagerAdapter.setOnItemChangeListener(new PhotoViewAdapter.OnItemChangeListener() {
+//            int len = imgUrls.size();
+//            @Override
+//            public void onItemChange(int currentPosition) {
+//                headTitle.setText((currentPosition+1) + "/" + len);
+//            }
+//        });
+
+
+
+
+
+
+//         1.设置幕后item的缓存数目
+        mainviewpage.setOffscreenPageLimit(3);
+//        // 2.设置页与页之间的间距
+        mainviewpage.setPageMargin(30);
+//        mViewPager.setAdapter(pagerAdapter);
+
+
+        galleryAdapter = new GalleryPagerAdapter();
+        mainviewpage.setAdapter(galleryAdapter);
+
+
+
+    }
+
+
 
     //轮播图适配器
     public class GalleryPagerAdapter extends PagerAdapter {
@@ -190,4 +243,9 @@ public class LXMainFragment extends Fragment {
             collection.removeView((View) view);
         }
     }
+
 }
+
+
+
+
