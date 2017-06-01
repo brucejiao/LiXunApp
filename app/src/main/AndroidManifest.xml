@@ -3,7 +3,7 @@
     <application
         android:name=".common.AppContext"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/start_icon"
         android:label="立寻"
         android:theme="@style/AppTheme">
 

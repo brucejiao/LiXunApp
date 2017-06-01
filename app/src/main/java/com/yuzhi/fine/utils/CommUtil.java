@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -22,7 +24,10 @@ import android.widget.Toast;
 import com.yuzhi.fine.common.AppContext;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -381,5 +386,29 @@ public class CommUtil {
 
 	}
 
+
+	/**
+	 * 加载网络图片
+	 * @param url
+	 * @return
+	 */
+	public static Bitmap getURLimage(String url) {
+		Bitmap bmp = null;
+		try {
+			URL myurl = new URL(url);
+			// 获得连接
+			HttpURLConnection conn = (HttpURLConnection) myurl.openConnection();
+			conn.setConnectTimeout(6000);//设置超时
+			conn.setDoInput(true);
+			conn.setUseCaches(false);//不缓存
+			conn.connect();
+			InputStream is = conn.getInputStream();//获得图片的数据流
+			bmp = BitmapFactory.decodeStream(is);
+			is.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bmp;
+	}
 
 }

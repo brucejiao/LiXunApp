@@ -101,11 +101,10 @@
                     android:background="@color/line" />
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/space_20"
-                        android:layout_marginRight="@dimen/space_10"
-                        android:text="签到+积分"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="@dimen/space_10"
+                        android:text="签到"
                         android:textSize="@dimen/text_size_13"
                         android:textColor="@color/green"
                         android:background="@drawable/editsharp_green"/>
@@ -117,10 +116,15 @@
                 android:layout_height="6dp"
                 android:background="@color/line" />
 
-            <android.support.v4.view.ViewPager
+           <!-- <android.support.v4.view.ViewPager
                 android:id="@+id/lixunviewpager"
                 android:layout_width="match_parent"
-                android:layout_height="125dp" />
+                android:layout_height="125dp" />-->
+            <com.yuzhi.fine.ui.HorizontalListView
+                android:id="@+id/lx_hor_listview_img"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                />
             <!--分割线-->
             <View
                 android:layout_width="match_parent"

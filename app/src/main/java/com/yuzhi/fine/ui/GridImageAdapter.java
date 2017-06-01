@@ -74,7 +74,8 @@ public class GridImageAdapter extends BaseAdapter{
 			draw.setBounds(0, 0, draw.getIntrinsicWidth(), draw.getIntrinsicHeight());
 			text.setCompoundDrawables(null, draw, null, null);
 			
-			paramView.setMinimumHeight((int)(96.0F * inflater.getContext().getResources().getDisplayMetrics().density));
+//			paramView.setMinimumHeight((int)(96.0F * inflater.getContext().getResources().getDisplayMetrics().density));
+		    paramView.setMinimumHeight((int)(80.0F * inflater.getContext().getResources().getDisplayMetrics().density));
 			paramView.setMinimumWidth(((-12 + inflater.getContext().getResources().getDisplayMetrics().widthPixels) / 3));
 			
 			return paramView;

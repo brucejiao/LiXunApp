@@ -1,6 +1,5 @@
 package com.yuzhi.fine.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +16,8 @@ import com.yuzhi.fine.R;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
 import com.yuzhi.fine.ui.GridImageAdapter;
+import com.yuzhi.fine.ui.HorizontalListView;
+import com.yuzhi.fine.ui.HorizontalListViewAdapter;
 import com.yuzhi.fine.ui.loopviewpager.AutoLoopViewPager;
 import com.yuzhi.fine.ui.viewpagerindicator.CirclePageIndicator;
 import com.yuzhi.fine.utils.CommUtil;
@@ -31,28 +32,11 @@ import butterknife.ButterKnife;
 
 public class LXMainFragment extends Fragment {
 
-    private Activity context;
+    //轮播
     @Bind(R.id.pager)
     AutoLoopViewPager pager;
     @Bind(R.id.indicator)
     CirclePageIndicator indicator;
-
-    @Bind(R.id.lxmain_gridview)
-    GridView mLxMainGridView;
-
-    @Bind(R.id.lixunviewpager)
-    ViewPager mainviewpage;
-//////////////////////////
-   private TabLayout tab_FindFragment_title;                            //定义TabLayout
-    private ViewPager vp_FindFragment_pager;                             //定义viewPager
-    private FragmentPagerAdapter fAdapter;                               //定义adapter
-    private List<Fragment> list_fragment;                                //定义要装fragment的列表
-    private List<String> list_title;                                     //tab名称列表
-    private LXFindXSFranmet xsFragment;              //悬赏找寻服务fragment
-    private LXFindPTFragment ptFragment;            //普通找寻服务fragment
-
-
-
     private int[] imageViewIds;
     private List<String> imageList = new ArrayList<String>(Arrays.asList(
             "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
@@ -60,16 +44,34 @@ public class LXMainFragment extends Fragment {
             "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg"));
     private GalleryPagerAdapter galleryAdapter;
 
+
+    //图片切换
+    @Bind(R.id.lx_hor_listview_img)
+    HorizontalListView mHorLViewImg;
+    private HorizontalListViewAdapter hlva;
+
+
     //接口回调 2  创建接口对象
     private OnFragmentInteractionListener mListener;
 
 
-    // 图片封装为一个数组
+    //GridView 图片封装为一个数组
+    @Bind(R.id.lxmain_gridview)
+    GridView mLxMainGridView;
     private Integer[] icon = { R.drawable.menu_xr, R.drawable.menu_xw,
             R.drawable.menu_zlrl, R.drawable.menu_zsjm, R.drawable.menu_wlbg,
             R.drawable.menu_wlqz, R.drawable.menu_quanzi, R.drawable.menu_shop };
-    private String[] iconName = { "委托寻人", "委托寻物", "招领认领", "招商加盟", "网络曝光", "网络求助", "立寻圈子",
-            "积分商城" };
+    private String[] iconName = { "委托寻人", "委托寻物", "招领认领", "招商加盟", "网络曝光", "网络求助", "立寻圈子","积分商城" };
+
+
+    //TabLayout
+    private TabLayout tab_FindFragment_title;                            //定义TabLayout
+    private ViewPager vp_FindFragment_pager;                             //定义viewPager
+    private FragmentPagerAdapter fAdapter;                               //定义adapter
+    private List<Fragment> list_fragment;                                //定义要装fragment的列表
+    private List<String> list_title;                                     //tab名称列表
+    private LXFindXSFranmet xsFragment;              //悬赏找寻服务fragment
+    private LXFindPTFragment ptFragment;            //普通找寻服务fragment
 
 
 
@@ -101,8 +103,7 @@ public class LXMainFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lxmain, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -112,26 +113,30 @@ public class LXMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        findServersViewPager();//悬赏/普通找寻服务
-        initGalleryViewPager();//图片切换
-
-
-
     }
 
-
-    void initView() {
+    /**
+     * 初始化组件
+     */
+   public void initView() {
+        //1.轮播图片
         imageViewIds = new int[] { R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
-
         galleryAdapter = new GalleryPagerAdapter(imageViewIds,imageList,getActivity());
         pager.setAdapter(galleryAdapter);
         indicator.setViewPager(pager);
         indicator.setPadding(5, 5, 10, 5);
 
-        // 添加元素给gridview
+        //2. 添加元素给gridview
         GridImageAdapter adapter =  new GridImageAdapter(getActivity(), icon, iconName);
         mLxMainGridView.setAdapter(adapter);
         CommUtil.calGridViewWidthAndHeigh(4,mLxMainGridView);
+
+        //3.图片切换
+        initGalleryViewPager();
+
+        //4.悬赏/普通找寻服务
+        findServersViewPager();
+
 
 
     }
@@ -176,35 +181,16 @@ public class LXMainFragment extends Fragment {
      *图片切换
      */
     private void initGalleryViewPager() {
-       //PhotoViewAdapter pagerAdapter = new PhotoViewAdapter(getActivity(),(ArrayList<String>) imageList);
-//        pagerAdapter.setOnItemChangeListener(new PhotoViewAdapter.OnItemChangeListener() {
-//            int len = imgUrls.size();
-//            @Override
-//            public void onItemChange(int currentPosition) {
-//                headTitle.setText((currentPosition+1) + "/" + len);
-//            }
-//        });
 
-
-
-
-
-
-//         1.设置幕后item的缓存数目
-        mainviewpage.setOffscreenPageLimit(3);
-//        // 2.设置页与页之间的间距
-        mainviewpage.setPageMargin(30);
-//        mViewPager.setAdapter(pagerAdapter);
-
-
-        galleryAdapter = new GalleryPagerAdapter(imageViewIds,imageList,getActivity());
-        mainviewpage.setAdapter(galleryAdapter);
-
-
+        hlva=new HorizontalListViewAdapter(getActivity());
+        hlva.notifyDataSetChanged();
+        mHorLViewImg.setAdapter(hlva);
 
     }
 
-    //悬赏/普通找寻服务
+    /**
+     * 悬赏/普通找寻服务
+     */
     public void findServersViewPager(){
 
         tab_FindFragment_title = (TabLayout)getActivity().findViewById(R.id.tab_FindFragment_title);
