@@ -11,24 +11,26 @@
         android:orientation="horizontal">
         <!--置顶  selector_lx_zhiding  selector_lx_textcolor-->
         <Button
+            android:id="@+id/lx_top_btn"
             android:layout_width="50dp"
             android:layout_height="25dp"
-            android:text="置顶"
-            android:textSize="@dimen/text_size_12"
-            android:textColor="@drawable/selector_lx_textcolor"
-            android:background="@drawable/selector_lx_zhiding"
+            android:text="@string/main_lx_top_btn"
+            android:textSize="@dimen/text_size_10"
+            android:background="@drawable/zuixin"
+            android:textColor="@color/xs_short_black"
             android:layout_gravity="center"
 
             />
         <!--最新-->
         <Button
+            android:id="@+id/lx_new_btn"
             android:layout_width="50dp"
             android:layout_height="25dp"
             android:layout_marginLeft="6dp"
-            android:text="最新"
-            android:textSize="@dimen/text_size_12"
-            android:textColor="@drawable/selector_lx_textcolor"
-            android:background="@drawable/selector_lx_zhiding"
+            android:text="@string/main_lx_new_btn"
+            android:background="@drawable/zuixin"
+            android:textColor="@color/xs_short_black"
+            android:textSize="@dimen/text_size_10"
             android:layout_gravity="center"
             />
     </LinearLayout>

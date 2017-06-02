@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.squareup.leakcanary.RefWatcher;
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.common.AppContext;
+import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
 import com.yuzhi.fine.ui.GridImageAdapter;
@@ -66,7 +69,7 @@ public class LXMainFragment extends Fragment {
 
     //TabLayout
     private TabLayout tab_FindFragment_title;                            //定义TabLayout
-    private ViewPager vp_FindFragment_pager;                             //定义viewPager
+    private CustomViewpager vp_FindFragment_pager;                             //定义viewPager
     private FragmentPagerAdapter fAdapter;                               //定义adapter
     private List<Fragment> list_fragment;                                //定义要装fragment的列表
     private List<String> list_title;                                     //tab名称列表
@@ -113,6 +116,9 @@ public class LXMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+        //FIXME Leak
+        RefWatcher refWatcher = AppContext.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
     /**
@@ -169,6 +175,11 @@ public class LXMainFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     /**
      * 接口回调 1
      */
@@ -194,12 +205,12 @@ public class LXMainFragment extends Fragment {
     public void findServersViewPager(){
 
         tab_FindFragment_title = (TabLayout)getActivity().findViewById(R.id.tab_FindFragment_title);
-        vp_FindFragment_pager = (ViewPager)getActivity().findViewById(R.id.vp_FindFragment_pager);
+        vp_FindFragment_pager = (CustomViewpager)getActivity().findViewById(R.id.vp_FindFragment_pager);
 
 
         //初始化各fragment
-        xsFragment = new LXFindXSFranmet();//悬赏找寻服务fragment
-        ptFragment = new LXFindPTFragment(); //普通找寻服务fragment
+        xsFragment = new LXFindXSFranmet(vp_FindFragment_pager);//悬赏找寻服务fragment
+        ptFragment = new LXFindPTFragment(vp_FindFragment_pager); //普通找寻服务fragment
 
 
             //将fragment装进列表中
@@ -226,9 +237,8 @@ public class LXMainFragment extends Fragment {
             //TabLayout加载viewpager
             tab_FindFragment_title.setupWithViewPager(vp_FindFragment_pager);
             tab_FindFragment_title.setTabsFromPagerAdapter(fAdapter);
-
         //tabLayout事件
-        vp_FindFragment_pager.setCurrentItem(0);
+       /* vp_FindFragment_pager.setCurrentItem(0);
         tab_FindFragment_title.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -254,11 +264,44 @@ public class LXMainFragment extends Fragment {
                 //再次选中tab的逻辑
 
             }
+        });*/
+
+
+        vp_FindFragment_pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                vp_FindFragment_pager.resetHeight(position);
+
+                if (position == 0) {
+
+                    CommUtil.showAlert("xs--ok",getActivity());
+
+                } else if (position == 1) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+//                        activityScdetailsBottomVp.resetHeight(2);
+//                    } else {
+//                        activityScdetailsBottomVp.resetHeight(1);
+//                    }
+                    CommUtil.showAlert("pt--ok",getActivity());
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
         });
+        vp_FindFragment_pager.resetHeight(0);
 
 
 
-    }
+
+
+}
 
 
 }

@@ -7,6 +7,17 @@
         android:label="立寻"
         android:theme="@style/AppTheme">
 
+        <!--LeakCanary  staty-->
+        <service
+            android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
+            android:enabled="false"
+            android:process=":leakcanary" />
+        <service
+            android:name="com.squareup.leakcanary.DisplayLeakService"
+            android:enabled="false" />
+        <!--LeakCanary  end-->
+
+
         <!-- android:name=".activity.SplashActivity"
          android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
         -->

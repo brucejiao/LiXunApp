@@ -2,8 +2,10 @@ package com.yuzhi.fine.common;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.yuzhi.fine.utils.LogUtil;
 
 import java.util.LinkedList;
@@ -14,6 +16,8 @@ public class AppContext extends Application {
 
     private LinkedList<Activity> activitys = null;
 
+
+    private RefWatcher refWatcher;//LeakCanary检测
 
     public AppContext() {
         app = this;
@@ -26,18 +30,32 @@ public class AppContext extends Application {
         return app;
     }
 
+
+    public static RefWatcher getRefWatcher(Context context) {
+        AppContext application = (AppContext) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         activitys = new LinkedList<Activity>();
-        //内存泄漏检测
-        LeakCanary.install(this);
+
         registerUncaughtExceptionHandler();
 
+        //内存泄漏检测
+        LeakCanary.install(this);
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        refWatcher = LeakCanary.install(this);
 
 
-    }
+}
 
 
     // 添加Activity到容器中

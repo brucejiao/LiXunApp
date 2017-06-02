@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
@@ -15,19 +15,24 @@
         app:tabTextColor="@color/black"
 
         />
-<!--
+    <!--
 
- app:tabIndicatorColor="@color/green"
-        app:tabSelectedTextColor="@color/green"
+     app:tabIndicatorColor="@color/green"
+            app:tabSelectedTextColor="@color/green"
 
-app:tabIndicatorColor="@color/white"                 // 下方滚动的下划线颜色
-app:tabSelectedTextColor="@color/gray"               // tab被选中后，文字的颜色
-app:tabTextColor="@color/white"                      // tab默认的文字颜色 -->
+    app:tabIndicatorColor="@color/white"                 // 下方滚动的下划线颜色
+    app:tabSelectedTextColor="@color/gray"               // tab被选中后，文字的颜色
+    app:tabTextColor="@color/white"                      // tab默认的文字颜色 -->
 
-    <android.support.v4.view.ViewPager
+    <!--<android.support.v4.view.ViewPager-->
+    <!--android:id="@+id/vp_FindFragment_pager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="500dp"-->
+    <!--/>-->
+
+    <com.yuzhi.fine.ui.CustomViewpager
         android:id="@+id/vp_FindFragment_pager"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

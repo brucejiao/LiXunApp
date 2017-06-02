@@ -52,6 +52,7 @@
 	<color name="gold">#FFD700</color>
 	<color name="yellow">#FFFF00</color>
 	<color name="green">#28C700</color>
+
 	<color name="blue">#0000FF</color>
 	<color name="purple">#800080</color>
 	<color name="pink">#FFC0CB</color>
@@ -62,4 +63,14 @@
 	<color name="blue_light">#0083FF</color>
 	<color name="line">#E5E5E5</color>
 
+	<!--editShapeBg-->
+	<color name="xs_red">#FF6565</color>
+	<color name="xs_green">#A0D44E</color>
+	<color name="xs_gary">#D7D7D7</color>
+	<color name="xs_blue"> #67B0FA</color>
+	<color name="xs_short_gary">  #F0F0F0</color>
+	<color name="xs_short_red"> #FF535F</color>
+	<color name="xs_short_gary2"> #909090</color>
+	<color name="xs_short_black"> #404040</color>
+	<color name="xs_short_black2"> #303030</color>
 </resources>

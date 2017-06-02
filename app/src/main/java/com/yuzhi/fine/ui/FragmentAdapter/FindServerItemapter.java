@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.model.LXFindServerBean;
-import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
 
@@ -30,7 +29,7 @@ public class FindServerItemapter extends BaseAdapter {
 	private class ViewHolder {
 		public ImageView lx_header_img;// 用户头像
 		public TextView  username;// 用户名
-		public ImageView certification_img;// 认证图标
+		public TextView certification_text;// 认证
 
 		public TextView lx_title;// 标题
 		public TextView lx_isfind;// 找寻、招领
@@ -78,7 +77,7 @@ public class FindServerItemapter extends BaseAdapter {
 
 			holder.lx_header_img = (ImageView) view.findViewById(R.id.lx_header_img);
 			holder.username = (TextView) view.findViewById(R.id.username);
-			holder.certification_img = (ImageView) view.findViewById(R.id.certification_img);
+			holder.certification_text = (TextView) view.findViewById(R.id.certification_text);
 			holder.lx_title = (TextView) view.findViewById(R.id.lx_title);
 			holder.lx_isfind = (TextView) view.findViewById(R.id.lx_isfind);
 			holder.lx_isgenerailze = (TextView) view.findViewById(R.id.lx_isgenerailze);
@@ -99,10 +98,10 @@ public class FindServerItemapter extends BaseAdapter {
 		}
 		LXFindServerBean bean = getItem(position);
 
-		holder.lx_header_img.setImageResource(R.drawable.default_headimg);
-		holder.lx_img_one.setImageResource(R.drawable.house_background);
-		holder.lx_img_two.setImageResource(R.drawable.house_background);
-		holder.lx_img_three.setImageResource(R.drawable.house_background);
+		holder.lx_header_img.setBackgroundResource(R.drawable.default_headimg);
+		holder.lx_img_one.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
+		holder.lx_img_two.setBackgroundResource(R.drawable.house_background);  //.setImageResource(R.drawable.house_background);
+		holder.lx_img_three.setBackgroundResource(R.drawable.house_background);
 
 //		holder.lx_header_img.setImageBitmap(CommUtil.getURLimage(bean.getUserHeaderImg()));
 //		holder.lx_img_one.setImageBitmap(CommUtil.getURLimage(bean.getImgOne()));
@@ -110,10 +109,10 @@ public class FindServerItemapter extends BaseAdapter {
 //		holder.lx_img_three.setImageBitmap(CommUtil.getURLimage(bean.getImgThree()));
 
 		holder.username.setText(bean.getUserName());
-		holder.certification_img.setImageBitmap(CommUtil.getURLimage(bean.getIsCertification()));
+		holder.certification_text.setText(bean.getIsCertification());
 		holder.lx_title.setText(bean.getTitle());
 		holder.lx_isfind.setText(bean.getIsFind());
-		holder.lx_isgenerailze.setText(bean.getIsCertification());
+		holder.lx_isgenerailze.setText(bean.getIsGenerailze());
 		holder.lx_address.setText(bean.getAddress());
 		holder.lx_price.setText(bean.getPrice());
 		holder.lx_content.setText(bean.getContent());
