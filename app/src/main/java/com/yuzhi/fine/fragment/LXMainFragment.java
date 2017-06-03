@@ -61,10 +61,10 @@ public class LXMainFragment extends Fragment {
     //GridView 图片封装为一个数组
     @Bind(R.id.lxmain_gridview)
     GridView mLxMainGridView;
-    private Integer[] icon = { R.drawable.menu_xr, R.drawable.menu_xw,
+    private Integer[] icon = {R.drawable.menu_xr, R.drawable.menu_xw,
             R.drawable.menu_zlrl, R.drawable.menu_zsjm, R.drawable.menu_wlbg,
-            R.drawable.menu_wlqz, R.drawable.menu_quanzi, R.drawable.menu_shop };
-    private String[] iconName = { "委托寻人", "委托寻物", "招领认领", "招商加盟", "网络曝光", "网络求助", "立寻圈子","积分商城" };
+            R.drawable.menu_wlqz, R.drawable.menu_quanzi, R.drawable.menu_shop};
+    private String[] iconName = {"委托寻人", "委托寻物", "招领认领", "招商加盟", "网络曝光", "网络求助", "立寻圈子", "积分商城"};
 
 
     //TabLayout
@@ -77,13 +77,13 @@ public class LXMainFragment extends Fragment {
     private LXFindPTFragment ptFragment;            //普通找寻服务fragment
 
 
-
     public LXMainFragment() {
         // Required empty public constructor
     }
 
     /**
      * 使用LXMainFragment传值
+     *
      * @return A new instance of fragment LXMainFragment.
      */
 //    public static LXMainFragment newInstance(String param1, String param2) {
@@ -94,7 +94,6 @@ public class LXMainFragment extends Fragment {
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +105,7 @@ public class LXMainFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lxmain, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -124,18 +123,18 @@ public class LXMainFragment extends Fragment {
     /**
      * 初始化组件
      */
-   public void initView() {
+    public void initView() {
         //1.轮播图片
-        imageViewIds = new int[] { R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
-        galleryAdapter = new GalleryPagerAdapter(imageViewIds,imageList,getActivity());
+        imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
+        galleryAdapter = new GalleryPagerAdapter(imageViewIds, imageList, getActivity());
         pager.setAdapter(galleryAdapter);
         indicator.setViewPager(pager);
         indicator.setPadding(5, 5, 10, 5);
 
         //2. 添加元素给gridview
-        GridImageAdapter adapter =  new GridImageAdapter(getActivity(), icon, iconName);
+        GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName,false);
         mLxMainGridView.setAdapter(adapter);
-        CommUtil.calGridViewWidthAndHeigh(4,mLxMainGridView);
+        CommUtil.calGridViewWidthAndHeigh(4, mLxMainGridView);
 
         //3.图片切换
         initGalleryViewPager();
@@ -144,10 +143,7 @@ public class LXMainFragment extends Fragment {
         findServersViewPager();
 
 
-
     }
-
-
 
 
     //接口赋值
@@ -189,11 +185,11 @@ public class LXMainFragment extends Fragment {
 
 
     /**
-     *图片切换
+     * 图片切换
      */
     private void initGalleryViewPager() {
 
-        hlva=new HorizontalListViewAdapter(getActivity());
+        hlva = new HorizontalListViewAdapter(getActivity());
         hlva.notifyDataSetChanged();
         mHorLViewImg.setAdapter(hlva);
 
@@ -202,10 +198,10 @@ public class LXMainFragment extends Fragment {
     /**
      * 悬赏/普通找寻服务
      */
-    public void findServersViewPager(){
+    public void findServersViewPager() {
 
-        tab_FindFragment_title = (TabLayout)getActivity().findViewById(R.id.tab_FindFragment_title);
-        vp_FindFragment_pager = (CustomViewpager)getActivity().findViewById(R.id.vp_FindFragment_pager);
+        tab_FindFragment_title = (TabLayout) getActivity().findViewById(R.id.tab_FindFragment_title);
+        vp_FindFragment_pager = (CustomViewpager) getActivity().findViewById(R.id.vp_FindFragment_pager);
 
 
         //初始化各fragment
@@ -213,60 +209,34 @@ public class LXMainFragment extends Fragment {
         ptFragment = new LXFindPTFragment(vp_FindFragment_pager); //普通找寻服务fragment
 
 
-            //将fragment装进列表中
-            list_fragment = new ArrayList<Fragment>();
-            list_fragment.add(xsFragment);
-            list_fragment.add(ptFragment);
+        //将fragment装进列表中
+        list_fragment = new ArrayList<Fragment>();
+        list_fragment.add(xsFragment);
+        list_fragment.add(ptFragment);
 
-            //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
-            list_title = new ArrayList<String>();
-            list_title.add("悬赏找寻服务");
-            list_title.add("普通找寻服务");
+        //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
+        list_title = new ArrayList<String>();
+        list_title.add("悬赏找寻服务");
+        list_title.add("普通找寻服务");
 
-            //设置TabLayout的模式
-            tab_FindFragment_title.setTabMode(TabLayout.MODE_FIXED);
-            //为TabLayout添加tab名称
-            tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(0)));
-            tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(1)));
+        //设置TabLayout的模式
+        tab_FindFragment_title.setTabMode(TabLayout.MODE_FIXED);
+        //为TabLayout添加tab名称
+        tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(0)));
+        tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(1)));
+        //   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失  看网上讲这边要用getChildFragmentManager()
+        fAdapter = new Find_tab_Adapter(getChildFragmentManager(), list_fragment, list_title);//   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失
 
-            fAdapter = new Find_tab_Adapter(getChildFragmentManager(),list_fragment,list_title);//   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失
+        //viewpager加载adapter
+        vp_FindFragment_pager.setAdapter(fAdapter);
+//      tab_FindFragment_title.setViewPager(vp_FindFragment_pager);
 
-            //viewpager加载adapter
-            vp_FindFragment_pager.setAdapter(fAdapter);
-//            tab_FindFragment_title.setViewPager(vp_FindFragment_pager);
-            //TabLayout加载viewpager
-            tab_FindFragment_title.setupWithViewPager(vp_FindFragment_pager);
-            tab_FindFragment_title.setTabsFromPagerAdapter(fAdapter);
-        //tabLayout事件
-       /* vp_FindFragment_pager.setCurrentItem(0);
-        tab_FindFragment_title.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                //选中了tab的逻辑
-              if(tab == tab_FindFragment_title.getTabAt(0)){//悬赏找寻服务
-                  vp_FindFragment_pager.setCurrentItem(0);
-//                    CommUtil.showAlert("okok",getActivity());
-
-              }else if(tab == tab_FindFragment_title.getTabAt(1)){//普通找寻服务
-                  vp_FindFragment_pager.setCurrentItem(1);
-//                  CommUtil.showAlert("okok2",getActivity());
-
-              }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                //未选中tab的逻辑
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                //再次选中tab的逻辑
-
-            }
-        });*/
+        //TabLayout加载viewpager
+        tab_FindFragment_title.setupWithViewPager(vp_FindFragment_pager);
+        tab_FindFragment_title.setTabsFromPagerAdapter(fAdapter);
 
 
+        //切换viewpaper事件
         vp_FindFragment_pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -279,7 +249,7 @@ public class LXMainFragment extends Fragment {
 
                 if (position == 0) {
 
-                    CommUtil.showAlert("xs--ok",getActivity());
+                    CommUtil.showAlert("xs--ok", getActivity());
 
                 } else if (position == 1) {
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -287,9 +257,10 @@ public class LXMainFragment extends Fragment {
 //                    } else {
 //                        activityScdetailsBottomVp.resetHeight(1);
 //                    }
-                    CommUtil.showAlert("pt--ok",getActivity());
+                    CommUtil.showAlert("pt--ok", getActivity());
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -298,10 +269,7 @@ public class LXMainFragment extends Fragment {
         vp_FindFragment_pager.resetHeight(0);
 
 
-
-
-
-}
+    }
 
 
 }

@@ -9,7 +9,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="7dp"
         android:orientation="horizontal">
-        <!--置顶  selector_lx_zhiding  selector_lx_textcolor-->
+        <!--置顶 -->
         <Button
             android:id="@+id/lx_top_btn"
             android:layout_width="50dp"

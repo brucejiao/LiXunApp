@@ -11,8 +11,7 @@ import android.widget.RadioGroup;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.fragment.BufferKnifeFragment;
 import com.yuzhi.fine.fragment.LXMainFragment;
-import com.yuzhi.fine.fragment.MemberFragment;
-import com.yuzhi.fine.ui.UIHelper;
+import com.yuzhi.fine.fragment.MineFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,9 +77,9 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void showFragment() {
-        if (currIndex == 3) {
-            UIHelper.showLogin(MainActivity.this);
-        }
+//        if (currIndex == 3) {
+//            UIHelper.showLogin(MainActivity.this);
+//        }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentTags.get(currIndex));
@@ -111,7 +110,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 2:
                 return new BufferKnifeFragment();
             case 3:
-                return new MemberFragment();
+                return new MineFragment();//MemberFragment()我的 MineFragment
             default: return null;
         }
     }

@@ -21,11 +21,14 @@ public class GridImageAdapter extends BaseAdapter{
 	
 	  
 	  private String[]   mTextIs ;
+
+	 private boolean  mLines;//GridView 是否带网格
 	
-	  public GridImageAdapter(Context context,Integer[] mImageIds,String[]  mTextIs ){
+	  public GridImageAdapter(Context context,Integer[] mImageIds,String[]  mTextIs ,boolean mLines){
 		  inflater = LayoutInflater.from(context);
 		  this.mImageIds=mImageIds;
 		  this.mTextIs=mTextIs;
+		  this.mLines = mLines;
 	  }
 	  
 	  
@@ -64,9 +67,14 @@ public class GridImageAdapter extends BaseAdapter{
 					
 	  @Override
 	public View getView(int position, View paramView, ViewGroup parent){
-	
-		  
-		  	paramView = inflater.inflate(R.layout.menu_item, null);
+          //判断是否带网格效果
+		  if (mLines){
+			  paramView = inflater.inflate(R.layout.menu_item_line, null);//带网格效果
+		  }
+		  else {
+			  paramView = inflater.inflate(R.layout.menu_item, null);//不带网格效果
+		  }
+
 			TextView text = (TextView)paramView.findViewById(R.id.activity_name);
 			
 			text.setText(mTextIs[position]);	

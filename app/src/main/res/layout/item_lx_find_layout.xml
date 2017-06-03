@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,11 +18,15 @@
             android:layout_marginTop="13dp"
             android:orientation="vertical">
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/lx_header_img"
                 android:layout_width="43dp"
                 android:layout_height="43dp"
-                android:src="@drawable/default_headimg" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/default_headimg"
+                app:riv_border_color="@color/green"
+                app:riv_border_width="1dp"
+                app:riv_oval="true" />
 
             <TextView
                 android:id="@+id/username"
@@ -64,8 +69,8 @@
                     android:id="@+id/lx_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/xs_short_black2"
                     android:text="寻找我的宠物狗法克"
+                    android:textColor="@color/xs_short_black2"
                     android:textSize="@dimen/text_size_12" />
 
                 <TextView
@@ -112,8 +117,8 @@
                     android:layout_marginLeft="4dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:textColor="@color/xs_short_gary2"
                     android:text="丢失地：电信一区 艾欧尼亚 野区"
+                    android:textColor="@color/xs_short_gary2"
                     android:textSize="@dimen/text_size_9" />
 
                 <TextView
@@ -145,8 +150,8 @@
                 android:layout_marginRight="13dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textColor="@color/xs_short_black"
                 android:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。鹅鹅鹅，曲向想提昂个ad阿萨德阿萨德啊实打实大asdwqqweqwe"
+                android:textColor="@color/xs_short_black"
                 android:textSize="@dimen/text_size_11" />
         </LinearLayout>
 

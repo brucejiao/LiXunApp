@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_main_header" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:background="@color/white"
+        android:fadingEdge="none"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--个人资料-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="99dp"
+                android:background="@color/yellow"
+                android:orientation="horizontal">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/space_16"
+                    android:layout_weight="2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/default_headimg"
+                    app:riv_border_color="@color/green"
+                    app:riv_border_width="1dp"
+                    app:riv_oval="true" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_3"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:ellipsize="end"
+                        android:maxEms="15"
+                        android:singleLine="true"
+                        android:text="熊大大大da da "
+                        android:textSize="@dimen/text_size_10" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@color/yellow"
+                        android:drawableRight="@drawable/edit"
+                        android:ellipsize="end"
+                        android:enabled="false"
+                        android:maxEms="30"
+                        android:singleLine="false"
+                        android:text="我是狗娃，是一个从大山里走出来的孩子"
+                        android:textSize="@dimen/text_size_10" />
+
+                    <TextView
+                        android:id="@+id/certification_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_6"
+                        android:background="@drawable/editsharp_green_all"
+                        android:text="已认证"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_9" />
+                </LinearLayout>
+                <!--完善度-->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="@dimen/space_9"
+                    android:layout_weight="2"
+                    android:background="@drawable/editsharp_white_all"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxEms="9"
+                    android:singleLine="true"
+                    android:text="完善度100%"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/space_10" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_15"
+                    android:layout_weight="1"
+                    android:src="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+
+            <!--账户/悬赏/积分-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="77dp"
+                android:orientation="horizontal">
+                <!--账户-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:text="0.0"
+                        android:textColor="@color/xs_red" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/balance" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="9dp"
+                            android:gravity="center_horizontal"
+                            android:paddingTop="10dp"
+                            android:text="账户余额"
+                            android:textSize="@dimen/space_12"
+                            android:textColor="@color/xs_short_gary2" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="11dp"
+                    android:background="@color/line" />
+
+                <!--悬赏-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:text="0.0"
+                        android:textColor="@color/xs_red" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/bounty" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="9dp"
+                            android:gravity="center_horizontal"
+                            android:paddingTop="10dp"
+                            android:text="悬赏金额"
+                            android:textSize="@dimen/space_12"
+                            android:textColor="@color/xs_short_gary2" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="11dp"
+                    android:background="@color/line" />
+
+                <!--积分-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:text="0.0"
+                        android:textColor="@color/xs_red" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/integral" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="9dp"
+                            android:gravity="center_horizontal"
+                            android:paddingTop="10dp"
+                            android:text="我的积分"
+                            android:textSize="@dimen/space_12"
+                            android:textColor="@color/xs_short_gary2" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--分割线-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/line" />
+
+            <!--分类-->
+            <GridView
+                android:id="@+id/lxmine_gridview"
+                android:layout_width="match_parent"
+                android:layout_height="255dp"
+                android:background="@color/line"
+                android:horizontalSpacing="1dp"
+                android:verticalSpacing="1dp"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth" />
+
+
+            <!--分割线-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/line" />
+
+            <!--个人认证/设置/投诉建议-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="77dp"
+                android:orientation="horizontal">
+                <!--个人认证-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:src="@drawable/renzheng" />
+
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp"
+                        android:text="个人认证"
+                        android:textSize="@dimen/space_12"
+                        android:textColor="@color/xs_short_gary2" />
+                </LinearLayout>
+
+
+                <!--设置-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:src="@drawable/shezhi" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp"
+                        android:text="设置"
+                        android:textSize="@dimen/space_12"
+                        android:textColor="@color/xs_short_gary2" />
+                </LinearLayout>
+
+
+                <!--投诉建议-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:src="@drawable/tousu" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp"
+                        android:text="投诉建议"
+                        android:textSize="@dimen/space_12"
+                        android:textColor="@color/xs_short_gary2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

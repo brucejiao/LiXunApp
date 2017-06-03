@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.model.LXFindServerBean;
 
@@ -27,7 +28,7 @@ public class FindServerItemapter extends BaseAdapter {
 	}
 
 	private class ViewHolder {
-		public ImageView lx_header_img;// 用户头像
+		public RoundedImageView lx_header_img;// 用户头像
 		public TextView  username;// 用户名
 		public TextView certification_text;// 认证
 
@@ -75,7 +76,7 @@ public class FindServerItemapter extends BaseAdapter {
 			view = ((Activity) activity).getLayoutInflater().inflate(R.layout.item_lx_find_layout, parent, false);
 			holder = new ViewHolder();
 
-			holder.lx_header_img = (ImageView) view.findViewById(R.id.lx_header_img);
+			holder.lx_header_img = (RoundedImageView) view.findViewById(R.id.lx_header_img);
 			holder.username = (TextView) view.findViewById(R.id.username);
 			holder.certification_text = (TextView) view.findViewById(R.id.certification_text);
 			holder.lx_title = (TextView) view.findViewById(R.id.lx_title);
@@ -98,7 +99,8 @@ public class FindServerItemapter extends BaseAdapter {
 		}
 		LXFindServerBean bean = getItem(position);
 
-		holder.lx_header_img.setBackgroundResource(R.drawable.default_headimg);
+//		holder.lx_header_img.setBackgroundResource(R.drawable.default_headimg);
+		holder.lx_header_img.setImageResource(R.drawable.default_headimg);
 		holder.lx_img_one.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
 		holder.lx_img_two.setBackgroundResource(R.drawable.house_background);  //.setImageResource(R.drawable.house_background);
 		holder.lx_img_three.setBackgroundResource(R.drawable.house_background);
