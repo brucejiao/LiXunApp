@@ -10,8 +10,9 @@ import android.widget.RadioGroup;
 
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.fragment.BufferKnifeFragment;
-import com.yuzhi.fine.fragment.LXMainFragment;
-import com.yuzhi.fine.fragment.MineFragment;
+import com.yuzhi.fine.fragment.findFragment.FindMainFragment;
+import com.yuzhi.fine.fragment.lxMainFragment.LXMainFragment;
+import com.yuzhi.fine.fragment.mineFragment.MineFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -106,7 +107,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 0:
                 return new LXMainFragment();//   MainPagerFragment()  LXMainFragment
             case 1:
-                return new BufferKnifeFragment();
+                return new FindMainFragment();//FindMainFragment  BufferKnifeFragment
             case 2:
                 return new BufferKnifeFragment();
             case 3:

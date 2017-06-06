@@ -1,4 +1,4 @@
-package com.yuzhi.fine.fragment;
+package com.yuzhi.fine.fragment.lxMainFragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -73,7 +73,7 @@ public class LXMainFragment extends Fragment {
     private FragmentPagerAdapter fAdapter;                               //定义adapter
     private List<Fragment> list_fragment;                                //定义要装fragment的列表
     private List<String> list_title;                                     //tab名称列表
-    private LXFindXSFranmet xsFragment;              //悬赏找寻服务fragment
+    private LXFindXSFragmet xsFragment;              //悬赏找寻服务fragment
     private LXFindPTFragment ptFragment;            //普通找寻服务fragment
 
 
@@ -205,7 +205,7 @@ public class LXMainFragment extends Fragment {
 
 
         //初始化各fragment
-        xsFragment = new LXFindXSFranmet(vp_FindFragment_pager);//悬赏找寻服务fragment
+        xsFragment = new LXFindXSFragmet(vp_FindFragment_pager);//悬赏找寻服务fragment
         ptFragment = new LXFindPTFragment(vp_FindFragment_pager); //普通找寻服务fragment
 
 

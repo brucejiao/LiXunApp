@@ -1,4 +1,4 @@
-package com.yuzhi.fine.fragment;
+package com.yuzhi.fine.fragment.mineFragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.ui.GridImageAdapter;
@@ -19,12 +20,17 @@ public class MineFragment extends Fragment {
 
     private Activity context;
 
+
+    //
+    @Bind(R.id.textHeadTitle)
+    TextView mHeader;
+
     //GridView
     @Bind(R.id.lxmine_gridview)
     GridView mMineGridView;
     private Integer[] icon = {R.drawable.my_find, R.drawable.zlrl,
             R.drawable.my_tg, R.drawable.draftbox, R.drawable.networking,
-            R.drawable.guanzhu, R.drawable.yaoqing, R.drawable.yaoqing,R.color.white};
+            R.drawable.myguanzhu, R.drawable.yaoqing, R.drawable.xiansuo,R.color.white};
     private String[] iconName = {"我的寻找", "招领认领", "我的推广", "草稿箱", "网络社交", "我的关注", "提供线索", "好友邀请",""};
 
 
@@ -46,7 +52,7 @@ public class MineFragment extends Fragment {
     }
 
     void initView() {
-
+        mHeader.setText("我的");
 
         //添加元素给gridview
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName,true);

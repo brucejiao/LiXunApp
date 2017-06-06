@@ -1,4 +1,4 @@
-package com.yuzhi.fine.fragment;
+package com.yuzhi.fine.fragment.lxMainFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  * 悬赏找寻服务
  */
 
-public class LXFindXSFranmet extends Fragment {
+public class LXFindXSFragmet extends Fragment {
 
     @Bind(R.id.lx_find_xs_listview)
     ListView mFindXSListview;
@@ -43,12 +43,12 @@ public class LXFindXSFranmet extends Fragment {
 
     public CustomViewpager customViewpager;
 
-    public LXFindXSFranmet() {
+    public LXFindXSFragmet() {
         super();
     }
 
     @SuppressLint("ValidFragment")
-    public LXFindXSFranmet(CustomViewpager customViewpager) {
+    public LXFindXSFragmet(CustomViewpager customViewpager) {
         super();
         this.customViewpager = customViewpager;
     }

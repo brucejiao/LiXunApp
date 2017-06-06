@@ -1,4 +1,4 @@
-package com.yuzhi.fine.fragment;
+package com.yuzhi.fine.fragment.lxMainFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
