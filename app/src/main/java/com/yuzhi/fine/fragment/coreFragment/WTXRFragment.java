@@ -42,6 +42,7 @@ public class WTXRFragment extends Fragment {
 
     @Bind(R.id.lx_find_find_listview)
     ListView mFindXSListview;
+
     FindServerItemapter mFindItemAdapter;
 
     @Bind(R.id.find_new_btn)
@@ -140,8 +141,10 @@ public class WTXRFragment extends Fragment {
 
 
         mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean);
+//        CommUtil.setListViewHeightBasedOnChildren(mFindXSListview);
         mFindXSListview.setAdapter(mFindItemAdapter);
-        CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);
+//        CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);
+//        CommUtil.fixListViewHeight(mFindXSListview);
 
         lxFindOnClick();
     }

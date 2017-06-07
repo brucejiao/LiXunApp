@@ -12,8 +12,8 @@
         <!--选项-->
         <HorizontalScrollView
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="match_parent"
+            android:layout_weight="3"
             android:scrollbars="none">
 
             <LinearLayout
@@ -47,12 +47,13 @@
                     android:textSize="@dimen/space_12" />
 
                 <TextView
-                android:layout_width="55dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:gravity="center"
-                android:text="找朋友"
-                android:textSize="@dimen/space_12" />
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:gravity="center"
+                    android:text="找朋友"
+                    android:textSize="@dimen/space_12" />
+
                 <TextView
                     android:layout_width="55dp"
                     android:layout_height="wrap_content"
@@ -63,24 +64,25 @@
 
             </LinearLayout>
         </HorizontalScrollView>
-<!--筛选-->
+        <!--筛选-->
 
         <LinearLayout
             android:id="@+id/find_shaixuan_layout"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/shaixuan_bj">
+            android:layout_weight="1"
+            android:background="@drawable/shaixuan_bj"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/shaixuan_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:gravity="right|center"
-                android:textSize="@dimen/space_12"
                 android:layout_marginLeft="10dp"
+                android:gravity="right|center"
                 android:text="筛选"
-                android:textColor="@color/green" />
+                android:textColor="@color/green"
+                android:textSize="@dimen/space_12" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -97,60 +99,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/find_top_btn"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
-        android:layout_marginLeft="6dp"
-        android:text="@string/main_lx_top_btn"
-        android:background="@drawable/zuixin"
-        android:textColor="@color/xs_short_black"
-        android:textSize="@dimen/text_size_10"
-        android:layout_gravity="center"
-        />
-    <Button
-        android:id="@+id/find_new_btn"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
-        android:layout_marginLeft="6dp"
-        android:text="@string/main_lx_new_btn"
-        android:background="@drawable/zuixin"
-        android:textColor="@color/xs_short_black"
-        android:textSize="@dimen/text_size_10"
-        android:layout_gravity="center"
-        />
-    <Button
-        android:id="@+id/find_xs_btn"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
-        android:layout_marginLeft="6dp"
-        android:text="@string/main_lx_xs_btn"
-        android:background="@drawable/zuixin"
-        android:textColor="@color/xs_short_black"
-        android:textSize="@dimen/text_size_10"
-        android:layout_gravity="center"
-        />
+        <Button
+            android:id="@+id/find_top_btn"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/zuixin"
+            android:text="@string/main_lx_top_btn"
+            android:textColor="@color/xs_short_black"
+            android:textSize="@dimen/text_size_10" />
+
+        <Button
+            android:id="@+id/find_new_btn"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/zuixin"
+            android:text="@string/main_lx_new_btn"
+            android:textColor="@color/xs_short_black"
+            android:textSize="@dimen/text_size_10" />
+
+        <Button
+            android:id="@+id/find_xs_btn"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/zuixin"
+            android:text="@string/main_lx_xs_btn"
+            android:textColor="@color/xs_short_black"
+            android:textSize="@dimen/text_size_10" />
     </LinearLayout>
     <!--分割线-->
     <View
         android:layout_width="match_parent"
         android:layout_height="6dp"
         android:background="@color/line" />
-<!--    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_marginBottom="50dp"
-        android:fadingEdge="none"
-        android:scrollbars="none">-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/lx_find_find_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
 
-    <!--  </ScrollView>-->
+
+            <ListView
+                android:id="@+id/lx_find_find_listview"
+                android:layout_width="match_parent"
+                android:layout_height="355dp"
+                />
+
+
 </LinearLayout>

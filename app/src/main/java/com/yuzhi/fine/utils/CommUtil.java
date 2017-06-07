@@ -387,6 +387,49 @@ public class CommUtil {
 	}
 
 
+	public static  void fixListViewHeight(ListView listView) {
+		// 如果没有设置数据适配器，则ListView没有子项，返回。
+		ListAdapter listAdapter = listView.getAdapter();
+		int totalHeight = 0;
+		if (listAdapter == null) {
+			return;
+		}
+		for (int index = 0, len = listAdapter.getCount(); index< len; index++) {
+			View listViewItem = listAdapter.getView(index , null, listView);
+			// 计算子项View 的宽高
+			listViewItem.measure(0, 0);
+			// 计算所有子项的高度和
+			totalHeight += listViewItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		// listView.getDividerHeight()获取子项间分隔符的高度
+		// params.height设置ListView完全显示需要的高度
+		params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+	}
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+
+        params.height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+
+
+
 	/**
 	 * 加载网络图片
 	 * @param url
