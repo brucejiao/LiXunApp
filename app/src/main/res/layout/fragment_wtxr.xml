@@ -136,20 +136,21 @@
         android:layout_width="match_parent"
         android:layout_height="6dp"
         android:background="@color/line" />
-    <ScrollView
+<!--    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:layout_marginBottom="50dp"
         android:fadingEdge="none"
-        android:scrollbars="none">
+        android:scrollbars="none">-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ListView
             android:id="@+id/lx_find_find_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    </ScrollView>
+    <!--  </ScrollView>-->
 </LinearLayout>
