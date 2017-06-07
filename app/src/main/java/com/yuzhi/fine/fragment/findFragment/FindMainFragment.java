@@ -59,6 +59,9 @@ public class FindMainFragment extends Fragment {
     private WLBGFragment wlbgFragment;
 
 
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -80,6 +83,8 @@ public class FindMainFragment extends Fragment {
         mHeader.setText("发现");
         //添加元素给gridview
         viewPaperList();
+
+
 
     }
 

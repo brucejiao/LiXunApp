@@ -1,13 +1,155 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.yuzhi.fine.fragment.coreFragment.WTXRFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--选项-->
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="全部"
+                    android:textSize="@dimen/space_12" />
+
+                <TextView
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:gravity="center"
+                    android:text="找债权人"
+                    android:textSize="@dimen/space_12" />
+
+                <TextView
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:gravity="center"
+                    android:text="找战友"
+                    android:textSize="@dimen/space_12" />
+
+                <TextView
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:gravity="center"
+                android:text="找朋友"
+                android:textSize="@dimen/space_12" />
+                <TextView
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:gravity="center"
+                    android:text="找朋友"
+                    android:textSize="@dimen/space_12" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+<!--筛选-->
+
+        <LinearLayout
+            android:id="@+id/find_shaixuan_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/shaixuan_bj">
+            <TextView
+                android:id="@+id/shaixuan_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:gravity="right|center"
+                android:textSize="@dimen/space_12"
+                android:layout_marginLeft="10dp"
+                android:text="筛选"
+                android:textColor="@color/green" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="left"
+                android:src="@drawable/filter_green" />
+
+        </LinearLayout>
+
+    </LinearLayout><!--hor-->
+
+    <LinearLayout
+        android:id="@+id/find_third_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/find_top_btn"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="6dp"
+        android:text="@string/main_lx_top_btn"
+        android:background="@drawable/zuixin"
+        android:textColor="@color/xs_short_black"
+        android:textSize="@dimen/text_size_10"
+        android:layout_gravity="center"
+        />
+    <Button
+        android:id="@+id/find_new_btn"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="6dp"
+        android:text="@string/main_lx_new_btn"
+        android:background="@drawable/zuixin"
+        android:textColor="@color/xs_short_black"
+        android:textSize="@dimen/text_size_10"
+        android:layout_gravity="center"
+        />
+    <Button
+        android:id="@+id/find_xs_btn"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="6dp"
+        android:text="@string/main_lx_xs_btn"
+        android:background="@drawable/zuixin"
+        android:textColor="@color/xs_short_black"
+        android:textSize="@dimen/text_size_10"
+        android:layout_gravity="center"
+        />
+    </LinearLayout>
+    <!--分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/line" />
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginBottom="50dp"
+        android:fadingEdge="none"
+        android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/lx_find_find_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
-</FrameLayout>
+    </ScrollView>
+</LinearLayout>
