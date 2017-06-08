@@ -93,22 +93,17 @@ public class MainActivity extends BaseFragmentActivity {
      * 发布事件监听
      */
     private void issueListener(){
-       final View.OnClickListener click = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        };
         mIssue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                IssuePopWin takePhotoPopWin = new IssuePopWin(MainActivity.this,click);
+                IssuePopWin takePhotoPopWin = new IssuePopWin(MainActivity.this);
                 // 设置Popupwindow显示位置（从底部弹出）
                 takePhotoPopWin.showAtLocation(findViewById(R.id.foot_bar_issue), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
                 WindowManager.LayoutParams params = getWindow().getAttributes();
                 //当弹出Popupwindow时，背景变半透明
-                params.alpha=0.7f;
+                params.alpha=1f;
                 getWindow().setAttributes(params);
                 //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
                 takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
