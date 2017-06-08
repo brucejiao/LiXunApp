@@ -18,15 +18,12 @@ import com.yuzhi.fine.model.LXFindServerBean;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.FragmentAdapter.FindServerItemapter;
 import com.yuzhi.fine.utils.AnimationUtil;
-import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-
-
 
 
 /**
@@ -37,8 +34,6 @@ public class WTXRFragment extends Fragment {
     //
     @Bind(R.id.shaixuan_textview)
     TextView mSXLayout;
-    @Bind(R.id.find_third_btn)
-    LinearLayout mTestBtn;
 
     @Bind(R.id.lx_find_find_listview)
     ListView mFindXSListview;
@@ -51,6 +46,22 @@ public class WTXRFragment extends Fragment {
     Button mTopBtn;//置顶
     @Bind(R.id.find_xs_btn)
     Button mXSBtn;//悬赏
+
+    @Bind(R.id.find_second_list)
+    LinearLayout mFindSecondList;//
+    @Bind(R.id.find_third_btn)
+    LinearLayout mThirdBtn;
+
+    @Bind(R.id.find_all)
+    TextView mFindAll;
+    @Bind(R.id.find_zzqr)
+    TextView mFindZzqr;
+    @Bind(R.id.find_zzz)
+    TextView mFindZzz;
+    @Bind(R.id.find_zpy)
+    TextView mFindZpy;
+    @Bind(R.id.find_zpy2)
+    TextView mFindZpy2;
 
 
     public CustomViewpager customViewpager;
@@ -84,19 +95,22 @@ public class WTXRFragment extends Fragment {
 
     int i =1;
     void initView() {
+        scaleListViewHigh(1);
+        //判断三级菜单是否显示
         mSXLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 i++;
                 if (i%2 ==0)
                 {
-                    CommUtil.showToast("===ok===",context);
-                    mTestBtn.setVisibility(View.GONE);
-                    mTestBtn.setAnimation(AnimationUtil.moveToViewBottom());
+                    scaleListViewHigh(0);//显示三级菜单listview高度
+                    mThirdBtn.setVisibility(View.VISIBLE);
+                    mThirdBtn.setAnimation(AnimationUtil.moveToViewLocation());
+
                 }else{
-                    CommUtil.showToast("===no===",context);
-                    mTestBtn.setVisibility(View.VISIBLE);
-                    mTestBtn.setAnimation(AnimationUtil.moveToViewLocation());
+                    scaleListViewHigh(1);//隐藏三级菜单listview高度
+                    mThirdBtn.setVisibility(View.GONE);
+                    mThirdBtn.setAnimation(AnimationUtil.moveToViewBottom());
                 }
 
 
@@ -147,6 +161,7 @@ public class WTXRFragment extends Fragment {
 //        CommUtil.fixListViewHeight(mFindXSListview);
 
         lxFindOnClick();
+        secondListShow();
     }
 
     /**
@@ -158,18 +173,22 @@ public class WTXRFragment extends Fragment {
             public void onClick(View v) {
                 mTopBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
                 mNewBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
-                mTopBtn.setBackgroundResource(R.drawable.zhiding);
+                mXSBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
+                mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
+                mXSBtn.setBackgroundResource(R.drawable.zuixin);
 
             }
         });
         mNewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTopBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
                 mNewBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
+                mTopBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
+                mXSBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
+                mNewBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
-                mNewBtn.setBackgroundResource(R.drawable.zhiding);
+                mXSBtn.setBackgroundResource(R.drawable.zuixin);
 
             }
         });
@@ -177,15 +196,112 @@ public class WTXRFragment extends Fragment {
         mXSBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mXSBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
                 mTopBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
-                mNewBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
+                mNewBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
+                mXSBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
-                mNewBtn.setBackgroundResource(R.drawable.zhiding);
+                mNewBtn.setBackgroundResource(R.drawable.zuixin);
 
             }
         });
     }
 
+
+    private void secondListShow(){
+
+        mFindAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFindAll.setBackgroundResource(R.drawable.editsharp_green_all);
+                mFindZzqr.setBackgroundResource(R.color.white);
+                mFindZzz.setBackgroundResource(R.color.white);
+                mFindZpy.setBackgroundResource(R.color.white);
+                mFindZpy2.setBackgroundResource(R.color.white);
+            }
+        });
+        mFindZzqr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFindZzqr.setBackgroundResource(R.drawable.editsharp_green_all);
+                mFindAll.setBackgroundResource(R.color.white);
+                mFindZzz.setBackgroundResource(R.color.white);
+                mFindZpy.setBackgroundResource(R.color.white);
+                mFindZpy2.setBackgroundResource(R.color.white);
+            }
+        });
+        mFindZzz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFindZzz.setBackgroundResource(R.drawable.editsharp_green_all);
+                mFindZzqr.setBackgroundResource(R.color.white);
+                mFindAll.setBackgroundResource(R.color.white);
+                mFindZpy.setBackgroundResource(R.color.white);
+                mFindZpy2.setBackgroundResource(R.color.white);
+            }
+        });
+        mFindZpy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFindZpy.setBackgroundResource(R.drawable.editsharp_green_all);
+                mFindZzqr.setBackgroundResource(R.color.white);
+                mFindZzz.setBackgroundResource(R.color.white);
+                mFindAll.setBackgroundResource(R.color.white);
+                mFindZpy2.setBackgroundResource(R.color.white);
+            }
+        });
+        mFindZpy2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFindZpy2.setBackgroundResource(R.drawable.editsharp_green_all);
+                mFindZzqr.setBackgroundResource(R.color.white);
+                mFindZzz.setBackgroundResource(R.color.white);
+                mFindZpy.setBackgroundResource(R.color.white);
+                mFindAll.setBackgroundResource(R.color.white);
+            }
+        });
+
+
+    }
+
+    private void scaleListViewHigh(int Flag){
+        //得到全屏高宽度
+        int screenHeight=  DeviceUtil.getHeight(getActivity());
+        //二级菜单的高度
+        mFindSecondList.measure(0,0);
+        //获取组件的宽度
+        int width2=mFindSecondList.getMeasuredWidth();
+        //获取组件的高度
+        int height2=mFindSecondList.getMeasuredHeight();
+        //三级菜单的高度
+        mThirdBtn.measure(0,0);
+        //获取组件的宽度
+        int width3=mThirdBtn.getMeasuredWidth();
+        //获取组件的高度
+        int height3=mThirdBtn.getMeasuredHeight();
+
+        //获取当前控件的布局对象
+        LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) mFindXSListview.getLayoutParams();
+        switch (Flag){
+            case 0://thirdExpand
+                //770
+                params.height=screenHeight-DeviceUtil.dp2px(getActivity(),height2)- DeviceUtil.dp2px(getActivity(),height3) - DeviceUtil.dp2px(getActivity(),35);//设置当前控件布局的高度
+//        CommUtil.showAlert("Height："+ params.height,context);
+                mFindXSListview.setLayoutParams(params);//将设置好的布局参数应用到控件中
+                break;
+            case 1://thirdShrink
+                //获取当前控件的布局对象
+                params.height=screenHeight-DeviceUtil.dp2px(getActivity(),height2)- DeviceUtil.dp2px(getActivity(),height3) - DeviceUtil.dp2px(getActivity(),4);//设置当前控件布局的高度
+//        CommUtil.showAlert("Height："+ params.height,context);
+                mFindXSListview.setLayoutParams(params);//将设置好的布局参数应用到控件中
+                break;
+            default:
+                break;
+        }
+
+
+
+    }
 
 
 }

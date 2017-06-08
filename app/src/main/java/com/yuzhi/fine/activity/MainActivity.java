@@ -5,7 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.yuzhi.fine.R;
@@ -13,6 +18,7 @@ import com.yuzhi.fine.fragment.BufferKnifeFragment;
 import com.yuzhi.fine.fragment.findFragment.FindMainFragment;
 import com.yuzhi.fine.fragment.lxMainFragment.LXMainFragment;
 import com.yuzhi.fine.fragment.mineFragment.MineFragment;
+import com.yuzhi.fine.ui.IssuePopWin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,10 +34,14 @@ public class MainActivity extends BaseFragmentActivity {
     private ArrayList<String> fragmentTags;
     private FragmentManager fragmentManager;
 
+    private ImageView mIssue;//发布
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         fragmentManager = getSupportFragmentManager();
         initData(savedInstanceState);
         initView();
@@ -60,6 +70,8 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
+        mIssue =  (ImageView)findViewById(R.id.foot_bar_issue);//发布
+        issueListener();//发布事件监听
         group = (RadioGroup) findViewById(R.id.group);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -75,6 +87,43 @@ public class MainActivity extends BaseFragmentActivity {
             }
         });
         showFragment();
+    }
+
+    /**
+     * 发布事件监听
+     */
+    private void issueListener(){
+       final View.OnClickListener click = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+        mIssue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                IssuePopWin takePhotoPopWin = new IssuePopWin(MainActivity.this,click);
+                // 设置Popupwindow显示位置（从底部弹出）
+                takePhotoPopWin.showAtLocation(findViewById(R.id.foot_bar_issue), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                WindowManager.LayoutParams params = getWindow().getAttributes();
+                //当弹出Popupwindow时，背景变半透明
+                params.alpha=0.7f;
+                getWindow().setAttributes(params);
+                //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
+                takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        WindowManager.LayoutParams  params = getWindow().getAttributes();
+                        params.alpha=1f;
+                        getWindow().setAttributes(params);
+                    }
+                });
+            }
+
+
+        });
+
     }
 
     private void showFragment() {

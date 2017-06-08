@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pop_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!--1-->
+    <ImageView
+        android:id="@+id/issue_baoguang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/issue_qiuzhu"
+        android:src="@drawable/fbbtn_baoguang" />
+
+    <ImageView
+        android:id="@+id/issue_qiuzhu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/fbbtn_qiuzhu" />
+
+    <ImageView
+        android:id="@+id/issue_quanzi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/issue_qiuzhu"
+        android:src="@drawable/fbbtn_quanzi" />
+    <!--2-->
+    <ImageView
+        android:id="@+id/issue_xunren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/issue_baoguang"
+        android:layout_toLeftOf="@+id/issue_xunwu"
+        android:src="@drawable/fbbtn_xunren" />
+
+    <ImageView
+        android:id="@+id/issue_xunwu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/issue_qiuzhu"
+        android:src="@drawable/fbbtn_xw" />
+
+    <ImageView
+        android:id="@+id/issue_zlrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/issue_quanzi"
+        android:layout_toRightOf="@+id/issue_xunwu"
+        android:src="@drawable/fbbtn_zlrl" />
+
+    <Button
+        android:id="@+id/issue_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/issue_xunwu"
+        android:background="@drawable/fb_close" />
+</RelativeLayout>

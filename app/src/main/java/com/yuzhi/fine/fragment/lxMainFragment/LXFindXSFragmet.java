@@ -129,7 +129,7 @@ public class LXFindXSFragmet extends Fragment {
             public void onClick(View v) {
                 mTopBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
                 mNenBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
-                mTopBtn.setBackgroundResource(R.drawable.zhiding);
+                mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNenBtn.setBackgroundResource(R.drawable.zuixin);
 
             }
@@ -140,7 +140,7 @@ public class LXFindXSFragmet extends Fragment {
                 mTopBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
                 mNenBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
-                mNenBtn.setBackgroundResource(R.drawable.zhiding);
+                mNenBtn.setBackgroundResource(R.drawable.editsharp_green_all);
 
             }
         });
