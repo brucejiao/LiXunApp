@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yuzhi.fine.fragment.coreFragment.IssueFragment">
+    <!--标题栏-->
+    <include layout="@layout/layout_main_header" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <!--头像-->
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/space_16"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_headimg"
+            app:riv_border_color="@color/green"
+            app:riv_border_width="1dp"
+            app:riv_oval="true" />
+        <!--标题-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent"
+                    android:hint="请填写信息标题"
+                    android:ellipsize="end"
+                    android:maxEms="20"
+                    android:singleLine="true"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_12"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/space_15"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_12"
+                    android:text="0/20"/>
+
+            </LinearLayout>
+
+            <!--分割线-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_height="1dp"
+                android:background="@color/line" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--类型-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/gray"
+            android:text="类型:"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_5"
+            android:textColor="@color/gray"
+            android:gravity="left"
+            android:text="招领"/>
+
+    </LinearLayout>
+    <!--发布信息描述-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:ellipsize="end"
+        android:maxEms="500"
+        android:hint="尽量详细的描述下你寻找的目标,让更多的人去帮助你"
+        android:background="@color/white"
+        android:layout_marginTop="6dp"
+        android:textSize="@dimen/text_size_12"
+        android:singleLine="false"
+        />
+
+</LinearLayout>

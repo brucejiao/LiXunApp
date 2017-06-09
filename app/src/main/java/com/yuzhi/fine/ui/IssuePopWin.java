@@ -51,6 +51,7 @@ public class IssuePopWin extends PopupWindow {
         issue_baoguang.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+
                 CommUtil.showAlert("曝光",mContext);
             }
         });
