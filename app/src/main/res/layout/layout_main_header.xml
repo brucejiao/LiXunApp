@@ -8,11 +8,19 @@
 
     <!-- 返回按钮 -->
 
-    <Button
-        android:id="@+id/btnBack"
-        style="@style/title_base_button"
-        android:background="@drawable/btn_back"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="11dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="@dimen/space_10"
+            android:layout_marginLeft="@dimen/space_10"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/text_color_gray"
+            android:background="@drawable/btn_back"
+            android:visibility="gone"
+            />
+
+
 
     <TextView
         android:id="@+id/textHeadTitle"

@@ -14,11 +14,12 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.fragment.BufferKnifeFragment;
 import com.yuzhi.fine.fragment.findFragment.FindMainFragment;
 import com.yuzhi.fine.fragment.lxMainFragment.LXMainFragment;
 import com.yuzhi.fine.fragment.mineFragment.MineFragment;
+import com.yuzhi.fine.fragment.msgFragment.MessageFragment;
 import com.yuzhi.fine.ui.IssuePopWin;
+import com.yuzhi.fine.ui.UIHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,7 +98,6 @@ public class MainActivity extends BaseFragmentActivity {
         mIssue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 IssuePopWin takePhotoPopWin = new IssuePopWin(MainActivity.this);
                 // 设置Popupwindow显示位置（从底部弹出）
                 takePhotoPopWin.showAtLocation(findViewById(R.id.foot_bar_issue), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -122,9 +122,9 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void showFragment() {
-//        if (currIndex == 3) {
-//            UIHelper.showLogin(MainActivity.this);
-//        }
+        if (currIndex == 3) {
+            UIHelper.showLXLogin(MainActivity.this);
+        }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentTags.get(currIndex));
@@ -153,7 +153,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 1:
                 return new FindMainFragment();//FindMainFragment  BufferKnifeFragment
             case 2:
-                return new BufferKnifeFragment();
+                return new MessageFragment();//MessageFragment  BufferKnifeFragment
             case 3:
                 return new MineFragment();//MemberFragment()我的 MineFragment
             default: return null;

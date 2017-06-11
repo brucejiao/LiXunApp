@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.utils.CommUtil;
 
 /**
  * Created by JiaoJianJun on 2017/6/8.
@@ -29,15 +28,12 @@ public class IssuePopWin extends PopupWindow {
     private ImageView issue_xunren;
     private ImageView issue_xunwu;
     private ImageView issue_zlrl;
-
-
     private TextView btn_cancel;
 
 
     public IssuePopWin(Context context) {
        this.mContext = context ;
         this.view = LayoutInflater.from(context).inflate(R.layout.popupwidwow_issue, null);
-
         issue_baoguang = (ImageView) view.findViewById(R.id.issue_baoguang);//曝光
         issue_qiuzhu = (ImageView) view.findViewById(R.id.issue_qiuzhu);//求助
         issue_quanzi = (ImageView) view.findViewById(R.id.issue_quanzi);//圈子
@@ -51,43 +47,50 @@ public class IssuePopWin extends PopupWindow {
         issue_baoguang.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                UIHelper.showIssue(mContext,0);
+                dismiss();
 
-                CommUtil.showAlert("曝光",mContext);
+
             }
         });
         //求助
         issue_qiuzhu.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                CommUtil.showAlert("求助",mContext);
+                UIHelper.showIssue(mContext,1);
+                dismiss();
             }
         });
         //圈子
         issue_quanzi.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                CommUtil.showAlert("圈子",mContext);
+                UIHelper.showIssue(mContext,2);
+                dismiss();
             }
         });
         //寻人
         issue_xunren.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                CommUtil.showAlert("寻人",mContext);
+                UIHelper.showIssue(mContext,3);
+                dismiss();
             }
         });
         //寻物
         issue_xunwu.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                CommUtil.showAlert("寻物",mContext);
+                UIHelper.showIssue(mContext,4);
+                dismiss();
             }
         });
         //招领认领
         issue_zlrl.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                CommUtil.showAlert("招领认领",mContext);
+                UIHelper.showIssue(mContext,5);
+                dismiss();
             }
         });
 //============================================================================================================================================

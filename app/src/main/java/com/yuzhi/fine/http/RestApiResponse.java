@@ -1,19 +1,50 @@
 package com.yuzhi.fine.http;
 
 /**
- * Created by tiansj on 2016/11/30.
+ * Created by jjj
+ * 返回
  */
 
 public class RestApiResponse {
 
-    public static final int STATUS_SUCCESS = 200;
-    public static final int STATUS_FAILURE = 500;
+    private String Result;
+    private String Code;
+    private String Message;
+    private String Data;
 
-    public Head head;
-    public String body;
 
-    public static class Head {
-        public int status;
+    public String getResult() {
+        return Result;
     }
+
+    public void setResult(String result) {
+        Result = result;
+    }
+
+    public String getCode() {
+        return Code;
+    }
+
+    public void setCode(String code) {
+        Code = code;
+    }
+
+    public String getMessage() {
+        return Message;
+    }
+
+    public void setMessage(String message) {
+        Message = message;
+    }
+
+    public String getData() {
+        return Data;
+    }
+
+    public void setData(String data) {
+        Data = data;
+    }
+
+
 
 }
