@@ -9,15 +9,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.MainActivity;
-import com.yuzhi.fine.http.HttpClient;
-import com.yuzhi.fine.http.HttpResponseHandler;
-import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.SearchParam;
 import com.yuzhi.fine.model.SearchShop;
 import com.yuzhi.fine.ui.UIHelper;
@@ -26,8 +20,6 @@ import com.yuzhi.fine.ui.quickadapter.BaseAdapterHelper;
 import com.yuzhi.fine.ui.quickadapter.QuickAdapter;
 import com.yuzhi.fine.utils.DeviceUtil;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
@@ -35,7 +27,6 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
-import okhttp3.Request;
 
 /**
  * Created by tiansj on 15/9/4.
@@ -150,26 +141,26 @@ public class DemoPtrFragment extends Fragment {
             return;
         }
         param.setPno(pno);
-        HttpClient.getRecommendShops(param, new HttpResponseHandler() {
-            @Override
-            public void onSuccess(RestApiResponse response) {
-                mPtrFrame.refreshComplete();
-                List<SearchShop> list = JSONArray.parseArray(response.body, SearchShop.class);
-                listView.updateLoadMoreViewText(list);
-                isLoadAll = list.size() < HttpClient.PAGE_SIZE;
-                if(pno == 1) {
-                    adapter.clear();
-                }
-                adapter.addAll(list);
-                pno++;
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                mPtrFrame.refreshComplete();
-                listView.setLoadMoreViewTextError();
-            }
-        });
+//        HttpClient.getRecommendShops(param, new HttpResponseHandler() {
+//            @Override
+//            public void onSuccess(RestApiResponse response) {
+//                mPtrFrame.refreshComplete();
+//                List<SearchShop> list = JSONArray.parseArray(response.body, SearchShop.class);
+//                listView.updateLoadMoreViewText(list);
+//                isLoadAll = list.size() < HttpClient.PAGE_SIZE;
+//                if(pno == 1) {
+//                    adapter.clear();
+//                }
+//                adapter.addAll(list);
+//                pno++;
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//                mPtrFrame.refreshComplete();
+//                listView.setLoadMoreViewTextError();
+//            }
+//        });
     }
 
     @Override

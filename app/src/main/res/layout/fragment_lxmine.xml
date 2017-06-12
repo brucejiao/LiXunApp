@@ -8,7 +8,8 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
-
+    <!--标题栏-->
+    <include layout="@layout/layout_main_header" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +26,7 @@
             <!--个人资料-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="99dp"
+                android:layout_height="95dp"
                 android:background="@color/yellow"
                 android:orientation="horizontal">
 
@@ -112,7 +113,7 @@
             <!--账户/悬赏/积分-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="77dp"
+                android:layout_height="65dp"
                 android:orientation="horizontal">
                 <!--账户-->
                 <LinearLayout
@@ -286,7 +287,7 @@
             <!--个人认证/设置/投诉建议-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="77dp"
+                android:layout_height="70dp"
                 android:orientation="horizontal">
                 <!--个人认证-->
                 <LinearLayout

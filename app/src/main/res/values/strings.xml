@@ -50,5 +50,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--登录/注册/忘记密码-->
+    <string name="qsr6wszyzm">请输入6位数字验证码</string>
+    <string name="fsyzm">发送验证码</string>
+    <string name="sjgsbzq">手机格式不正确</string>
+    <string name="sjhm">手机号码</string>
+    <string name="lxlogin">登录</string>
+    <string name="lxregister">注册</string>
+    <string name="lxforgetpass">忘记密码?</string>
+    <string name="ksdj">快速登录</string>
+    <string name="qsrmm">请输入密码</string>
+    <string name="sznc">设置昵称</string>
+    <string name="szdlmm">设置登录密码</string>
+    <string name="registersm">*注册即表示你同意</string>
+    <string name="usedxy">《立寻网用户使用协议》</string>
+    <string name="setnewpass">设置新密码</string>
+
 
 </resources>

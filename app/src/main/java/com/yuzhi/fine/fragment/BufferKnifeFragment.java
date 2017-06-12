@@ -10,12 +10,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.alibaba.fastjson.JSONArray;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.http.HttpClient;
-import com.yuzhi.fine.http.HttpResponseHandler;
-import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.SearchParam;
 import com.yuzhi.fine.model.SearchShop;
 import com.yuzhi.fine.ui.UIHelper;
@@ -24,11 +20,8 @@ import com.yuzhi.fine.ui.pulltorefresh.PullToRefreshListView;
 import com.yuzhi.fine.ui.quickadapter.BaseAdapterHelper;
 import com.yuzhi.fine.ui.quickadapter.QuickAdapter;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.Request;
 
 /**
  * 带异步图片加载
@@ -124,27 +117,27 @@ public class BufferKnifeFragment extends Fragment {
         }
         param.setPno(pno);
         listView.setLoadMoreViewTextLoading();
-        HttpClient.getRecommendShops(param, new HttpResponseHandler() {
-
-            @Override
-            public void onSuccess(RestApiResponse response) {
-                listView.onRefreshComplete();
-                List<SearchShop> list = JSONArray.parseArray(response.body, SearchShop.class);
-                listView.updateLoadMoreViewText(list);
-                isLoadAll = list.size() < HttpClient.PAGE_SIZE;
-                if(pno == 1) {
-                    adapter.clear();
-                }
-                adapter.addAll(list);
-                pno++;
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                listView.onRefreshComplete();
-                listView.setLoadMoreViewTextError();
-            }
-        });
+//        HttpClient.getRecommendShops(param, new HttpResponseHandler() {
+//
+//            @Override
+//            public void onSuccess(RestApiResponse response) {
+//                listView.onRefreshComplete();
+//                List<SearchShop> list = JSONArray.parseArray(response.body, SearchShop.class);
+//                listView.updateLoadMoreViewText(list);
+//                isLoadAll = list.size() < HttpClient.PAGE_SIZE;
+//                if(pno == 1) {
+//                    adapter.clear();
+//                }
+//                adapter.addAll(list);
+//                pno++;
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//                listView.onRefreshComplete();
+//                listView.setLoadMoreViewTextError();
+//            }
+//        });
     }
 
     @Override
