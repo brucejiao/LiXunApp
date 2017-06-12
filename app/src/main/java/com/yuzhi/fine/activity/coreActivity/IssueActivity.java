@@ -100,7 +100,25 @@ public class IssueActivity extends AppCompatActivity {
         //标题
         mTextHeaderTitle.setText("发布信息");
 
+//        Picasso.with(mContext).load("http://pic.nipic.com/2008-07-11/20087119630716_2.jpg").resize(DeviceUtil.dp2px(mContext,73), DeviceUtil.dp2px(mContext,73)).placeholder(R.drawable.default_image).into(mIssueImgOne);
+        hideImgView();
     }
+
+    /**
+     * 隐藏图片选择器
+     */
+    private  void hideImgView(){
+        mIssueImgOne.setVisibility(View.VISIBLE);
+        mIssueImgTwo.setVisibility(View.GONE);
+        mIssueImgThree.setVisibility(View.GONE);
+        mIssueImgFour.setVisibility(View.GONE);
+        mIssueImgFive.setVisibility(View.GONE);
+        mIssueImgSix.setVisibility(View.GONE);
+        mIssueImgSeven.setVisibility(View.GONE);
+        mIssueImgEight.setVisibility(View.GONE);
+    }
+
+//    private void img
 
     /**
      * 事件监听
@@ -113,7 +131,11 @@ public class IssueActivity extends AppCompatActivity {
                 UIHelper.showHome(mContext);
             }
         });
+
+
     }
+
+
 
     /**
      * 获取数据
