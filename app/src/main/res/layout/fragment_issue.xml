@@ -505,14 +505,14 @@
 
                 <EditText
                     android:id="@+id/issue_push_price"
-                    android:layout_width="wrap_content"
+                    android:layout_width="99dp"
                     android:layout_height="23dp"
                     android:background="@drawable/editsharp_issue_edit_bg"
                     android:gravity="center"
                     android:inputType="numberDecimal"
-                    android:text="全国推送金额≥100"
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_10" />
+                    android:hint="全国推送金额≥100"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/text_size_8" />
 
 
                 <TextView
@@ -636,14 +636,14 @@
 
                 <EditText
                     android:id="@+id/issue_area_top_price"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="23dp"
                     android:background="@drawable/editsharp_issue_edit_bg"
                     android:gravity="center"
                     android:inputType="numberDecimal"
-                    android:text="地区置顶金额"
-                    android:textColor="@color/line"
-                    android:textSize="@dimen/text_size_10" />
+                    android:hint="地区置顶金额"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/text_size_8" />
 
 
                 <TextView

@@ -121,7 +121,9 @@ public class LXLoginActivity extends AppCompatActivity {
     private void initData(){
         HashMap<String, String> params = new HashMap<>();
         params.put("password",mPassWord.getText().toString().trim());
-        params.put("mobile",mPhone.getText().toString().trim());
+        params.put("mobile",mPhone.getText(
+
+        ).toString().trim());
         HttpClient.get(Caller.LOGIN,params, new HttpResponseHandler() {
             @Override
             public void onSuccess(RestApiResponse response) {
