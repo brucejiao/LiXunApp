@@ -505,7 +505,7 @@
 
                 <EditText
                     android:id="@+id/issue_push_price"
-                    android:layout_width="99dp"
+                    android:layout_width="98dp"
                     android:layout_height="23dp"
                     android:background="@drawable/editsharp_issue_edit_bg"
                     android:gravity="center"
