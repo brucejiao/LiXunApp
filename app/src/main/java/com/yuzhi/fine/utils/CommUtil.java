@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -452,6 +453,18 @@ public class CommUtil {
 			e.printStackTrace();
 		}
 		return bmp;
+	}
+
+	/**
+	 * 打开手机相册
+	 */
+	public static Intent openCamera(){
+		Intent intent = new Intent();
+                /* 开启Pictures画面Type设定为image */
+		intent.setType("image/*");
+                /* 使用Intent.ACTION_GET_CONTENT这个Action */
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		return intent;
 	}
 
 }

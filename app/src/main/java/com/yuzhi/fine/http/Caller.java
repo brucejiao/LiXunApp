@@ -30,4 +30,7 @@ public class Caller  {
 
     //用户找回密码
     public static String FORGET_PWD =HTTP+"user/memberuser/memberuserretrievepassword.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取发布类别列表（二级）
+    public static String ISSUE_TYPE_SECOND_LIST =HTTP+"/publish/publish/getcategorytwolist.html?appid="+APPID ;// +"&sign={SIGN}";
 }
