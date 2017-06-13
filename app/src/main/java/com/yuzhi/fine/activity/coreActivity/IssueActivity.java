@@ -18,11 +18,16 @@ import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.AddressDtailsEntity;
+import com.yuzhi.fine.model.AddressModel;
 import com.yuzhi.fine.model.IssueModel.SecondMenu;
+import com.yuzhi.fine.ui.ChooseAddressWheel;
 import com.yuzhi.fine.ui.SpinnerArrayAdapter;
 import com.yuzhi.fine.ui.UIHelper;
+import com.yuzhi.fine.ui.wheelview.listener.OnAddressChangeListener;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.Constant;
+import com.yuzhi.fine.utils.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,9 +35,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Request;
 
-public class IssueActivity extends AppCompatActivity {
+public class IssueActivity extends AppCompatActivity implements OnAddressChangeListener {
 
     private IssueActivity mContext = this;
     @Bind(R.id.btnBack)
@@ -97,6 +103,7 @@ public class IssueActivity extends AppCompatActivity {
     TextView mIssueNowSubmit;//现在发布
 
     private SpinnerArrayAdapter mSpinnerAdapter;// 自定义spinner
+    private ChooseAddressWheel chooseAddressWheel = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,8 +126,38 @@ public class IssueActivity extends AppCompatActivity {
 
 //        Picasso.with(mContext).load("http://pic.nipic.com/2008-07-11/20087119630716_2.jpg").resize(DeviceUtil.dp2px(mContext,73), DeviceUtil.dp2px(mContext,73)).placeholder(R.drawable.default_image).into(mIssueImgOne);
         hideImgView();
+
+        initWheel();
     }
 
+
+    private void initWheel() {
+        chooseAddressWheel = new ChooseAddressWheel(this);
+        chooseAddressWheel.setOnAddressChangeListener(this);
+
+        String address = CommUtil.readAssert(this, "address.txt");
+        AddressModel model = JsonUtil.parseJson(address, AddressModel.class);
+        if (model != null) {
+            AddressDtailsEntity data = model.Result;
+            if (data == null) return;
+            mIssueCity.setText(data.Province + " " + data.City + " " + data.Area);
+            if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
+                chooseAddressWheel.setProvince(data.ProvinceItems.Province);
+                chooseAddressWheel.defaultValue(data.Province, data.City, data.Area);
+            }
+        }
+
+    }
+    @OnClick(R.id.issue_city)
+    public void addressClick(View view) {
+        CommUtil.hideKeyBoard(this);
+        chooseAddressWheel.show(view);
+    }
+
+    @Override
+    public void onAddressChange(String province, String city, String district) {
+        mIssueCity.setText(province + " " + city + " " + district);
+    }
 
     /**
      * 事件监听
@@ -191,7 +228,7 @@ public class IssueActivity extends AppCompatActivity {
                 List<SecondMenu>  menuList = new ArrayList<SecondMenu>();
 
                 for (int index = 0 ; index < menuNum ; index ++){
-                    SecondMenu  menuMap = new SecondMenu();
+                    SecondMenu  menuMap  = new SecondMenu();
                     String     cateID    =  menu.get(index).getCategoryID();
                     String     cateTitle =  menu.get(index).getCategoryTitle();
                     menuMap.setCategoryID(cateID);

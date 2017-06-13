@@ -1,5 +1,6 @@
 package com.yuzhi.fine.utils;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,10 +13,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ListAdapter;
@@ -465,6 +468,40 @@ public class CommUtil {
                 /* 使用Intent.ACTION_GET_CONTENT这个Action */
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		return intent;
+	}
+
+	public static int getScreenWidth(Context context) {
+		DisplayMetrics dm = context.getResources().getDisplayMetrics();
+		return dm.widthPixels;
+	}
+
+	public static int getScreenHeight(Context context) {
+		DisplayMetrics dm = context.getResources().getDisplayMetrics();
+		return dm.heightPixels;
+	}
+
+	public static String readAssert(Context context,  String fileName){
+		String jsonString="";
+		String resultString="";
+		try {
+			InputStream inputStream=context.getResources().getAssets().open(fileName);
+			byte[] buffer=new byte[inputStream.available()];
+			inputStream.read(buffer);
+			resultString=new String(buffer,"utf-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultString;
+	}
+
+	public static void hideKeyBoard(Activity context) {
+		if (context != null && context.getCurrentFocus() != null) {
+			((InputMethodManager) context
+					.getSystemService(Context.INPUT_METHOD_SERVICE))
+					.hideSoftInputFromWindow(context.getCurrentFocus()
+									.getWindowToken(),
+							InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 
 }
