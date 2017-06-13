@@ -155,6 +155,8 @@
                     android:id="@+id/issue_second_type_spiner"
                     android:layout_width="85dp"
                     android:layout_height="23dp"
+                    android:spinnerMode="dropdown"
+                    android:fadeScrollbars="true"
                     android:background="@drawable/btn_selected" />
             </LinearLayout>
 
@@ -316,6 +318,8 @@
                     android:id="@+id/issue_img_one"
                     android:layout_width="73dp"
                     android:layout_height="73dp"
+                    android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
                 <ImageView
@@ -323,6 +327,8 @@
                     android:layout_width="73dp"
                     android:layout_height="73dp"
                     android:layout_marginLeft="@dimen/space_10"
+                    android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
                 <ImageView
@@ -330,6 +336,8 @@
                     android:layout_width="73dp"
                     android:layout_height="73dp"
                     android:layout_marginLeft="@dimen/space_10"
+                    android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
                 <ImageView
@@ -337,6 +345,8 @@
                     android:layout_width="73dp"
                     android:layout_height="73dp"
                     android:layout_marginLeft="@dimen/space_10"
+                    android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
             </LinearLayout>
@@ -355,13 +365,17 @@
                     android:id="@+id/issue_img_five"
                     android:layout_width="73dp"
                     android:layout_height="73dp"
+                    android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
                 <ImageView
                     android:id="@+id/issue_img_six"
                     android:layout_width="73dp"
                     android:layout_height="73dp"
+                    android:scaleType="fitXY"
                     android:layout_marginLeft="@dimen/space_10"
+                    android:onClick="onCheckImg"
                     android:src="@drawable/lx_lodind_image" />
 
                 <ImageView
@@ -369,6 +383,8 @@
                     android:layout_width="73dp"
                     android:layout_height="73dp"
                     android:layout_marginLeft="@dimen/space_10"
+                    android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
                 <ImageView
@@ -376,6 +392,8 @@
                     android:layout_width="73dp"
                     android:layout_height="73dp"
                     android:layout_marginLeft="@dimen/space_10"
+                    android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
             </LinearLayout>

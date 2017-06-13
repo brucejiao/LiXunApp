@@ -1,5 +1,7 @@
 package com.yuzhi.fine.activity.coreActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,17 +11,30 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.http.Caller;
+import com.yuzhi.fine.http.HttpClient;
+import com.yuzhi.fine.http.HttpResponseHandler;
+import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.IssueModel.SecondMenu;
+import com.yuzhi.fine.ui.SpinnerArrayAdapter;
 import com.yuzhi.fine.ui.UIHelper;
+import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.Constant;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Request;
 
 public class IssueActivity extends AppCompatActivity {
 
     private IssueActivity mContext = this;
-
     @Bind(R.id.btnBack)
     Button mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
@@ -81,6 +96,8 @@ public class IssueActivity extends AppCompatActivity {
     @Bind(R.id.issue_now_submit)
     TextView mIssueNowSubmit;//现在发布
 
+    private SpinnerArrayAdapter mSpinnerAdapter;// 自定义spinner
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +121,102 @@ public class IssueActivity extends AppCompatActivity {
         hideImgView();
     }
 
+
+    /**
+     * 事件监听
+     */
+    private void onClickListener(){
+        //返回
+        mBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showHome(mContext);
+            }
+        });
+
+    }
+
+
+
+    /**
+     * 获取数据
+     */
+    private void initData(){
+        String parentID= getIntent().getStringExtra("parentid");
+        switch (parentID){
+            case "80":
+                mIssueType.setText("曝光");
+                getIssueSecondList("80");
+                break;
+            case "81":
+                mIssueType.setText("求助");
+                getIssueSecondList("81");
+                break;
+            case "549":
+                mIssueType.setText("圈子");
+                getIssueSecondList("549");
+                break;
+            case "83":
+                mIssueType.setText("寻人");
+                getIssueSecondList("83");
+                break;
+            case "82":
+                mIssueType.setText("寻物");
+                getIssueSecondList("82");
+                break;
+            case "394":
+                mIssueType.setText("招领");
+                getIssueSecondList("394");
+                break;
+           default: break;
+        }
+    }
+
+    /**
+     * 获取发布类别列表（二级）
+     */
+    private void getIssueSecondList(String value){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("parentid",value);
+  ;
+        HttpClient.get(Caller.ISSUE_TYPE_SECOND_LIST,params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String     result   =  response.getResult();
+                String     message  =  response.getMessage();
+                String     data     =  response.getData();
+
+                List<SecondMenu> menu     =  JSON.parseArray(data, SecondMenu.class);
+                final    int     menuNum  =  menu.size();
+                List<SecondMenu>  menuList = new ArrayList<SecondMenu>();
+
+                for (int index = 0 ; index < menuNum ; index ++){
+                    SecondMenu  menuMap = new SecondMenu();
+                    String     cateID    =  menu.get(index).getCategoryID();
+                    String     cateTitle =  menu.get(index).getCategoryTitle();
+                    menuMap.setCategoryID(cateID);
+                    menuMap.setCategoryTitle(cateTitle);
+                    menuList.add(menuMap);
+
+                    mSpinnerAdapter = new SpinnerArrayAdapter(mContext, menuList);
+                }
+                mIssueSecondType.setAdapter(mSpinnerAdapter);
+
+                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                    CommUtil.showAlert(message,mContext);
+                }else{
+                    CommUtil.showAlert(message,mContext);
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                CommUtil.showToast("二级菜单获取失败",mContext);
+            }
+        });
+    }
+
+
     /**
      * 隐藏图片选择器
      */
@@ -118,50 +231,103 @@ public class IssueActivity extends AppCompatActivity {
         mIssueImgEight.setVisibility(View.GONE);
     }
 
-//    private void img
 
     /**
-     * 事件监听
+     * 选择走失目标图片
      */
-    private void onClickListener(){
-        //返回
-        mBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIHelper.showHome(mContext);
-            }
-        });
+    public void onCheckImg(View v){
+        //打开手机相册
+        final Intent intent = CommUtil.openCamera();
 
-
+        switch (v.getId()){
+            case R.id.issue_img_one:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_FIRST);
+                break;
+            case R.id.issue_img_two:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_SECOND);
+                break;
+            case R.id.issue_img_three:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_THIRD);
+                break;
+            case R.id.issue_img_four:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_FOURTH);
+                break;
+            case R.id.issue_img_five:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_FIVETH);
+                break;
+            case R.id.issue_img_six:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_SIXTH);
+                break;
+            case R.id.issue_img_seven:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_SEVENTH);
+                break;
+            case R.id.issue_img_eight:
+                startActivityForResult(intent, Constant.ISSUE_RESULT_EIGHTH);
+                break;
+            default:break;
+        }
     }
 
 
-
     /**
-     * 获取数据
+     *回调相册结果返回--走失目标图片
      */
-    private void initData(){
-        String parentID= getIntent().getStringExtra("parentid");
-        switch (parentID){
-            case "80":
-                mIssueType.setText("曝光");
-                break;
-            case "81":
-                mIssueType.setText("求助");
-                break;
-            case "549":
-                mIssueType.setText("圈子");
-                break;
-            case "83":
-                mIssueType.setText("寻人");
-                break;
-            case "82":
-                mIssueType.setText("寻物");
-                break;
-            case "394":
-                mIssueType.setText("招领");
-                break;
-           default: break;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+
+            switch (requestCode){
+
+                //图片一
+                case Constant.ISSUE_RESULT_FIRST:
+                    Uri uri1 = data.getData();
+                    mIssueImgOne.setImageURI(uri1);
+                    mIssueImgTwo.setVisibility(View.VISIBLE);
+                    break;
+                //图片二
+                case Constant.ISSUE_RESULT_SECOND:
+                    Uri uri2 = data.getData();
+                    mIssueImgTwo.setImageURI(uri2);
+                    mIssueImgThree.setVisibility(View.VISIBLE);
+                    break;
+                //图片三
+                case Constant.ISSUE_RESULT_THIRD:
+                    Uri uri3 = data.getData();
+                    mIssueImgThree.setImageURI(uri3);
+                    mIssueImgFour.setVisibility(View.VISIBLE);
+                    break;
+                //图片四
+                case Constant.ISSUE_RESULT_FOURTH:
+                    Uri uri4 = data.getData();
+                    mIssueImgFour.setImageURI(uri4);
+                    mIssueImgFive.setVisibility(View.VISIBLE);
+                    break;
+                //图片五
+                case Constant.ISSUE_RESULT_FIVETH:
+                    Uri uri5 = data.getData();
+                    mIssueImgFive.setImageURI(uri5);
+                    mIssueImgSix.setVisibility(View.VISIBLE);
+                    break;
+                //图片六
+                case Constant.ISSUE_RESULT_SIXTH:
+                    Uri uri6 = data.getData();
+                    mIssueImgSix.setImageURI(uri6);
+                    mIssueImgSeven.setVisibility(View.VISIBLE);
+                    break;
+                //图片七
+                case Constant.ISSUE_RESULT_SEVENTH:
+                    Uri uri7 = data.getData();
+                    mIssueImgSeven.setImageURI(uri7);
+                    mIssueImgEight.setVisibility(View.VISIBLE);
+                    break;
+                //图片八
+                case Constant.ISSUE_RESULT_EIGHTH:
+                    Uri uri8 = data.getData();
+                    mIssueImgEight.setImageURI(uri8);
+                    break;
+                default:break;
+            }
         }
     }
 }
