@@ -62,9 +62,9 @@ public class ChooseAddressWheel implements MyOnWheelChangedListener {
         parentView = layoutInflater.inflate(R.layout.choose_city_layout, null);
         ButterKnife.bind(this, parentView);
 
-        provinceWheel.setVisibleItems(7);
-        cityWheel.setVisibleItems(7);
-        districtWheel.setVisibleItems(7);
+        provinceWheel.setVisibleItems(1);
+        cityWheel.setVisibleItems(1);
+        districtWheel.setVisibleItems(1);
 
         provinceWheel.addChangingListener(this);
         cityWheel.addChangingListener(this);

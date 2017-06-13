@@ -140,7 +140,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         if (model != null) {
             AddressDtailsEntity data = model.Result;
             if (data == null) return;
-            mIssueCity.setText(data.Province + " " + data.City + " " + data.Area);
+            mIssueCity.setText(data.Province + " " + data.City /*+ " " + data.Area*/);
             if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
                 chooseAddressWheel.setProvince(data.ProvinceItems.Province);
                 chooseAddressWheel.defaultValue(data.Province, data.City, data.Area);
@@ -156,7 +156,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
     @Override
     public void onAddressChange(String province, String city, String district) {
-        mIssueCity.setText(province + " " + city + " " + district);
+        mIssueCity.setText(province + " " + city /*+ " " + district*/);
     }
 
     /**
