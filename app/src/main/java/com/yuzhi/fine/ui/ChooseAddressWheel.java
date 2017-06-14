@@ -140,20 +140,29 @@ public class ChooseAddressWheel implements MyOnWheelChangedListener {
         if (TextUtils.isEmpty(provinceStr)) return;
         for (int i = 0; i < province.size(); i++) {
             AddressDtailsEntity.ProvinceEntity provinces = province.get(i);
-            if (provinces != null && provinces.Name.equalsIgnoreCase(provinceStr)) {
+            if (provinces != null && provinces.Name.equalsIgnoreCase(provinceStr))
+            {
                 provinceWheel.setCurrentItem(i);
-                if (TextUtils.isEmpty(city)) return;
+                if (TextUtils.isEmpty(city))
+                    return;
+
                 List<AddressDtailsEntity.ProvinceEntity.CityEntity> citys = provinces.City;
-                for (int j = 0; j < citys.size(); j++) {
+                for (int j = 0; j < citys.size(); j++)
+                {
                     AddressDtailsEntity.ProvinceEntity.CityEntity cityEntity = citys.get(j);
-                    if (cityEntity != null && cityEntity.Name.equalsIgnoreCase(city)) {
+                    if (cityEntity != null && cityEntity.Name.equalsIgnoreCase(city))
+                    {
                         cityWheel.setViewAdapter(new CityWheelAdapter(context, citys));
                         cityWheel.setCurrentItem(j);
-                        if (TextUtils.isEmpty(arae)) return;
+                        if (TextUtils.isEmpty(arae))
+                            return;
+
                         List<AddressDtailsEntity.ProvinceEntity.AreaEntity> areas = cityEntity.Area;
-                        for (int k = 0; k < areas.size(); k++) {
+                        for (int k = 0; k < areas.size(); k++)
+                        {
                             AddressDtailsEntity.ProvinceEntity.AreaEntity areaEntity = areas.get(k);
-                            if (areaEntity != null && areaEntity.Name.equalsIgnoreCase(arae)) {
+                            if (areaEntity != null && areaEntity.Name.equalsIgnoreCase(arae))
+                            {
                                 districtWheel.setViewAdapter(new AreaWheelAdapter(context, areas));
                                 districtWheel.setCurrentItem(k);
                             }
@@ -204,4 +213,5 @@ public class ChooseAddressWheel implements MyOnWheelChangedListener {
     public void setOnAddressChangeListener(OnAddressChangeListener onAddressChangeListener) {
         this.onAddressChangeListener = onAddressChangeListener;
     }
+
 }

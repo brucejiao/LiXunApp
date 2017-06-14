@@ -12,7 +12,6 @@ public class RestApiResponse {
     private String Message;
     private String Data;
 
-
     public String getResult() {
         return Result;
     }

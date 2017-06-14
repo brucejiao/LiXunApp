@@ -16,6 +16,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
+import com.yuzhi.fine.http.HttpRequestUtil;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.AddressDtailsEntity;
@@ -28,6 +29,7 @@ import com.yuzhi.fine.ui.wheelview.listener.OnAddressChangeListener;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.Constant;
 import com.yuzhi.fine.utils.JsonUtil;
+import com.yuzhi.fine.utils.LocationUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +39,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
+
+import static com.yuzhi.fine.http.Caller.BAIDU_MAP_LOCATION;
+import static com.yuzhi.fine.utils.CommUtil.getAddressId;
+import static com.yuzhi.fine.utils.CommUtil.readAssert;
+import static com.yuzhi.fine.utils.CommUtil.showAlert;
 
 public class IssueActivity extends AppCompatActivity implements OnAddressChangeListener {
 
@@ -104,12 +111,14 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
     private SpinnerArrayAdapter mSpinnerAdapter;// 自定义spinner
     private ChooseAddressWheel chooseAddressWheel = null;
+    private String[] mAddressIdArray;//地区id对照表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_issue);
         ButterKnife.bind(this);
+        mAddressIdArray = getResources().getStringArray(R.array.address_arrays);
         initUI();
         initData();
         onClickListener();
@@ -128,34 +137,58 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         hideImgView();
 
         initWheel();
+
+
+
     }
 
-
+    /**
+     * 初始化地区选择滚轮
+     */
     private void initWheel() {
         chooseAddressWheel = new ChooseAddressWheel(this);
         chooseAddressWheel.setOnAddressChangeListener(this);
 
-        String address = CommUtil.readAssert(this, "address.txt");
+        String address = readAssert(this, "address.txt");
         AddressModel model = JsonUtil.parseJson(address, AddressModel.class);
         if (model != null) {
             AddressDtailsEntity data = model.Result;
             if (data == null) return;
             mIssueCity.setText(data.Province + " " + data.City /*+ " " + data.Area*/);
+
+            String provinceId = getAddressId(mAddressIdArray,data.Province);
+            String cityId     = getAddressId(mAddressIdArray,data.City);
+            showAlert(provinceId+"---"+cityId,mContext);
+
             if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
+
                 chooseAddressWheel.setProvince(data.ProvinceItems.Province);
                 chooseAddressWheel.defaultValue(data.Province, data.City, data.Area);
             }
         }
-
     }
+
+    /**
+     * 选择地区事件
+     * @param view
+     */
     @OnClick(R.id.issue_city)
     public void addressClick(View view) {
         CommUtil.hideKeyBoard(this);
         chooseAddressWheel.show(view);
     }
 
+    /**
+     * 选择地区滚轮事件改变
+     * @param province
+     * @param city
+     * @param district
+     */
     @Override
     public void onAddressChange(String province, String city, String district) {
+        String provinceId = getAddressId(mAddressIdArray,province);
+        String cityId     = getAddressId(mAddressIdArray,city);
+        showAlert(provinceId+"---"+cityId,mContext);
         mIssueCity.setText(province + " " + city /*+ " " + district*/);
     }
 
@@ -173,7 +206,17 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
     }
 
-
+    @OnClick(R.id.issue_detail_address)
+    public void getLocationAddress(){
+        //初始化
+        LocationUtils.initLocation(mContext);
+        //获取经纬度
+        //Log.e("经度："+LocationUtils.longitude);
+        //Log.e("纬度："+LocationUtils.latitude);
+//        showAlert("location--->"+String.valueOf(LocationUtils.longitude+"---"+String.valueOf(LocationUtils.latitude)),mContext);
+//        String loc = String.valueOf(LocationUtils.latitude)+","+String.valueOf(LocationUtils.longitude);
+//        locToAddress(loc);
+    }
 
     /**
      * 获取数据
@@ -223,24 +266,23 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 String     message  =  response.getMessage();
                 String     data     =  response.getData();
 
-                List<SecondMenu> menu     =  JSON.parseArray(data, SecondMenu.class);
-                final    int     menuNum  =  menu.size();
-                List<SecondMenu>  menuList = new ArrayList<SecondMenu>();
-
-                for (int index = 0 ; index < menuNum ; index ++){
-                    SecondMenu  menuMap  = new SecondMenu();
-                    String     cateID    =  menu.get(index).getCategoryID();
-                    String     cateTitle =  menu.get(index).getCategoryTitle();
-                    menuMap.setCategoryID(cateID);
-                    menuMap.setCategoryTitle(cateTitle);
-                    menuList.add(menuMap);
-
-                    mSpinnerAdapter = new SpinnerArrayAdapter(mContext, menuList);
-                }
-                mIssueSecondType.setAdapter(mSpinnerAdapter);
-
                 if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
-                    CommUtil.showAlert(message,mContext);
+                    List<SecondMenu> menu     =  JSON.parseArray(data, SecondMenu.class);
+                    final    int     menuNum  =  menu.size();
+                    List<SecondMenu>  menuList = new ArrayList<SecondMenu>();
+
+                    for (int index = 0 ; index < menuNum ; index ++){
+                        SecondMenu  menuMap  = new SecondMenu();
+                        String     cateID    =  menu.get(index).getCategoryID();
+                        String     cateTitle =  menu.get(index).getCategoryTitle();
+                        menuMap.setCategoryID(cateID);
+                        menuMap.setCategoryTitle(cateTitle);
+                        menuList.add(menuMap);
+
+                        mSpinnerAdapter = new SpinnerArrayAdapter(mContext, menuList);
+                    }
+                    mIssueSecondType.setAdapter(mSpinnerAdapter);
+
                 }else{
                     CommUtil.showAlert(message,mContext);
                 }
@@ -366,5 +408,18 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 default:break;
             }
         }
+    }
+
+    /**
+     * 将经纬度转换为地址
+     * location 拼接方式   ： 纬度，经度
+     */
+    private void locToAddress(String location){
+
+        String params = "output=json &location ="+location;
+        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params);
+
+        showAlert("resutl--->"+resutl,mContext);
+
     }
 }

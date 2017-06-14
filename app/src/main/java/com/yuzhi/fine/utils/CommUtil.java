@@ -480,6 +480,12 @@ public class CommUtil {
 		return dm.heightPixels;
 	}
 
+	/**
+	 * 获取assest文件夹下文件
+	 * @param context
+	 * @param fileName
+	 * @return
+	 */
 	public static String readAssert(Context context,  String fileName){
 		String jsonString="";
 		String resultString="";
@@ -503,5 +509,29 @@ public class CommUtil {
 							InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 	}
+
+
+	/**
+	 * 获取地区编码id
+	 */
+	public static String getAddressId(String[] arrays , String params){
+		final  int arraysNum = arrays.length;
+		for (int index = 0 ; index < arraysNum ; index ++)
+		{
+			//1|中国
+			String id = arrays[index].substring(0, arrays[index].indexOf("|"));
+			String name = arrays[index].substring(arrays[index].indexOf("|")+1, arrays[index].length());
+			if (params.equals(name))
+			{
+				return id;
+			}
+
+		}
+				return "";
+	}
+
+
+
+
 
 }
