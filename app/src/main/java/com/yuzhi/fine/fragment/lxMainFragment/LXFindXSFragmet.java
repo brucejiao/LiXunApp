@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.common.AppContext;
 import com.yuzhi.fine.model.LXFindServerBean;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.FragmentAdapter.FindServerItemapter;
@@ -22,6 +20,8 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+//import com.squareup.leakcanary.RefWatcher;
 
 /**
  * Created by Administrator on 2017/5/31.
@@ -68,8 +68,8 @@ public class LXFindXSFragmet extends Fragment {
         super.onActivityCreated(savedInstanceState);
         init();
         //FIXME Leak
-        RefWatcher refWatcher = AppContext.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+//        RefWatcher refWatcher = AppContext.getRefWatcher(getActivity());
+//        refWatcher.watch(this);
     }
 
     @Override

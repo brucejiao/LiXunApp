@@ -3,7 +3,10 @@ package com.yuzhi.fine.activity.coreActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
 
-import static com.yuzhi.fine.http.Caller.BAIDU_MAP_LOCATION;
+import static com.yuzhi.fine.http.Caller.GOOGLE_MAP_LOCATION;
 import static com.yuzhi.fine.utils.CommUtil.getAddressId;
 import static com.yuzhi.fine.utils.CommUtil.readAssert;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
@@ -138,7 +141,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
         initWheel();
 
-
+        //初始化定位工具
+        LocationUtils.initLocation(mContext);
 
     }
 
@@ -208,14 +212,14 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
     @OnClick(R.id.issue_detail_address)
     public void getLocationAddress(){
-        //初始化
-        LocationUtils.initLocation(mContext);
+
         //获取经纬度
         //Log.e("经度："+LocationUtils.longitude);
         //Log.e("纬度："+LocationUtils.latitude);
 //        showAlert("location--->"+String.valueOf(LocationUtils.longitude+"---"+String.valueOf(LocationUtils.latitude)),mContext);
 //        String loc = String.valueOf(LocationUtils.latitude)+","+String.valueOf(LocationUtils.longitude);
 //        locToAddress(loc);
+        new Thread(networkTask).start();
     }
 
     /**
@@ -308,6 +312,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         mIssueImgSix.setVisibility(View.GONE);
         mIssueImgSeven.setVisibility(View.GONE);
         mIssueImgEight.setVisibility(View.GONE);
+
     }
 
 
@@ -414,12 +419,46 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      * 将经纬度转换为地址
      * location 拼接方式   ： 纬度，经度
      */
-    private void locToAddress(String location){
-
-        String params = "output=json &location ="+location;
-        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params);
-
-        showAlert("resutl--->"+resutl,mContext);
-
+    private String locToAddress(String location){
+        String params = "latlng="+location+"&sensor=true&language=zh-CN";
+//        String params = "output=json &location ="+location;
+//        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params);
+        String resutl =  HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION,params);
+//        showAlert("resutl--->"+resutl,mContext);
+        return resutl;
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle data = msg.getData();
+            String val = data.getString("value");
+            Log.i("mylog", "请求结果为-->" + val);
+            // TODO
+            // UI界面的更新等相关操作
+            showAlert("resutl--->"+val,mContext);
+        }
+    };
+
+
+    /**
+     * 网络操作相关的子线程
+     */
+    Runnable networkTask = new Runnable() {
+
+        @Override
+        public void run() {
+            // 在这里进行 http request.网络请求相关操作
+
+            String loc = String.valueOf(LocationUtils.latitude)+","+String.valueOf(LocationUtils.longitude);
+            String address = locToAddress(loc);
+
+            Message msg = new Message();
+            Bundle data = new Bundle();
+            data.putString("value", address);
+            msg.setData(data);
+            handler.sendMessage(msg);
+        }
+    };
 }

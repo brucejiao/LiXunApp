@@ -35,7 +35,8 @@ public class Caller  {
     public static String ISSUE_TYPE_SECOND_LIST =HTTP+"/publish/publish/getcategorytwolist.html?appid="+APPID ;// +"&sign={SIGN}";
 
     //解析经纬度为具体地点
-    public static String BAIDU_MAP_LOCATION ="http://api.map.baidu.com/geocoder";//output=json &location =32.170222,118.718123
+//    public static String BAIDU_MAP_LOCATION ="http://api.map.baidu.com/geocoder";//output=json &location =32.170222,118.718123
+    public static String GOOGLE_MAP_LOCATION ="http://maps.google.cn/maps/api/geocode/json";//?latlng=32,118&sensor=true&language=zh-CN";
 
 
 }

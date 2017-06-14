@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.common.AppContext;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
@@ -31,6 +29,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+//import com.squareup.leakcanary.RefWatcher;
 
 
 public class LXMainFragment extends Fragment {
@@ -116,8 +116,8 @@ public class LXMainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initView();
         //FIXME Leak
-        RefWatcher refWatcher = AppContext.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+//        RefWatcher refWatcher = AppContext.getRefWatcher(getActivity());
+//        refWatcher.watch(this);
     }
 
     /**

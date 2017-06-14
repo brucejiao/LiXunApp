@@ -30,23 +30,35 @@ android {
         versionName "1.0"
     }
     signingConfigs {
+//        release {
+//            keyAlias 'AndroidFine'
+//            keyPassword '11118888'
+//            storeFile file('keystore/release.jks')
+//            storePassword '11118888'
+//        }
+//        debug {
+//            keyAlias 'debug'
+//            keyPassword '11118888'
+//            storeFile file('keystore/debug.jks')
+//            storePassword '11118888'
+//        }
         release {
-            keyAlias 'AndroidFine'
-            keyPassword '11118888'
-            storeFile file('keystore/release.jks')
-            storePassword '11118888'
+            keyAlias 'lixun'
+            keyPassword '11223344'
+            storeFile file('newkeystore/lixun.jks')
+            storePassword '11223344'
         }
-        debug {
-            keyAlias 'debug'
-            keyPassword '11118888'
-            storeFile file('keystore/debug.jks')
-            storePassword '11118888'
-        }
+//        debug {
+//            keyAlias 'debug'
+//            keyPassword '11118888'
+//            storeFile file('keystore/debug.jks')
+//            storePassword '11118888'
+//        }
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -85,9 +97,12 @@ android {
     }
 }
 
+
+//   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
+//releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
+// compile files('src/main/libs/android-support-v7-appcompat.jar')
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('src/main/libs/android-support-v7-appcompat.jar')
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -100,7 +115,5 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
     compile files('src/main/libs/gson-2.2.4.jar')
 }
