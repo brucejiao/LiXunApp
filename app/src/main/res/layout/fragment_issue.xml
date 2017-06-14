@@ -229,7 +229,7 @@
                     android:background="@drawable/editsharp_issue_edit_bg"
                     android:gravity="center"
                     android:hint="请选择走失城市"
-                    android:textColor="@color/line"
+                    android:textColor="@color/xs_short_black2"
                     android:textSize="@dimen/text_size_12" />
 
             </LinearLayout>
@@ -259,7 +259,7 @@
                     android:background="@drawable/editsharp_issue_edit_bg"
                     android:gravity="center"
                     android:hint="请选择走失地详细地址"
-                    android:textColor="@color/xs_short_gary2"
+                    android:textColor="@color/xs_short_black2"
                     android:textSize="@dimen/text_size_12" />
 
             </LinearLayout>
