@@ -240,7 +240,6 @@ public class LXMainAddressActivity extends AppCompatActivity {
 
         @Override
         public int getItemViewType(int position) {
-            // TODO Auto-generated method stub
             int type = 2;
 
             if (position == 0&&sh.getText().length()==0) {//不是在搜索状态下
@@ -385,7 +384,6 @@ public class LXMainAddressActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         locationClient.stop();
     }
