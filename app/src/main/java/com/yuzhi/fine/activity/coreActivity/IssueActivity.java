@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,15 +24,20 @@ import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.AddressDtailsEntity;
 import com.yuzhi.fine.model.AddressModel;
 import com.yuzhi.fine.model.IssueModel.SecondMenu;
+import com.yuzhi.fine.model.Location.LocResult;
+import com.yuzhi.fine.model.Location.Location2Address;
+import com.yuzhi.fine.model.UploadImg.UploadImg;
 import com.yuzhi.fine.ui.ChooseAddressWheel;
 import com.yuzhi.fine.ui.SpinnerArrayAdapter;
 import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.ui.wheelview.listener.OnAddressChangeListener;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.Constant;
+import com.yuzhi.fine.utils.ImageUtils;
 import com.yuzhi.fine.utils.JsonUtil;
 import com.yuzhi.fine.utils.LocationUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,12 +45,16 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
-import static com.yuzhi.fine.http.Caller.GOOGLE_MAP_LOCATION;
+import static com.alibaba.fastjson.JSON.parseObject;
+import static com.yuzhi.fine.http.Caller.BAIDU_MAP_LOCATION;
+import static com.yuzhi.fine.utils.CommUtil.generateFileName;
 import static com.yuzhi.fine.utils.CommUtil.getAddressId;
 import static com.yuzhi.fine.utils.CommUtil.readAssert;
-import static com.yuzhi.fine.utils.CommUtil.showAlert;
 
 public class IssueActivity extends AppCompatActivity implements OnAddressChangeListener {
 
@@ -115,6 +123,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     private SpinnerArrayAdapter mSpinnerAdapter;// 自定义spinner
     private ChooseAddressWheel chooseAddressWheel = null;
     private String[] mAddressIdArray;//地区id对照表
+    private List<Uri> mImgList ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +152,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
         //初始化定位工具
         LocationUtils.initLocation(mContext);
+        new Thread(networkTask).start();
 
     }
 
@@ -162,7 +172,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
             String provinceId = getAddressId(mAddressIdArray,data.Province);
             String cityId     = getAddressId(mAddressIdArray,data.City);
-            showAlert(provinceId+"---"+cityId,mContext);
+            //showAlert(provinceId+"---"+cityId,mContext);
 
             if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
 
@@ -192,7 +202,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     public void onAddressChange(String province, String city, String district) {
         String provinceId = getAddressId(mAddressIdArray,province);
         String cityId     = getAddressId(mAddressIdArray,city);
-        showAlert(provinceId+"---"+cityId,mContext);
+//        showAlert(provinceId+"---"+cityId,mContext);
         mIssueCity.setText(province + " " + city /*+ " " + district*/);
     }
 
@@ -210,17 +220,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
     }
 
-    @OnClick(R.id.issue_detail_address)
-    public void getLocationAddress(){
 
-        //获取经纬度
-        //Log.e("经度："+LocationUtils.longitude);
-        //Log.e("纬度："+LocationUtils.latitude);
-//        showAlert("location--->"+String.valueOf(LocationUtils.longitude+"---"+String.valueOf(LocationUtils.latitude)),mContext);
-//        String loc = String.valueOf(LocationUtils.latitude)+","+String.valueOf(LocationUtils.longitude);
-//        locToAddress(loc);
-        new Thread(networkTask).start();
-    }
 
     /**
      * 获取数据
@@ -262,7 +262,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     private void getIssueSecondList(String value){
         HashMap<String, String> params = new HashMap<>();
         params.put("parentid",value);
-  ;
+
         HttpClient.get(Caller.ISSUE_TYPE_SECOND_LIST,params, new HttpResponseHandler() {
             @Override
             public void onSuccess(RestApiResponse response) {
@@ -288,7 +288,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                     mIssueSecondType.setAdapter(mSpinnerAdapter);
 
                 }else{
-                    CommUtil.showAlert(message,mContext);
+                    CommUtil.showToast(message,mContext);
                 }
             }
 
@@ -360,7 +360,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
+            mImgList = new ArrayList<Uri>();
             switch (requestCode){
 
                 //图片一
@@ -368,47 +368,55 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                     Uri uri1 = data.getData();
                     mIssueImgOne.setImageURI(uri1);
                     mIssueImgTwo.setVisibility(View.VISIBLE);
+                    mImgList.add(uri1);
                     break;
                 //图片二
                 case Constant.ISSUE_RESULT_SECOND:
                     Uri uri2 = data.getData();
                     mIssueImgTwo.setImageURI(uri2);
                     mIssueImgThree.setVisibility(View.VISIBLE);
+                    mImgList.add(uri2);
                     break;
                 //图片三
                 case Constant.ISSUE_RESULT_THIRD:
                     Uri uri3 = data.getData();
                     mIssueImgThree.setImageURI(uri3);
                     mIssueImgFour.setVisibility(View.VISIBLE);
+                    mImgList.add(uri3);
                     break;
                 //图片四
                 case Constant.ISSUE_RESULT_FOURTH:
                     Uri uri4 = data.getData();
                     mIssueImgFour.setImageURI(uri4);
                     mIssueImgFive.setVisibility(View.VISIBLE);
+                    mImgList.add(uri4);
                     break;
                 //图片五
                 case Constant.ISSUE_RESULT_FIVETH:
                     Uri uri5 = data.getData();
                     mIssueImgFive.setImageURI(uri5);
                     mIssueImgSix.setVisibility(View.VISIBLE);
+                    mImgList.add(uri5);
                     break;
                 //图片六
                 case Constant.ISSUE_RESULT_SIXTH:
                     Uri uri6 = data.getData();
                     mIssueImgSix.setImageURI(uri6);
                     mIssueImgSeven.setVisibility(View.VISIBLE);
+                    mImgList.add(uri6);
                     break;
                 //图片七
                 case Constant.ISSUE_RESULT_SEVENTH:
                     Uri uri7 = data.getData();
                     mIssueImgSeven.setImageURI(uri7);
                     mIssueImgEight.setVisibility(View.VISIBLE);
+                    mImgList.add(uri7);
                     break;
                 //图片八
                 case Constant.ISSUE_RESULT_EIGHTH:
                     Uri uri8 = data.getData();
                     mIssueImgEight.setImageURI(uri8);
+                    mImgList.add(uri8);
                     break;
                 default:break;
             }
@@ -420,24 +428,30 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      * location 拼接方式   ： 纬度，经度
      */
     private String locToAddress(String location){
-        String params = "latlng="+location+"&sensor=true&language=zh-CN";
-//        String params = "output=json &location ="+location;
-//        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params);
-        String resutl =  HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION,params);
-//        showAlert("resutl--->"+resutl,mContext);
+        //baidu
+        String params = "output=json&location="+location;
+        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params.trim());
+        //google
+//        String params = "latlng="+location+"&sensor=true&language=zh-CN";
+//        String resutl =  HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION,params);
+
         return resutl;
     }
 
+    /**
+     * 获取请求地址结果并更新到UI
+     */
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Bundle data = msg.getData();
             String val = data.getString("value");
-            Log.i("mylog", "请求结果为-->" + val);
-            // TODO
-            // UI界面的更新等相关操作
-            showAlert("resutl--->"+val,mContext);
+                // UI界面的更新等相关操作
+            Location2Address location2Address = parseObject(val,Location2Address.class);
+            LocResult locResult = location2Address.getResult();
+            String address = locResult.getFormatted_address();
+            mIssueDetailAddress.setText(address);
         }
     };
 
@@ -450,10 +464,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         @Override
         public void run() {
             // 在这里进行 http request.网络请求相关操作
-
             String loc = String.valueOf(LocationUtils.latitude)+","+String.valueOf(LocationUtils.longitude);
             String address = locToAddress(loc);
-
             Message msg = new Message();
             Bundle data = new Bundle();
             data.putString("value", address);
@@ -461,4 +473,144 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
             handler.sendMessage(msg);
         }
     };
+
+    /**
+     * 选择推送地区
+     */
+    @OnClick(R.id.issue_choose_city)
+    public void chooseCity(View view){
+        mIssueChooseCity.setBackgroundResource(R.drawable.btn_selected);
+        mIssueChooseNational.setBackgroundResource(R.drawable.btn_select);
+    }
+
+    /**
+     * 选择推送全国
+     */
+    @OnClick(R.id.issue_choose_national)
+    public void chooseNational(View view){
+        mIssueChooseCity.setBackgroundResource(R.drawable.btn_select);
+        mIssueChooseNational.setBackgroundResource(R.drawable.btn_selected);
+
+    }
+
+    /**
+     * 地区置顶---不需要
+     */
+    @OnClick(R.id.issue_area_top_no)
+    public void areaTopNo(View view){
+        mIssueAreaTopNo.setBackgroundResource(R.drawable.btn_selected);
+        mIssueAreaTopYes.setBackgroundResource(R.drawable.btn_select);
+    }
+
+    /**
+     * 地区置顶---需要
+     */
+    @OnClick(R.id.issue_area_top_yes)
+    public void areaTopYes(View view){
+        mIssueAreaTopNo.setBackgroundResource(R.drawable.btn_select);
+        mIssueAreaTopYes.setBackgroundResource(R.drawable.btn_selected);
+
+    }
+
+    /**
+     * 上传图片
+     */
+    private  void uploadImage(List<Uri> mImgList){
+        //保存图片id集合
+        final List<String> saveImgID = new ArrayList<String>();
+        for (int i =0 ; i< mImgList.size(); i++){
+
+            String fileUrl =  ImageUtils.getImageAbsolutePath(mContext,mImgList.get(i));
+            File file1 = new File(fileUrl);
+            RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream") , file1);//multipart/form-data
+
+            //文件类型
+//        String fileType = fileUrl.substring(fileUrl.indexOf("."),fileUrl.length());
+            //生成文件名
+            String file1Name =generateFileName(".jpg");
+            String boundary = "---androidxiaowangzi----";
+            MultipartBody mBody = new MultipartBody.Builder(boundary).setType(MultipartBody.FORM)
+                    .addFormDataPart("userid" , "5516")
+                    .addFormDataPart("filedata" , file1Name , fileBody)
+                    .build();
+
+            HttpClient.upload(Caller.UPLOAD_IMAGE, mBody,new HttpResponseHandler() {
+                @Override
+                public void onSuccess(RestApiResponse response) {
+                    String     result   =  response.getResult();
+                    String     message  =  response.getMessage();
+                    String     data     =  response.getData();
+
+                    UploadImg uploadImg = JSON.parseObject(data, UploadImg.class);
+
+                    if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                        String id = uploadImg.getFileid();
+                        String path =  uploadImg.getFilepath();
+                        saveImgID.add(id);
+                    }else{
+                        CommUtil.showToast(message,mContext);
+                    }
+                }
+
+                @Override
+                public void onFailure(Request request, Exception e) {
+                    CommUtil.showToast("图片上传失败",mContext);
+                }
+            });
+        }
+
+
+
+
+    }
+
+    /**
+     * 保存草稿箱
+     * @param view
+     */
+    /**发布信息实体
+     *  [publishinfo_dictionary setValue:Title forKey:@"Title"];
+     [publishinfo_dictionary setValue:Content forKey:@"Content"];
+     [publishinfo_dictionary setValue:CategoryID forKey:@"CategoryID"];
+     [publishinfo_dictionary setValue:Money forKey:@"Money"];
+     [publishinfo_dictionary setValue:Province forKey:@"Province"];
+     [publishinfo_dictionary setValue:City forKey:@"City"];
+     [publishinfo_dictionary setValue:Address forKey:@"Address"];
+     [publishinfo_dictionary setValue:PushType forKey:@"PushType"];
+     [publishinfo_dictionary setValue:PushMoney forKey:@"PushMoney"];
+     [publishinfo_dictionary setValue:TopType forKey:@"TopType"];
+     [publishinfo_dictionary setValue:TopMoney forKey:@"TopMoney"];
+     [publishinfo_dictionary setValue:PushMoney forKey:@"PushMoney"];
+
+     * @param view
+     */
+    @OnClick(R.id.issue_save_draft)
+    public  void saveDraft(View view){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userid","5516");
+        params.put("publishinfo","=====");//发布信息实体
+        params.put("picturelist","=====");//发布图片信息实体 [{PictureID:""},{},{}]
+//        params.put("provepicturelist","=====");//发布证明图片信息实体
+
+        HttpClient.get(Caller.ADD_ISSUE_INFO,params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String     result   =  response.getResult();
+                String     message  =  response.getMessage();
+
+                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+
+                    CommUtil.showToast(message,mContext);
+            }else{
+                    CommUtil.showToast(message,mContext);
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                CommUtil.showToast("发布信息失败",mContext);
+            }
+        });
+
+    }
 }

@@ -24,6 +24,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -82,6 +83,12 @@ public class HttpClient {
         return false;
     }
 
+    /**
+     * get
+     * @param url
+     * @param param
+     * @param handler
+     */
     public static void get(String url, Map<String, String> param, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
@@ -111,6 +118,12 @@ public class HttpClient {
         });
     }
 
+    /**
+     * post
+     * @param url
+     * @param param
+     * @param handler
+     */
     public static void post(String url, Map<String, String> param, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
@@ -127,7 +140,7 @@ public class HttpClient {
             @Override
             public void onResponse(Call call, Response response) {
                 try {
-                    RestApiResponse apiResponse = getRestApiResponse(response.body().toString());
+                    RestApiResponse apiResponse = getRestApiResponse(response.body().string());
                     handler.sendSuccessMessage(apiResponse);
                 } catch (Exception e) {
                     handler.sendFailureMessage(call.request(), e);
@@ -140,6 +153,53 @@ public class HttpClient {
             }
         });
     }
+
+    /**
+     *eg.
+     *
+             File file1 = new File(ImageUtils.getImageAbsolutePath(mContext,uri1));
+             RequestBody fileBody1 = RequestBody.create(MediaType.parse("application/octet-stream") , file1);//multipart/form-data
+             String file1Name = "testFile1.txt";
+             String boundary = "xx---androidxiaowangzi----xx";
+             MultipartBody mBody = new MultipartBody.Builder(boundary).setType(MultipartBody.FORM)
+             .addFormDataPart("userid" , "66666666")
+             .addFormDataPart("filedata" , file1Name , fileBody1)
+             .build();
+     */
+    /**
+     * 文件上传
+     * @param url
+     * @param mBody
+     * @param handler
+     */
+    public static void upload(String url, MultipartBody mBody, final HttpResponseHandler handler) {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+            return;
+        }
+//        RequestBody body = RequestBody.create(MEDIA_TYPE, paramStr);
+        Request request = new Request.Builder().url(url).post(mBody).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    RestApiResponse apiResponse = getRestApiResponse(response.body().string());
+                    handler.sendSuccessMessage(apiResponse);
+                } catch (Exception e) {
+                    handler.sendFailureMessage(call.request(), e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendFailureMessage(call.request(), e);
+            }
+        });
+    }
+
+
+
+
 
     private static RestApiResponse getRestApiResponse(String responseBody) throws Exception {
         if(!isJsonString(responseBody)) {

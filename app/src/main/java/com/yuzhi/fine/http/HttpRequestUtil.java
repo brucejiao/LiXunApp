@@ -1,5 +1,7 @@
 package com.yuzhi.fine.http;
 
+import com.yuzhi.fine.utils.LogUtil;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -124,7 +126,8 @@ public class HttpRequestUtil {
         BufferedReader in = null;
         try {
             String urlNameString = url + "?" + param;
-            URL realUrl = new URL(urlNameString);
+            LogUtil.d("===address===",urlNameString);
+            URL realUrl = new URL(urlNameString.trim());
             // 打开和URL之间的连接
             URLConnection connection = realUrl.openConnection();
             // 设置通用的请求属性

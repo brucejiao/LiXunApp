@@ -35,6 +35,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * @author 工具类，封装常用的操作方法
@@ -531,7 +533,19 @@ public class CommUtil {
 	}
 
 
+/**
+ *fileType 文件后缀名
+ */
+	public static  String generateFileName(String fileType){
+		String str[] = { "a", "b", "c", "d", "e", "f", "g","h", "i", "j","k", "l", "m", "n", "o", "p", "q","r", "s", "t"
+				, "u", "v", "w", "x", "y", "z"};
+		Random tmp = new Random();
+		UUID uuid = UUID.randomUUID();
+		long currentTime = System.currentTimeMillis();
+		String fileName = uuid+ str[tmp.nextInt(26)]+currentTime + "." + fileType;
 
+		return fileName;
+	}
 
 
 }
