@@ -1,6 +1,7 @@
 package com.yuzhi.fine.fragment.lxMainFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
@@ -29,12 +32,19 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_REQUEST;
+import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_RESULT;
 
 //import com.squareup.leakcanary.RefWatcher;
 
 
 public class LXMainFragment extends Fragment {
 
+    //定位
+    @Bind(R.id.lx_main_address_text)
+    TextView mLxMainAddressText;
     //轮播
     @Bind(R.id.pager)
     AutoLoopViewPager pager;
@@ -272,6 +282,25 @@ public class LXMainFragment extends Fragment {
     }
 
 
+    /**
+     * 标题栏定位
+     */
+    @OnClick(R.id.lx_main_address_text)
+    public void addressResult(View view){
+        CommUtil.showToast("===addrress is ok ===",getActivity());
+        Intent intent = new Intent(getActivity(),LXMainAddressActivity.class);
+        LXMainFragment.this.startActivityForResult(intent, LX_MAIN_ADDRESS_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LX_MAIN_ADDRESS_REQUEST){
+            if (resultCode == LX_MAIN_ADDRESS_RESULT){
+                mLxMainAddressText.setText(data.getStringExtra("lngCityName"));
+            }
+        }
+    }
 }
 
 

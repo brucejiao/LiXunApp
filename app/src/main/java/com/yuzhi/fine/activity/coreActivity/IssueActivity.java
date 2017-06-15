@@ -7,9 +7,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,9 +25,11 @@ import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.AddressDtailsEntity;
 import com.yuzhi.fine.model.AddressModel;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
+import com.yuzhi.fine.model.IssueModel.IssueContent;
 import com.yuzhi.fine.model.IssueModel.SecondMenu;
-import com.yuzhi.fine.model.Location.LocResult;
-import com.yuzhi.fine.model.Location.Location2Address;
+import com.yuzhi.fine.model.UploadImg.Picturelist;
 import com.yuzhi.fine.model.UploadImg.UploadImg;
 import com.yuzhi.fine.ui.ChooseAddressWheel;
 import com.yuzhi.fine.ui.SpinnerArrayAdapter;
@@ -36,6 +40,7 @@ import com.yuzhi.fine.utils.Constant;
 import com.yuzhi.fine.utils.ImageUtils;
 import com.yuzhi.fine.utils.JsonUtil;
 import com.yuzhi.fine.utils.LocationUtils;
+import com.yuzhi.fine.utils.LogUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,10 +56,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import static com.alibaba.fastjson.JSON.parseObject;
-import static com.yuzhi.fine.http.Caller.BAIDU_MAP_LOCATION;
+import static com.alibaba.fastjson.JSON.toJSONString;
+import static com.yuzhi.fine.http.Caller.GOOGLE_MAP_LOCATION;
 import static com.yuzhi.fine.utils.CommUtil.generateFileName;
 import static com.yuzhi.fine.utils.CommUtil.getAddressId;
 import static com.yuzhi.fine.utils.CommUtil.readAssert;
+import static com.yuzhi.fine.utils.CommUtil.showEditString;
 
 public class IssueActivity extends AppCompatActivity implements OnAddressChangeListener {
 
@@ -69,20 +76,52 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     EditText mIssueTitle;//发布标题
     @Bind(R.id.issue_title_text_number)
     TextView mIssueTextNum;//标题字数
+    @Bind(R.id.issue_type_layout)
+    LinearLayout mIssueTypeLayout;//发布类型布局
+    @Bind(R.id.issue_second_layout)
+    LinearLayout mIssueSecondLayout;//目标类型布局
+    @Bind(R.id.issue_city_layout)
+    LinearLayout mIssueCitydLayout;//目标城市布局
+    @Bind(R.id.issue_server_layout)
+    LinearLayout mIssueServerdLayout;//服务支持布局
+    @Bind(R.id.issue_push_price_layout)
+    LinearLayout mIssuePushPriceLayout;//推送价格布局
+    @Bind(R.id.issue_push_layout)
+    LinearLayout mIssuePushLayout;//推送布局
+    @Bind(R.id.issue_area_top_layout)
+    LinearLayout mIssueAreaTopLayout;//地区置顶布局
+    @Bind(R.id.issue_area_top_price_layout)
+    LinearLayout mIssueAreaTopPriceLayout;//地区置顶价格布局
+    @Bind(R.id.issue_remark_layout)
+    LinearLayout mIssueRemarkLayout;//说明文字布局
     @Bind(R.id.issue_type)
     TextView mIssueType;//发布类型
     @Bind(R.id.issue_content)
     EditText mIssueContent;//发布内容
     @Bind(R.id.issue_content_text_number)
     TextView mIssueContentTextNum;//发布内容字数
+    @Bind(R.id.issue_type_text)
+    TextView mIssueTypeText;//目标类型标题
     @Bind(R.id.issue_second_type_spiner)
     Spinner mIssueSecondType;//二级菜单（类型）
+    @Bind(R.id.issue_price_layout)
+    LinearLayout mIssuePriceLayout;//悬赏金额
     @Bind(R.id.issue_price)
     EditText mIssuePrice;//悬赏金额
+    @Bind(R.id.issue_price_text)
+    TextView mIssuePriceText;//悬赏金额标题
+    @Bind(R.id.issue_price_after)
+    TextView mIssuePriceAfter;//悬赏金额后的说明文字
+    @Bind(R.id.issue_text_city)
+    TextView mIssueTextCity;//走失城市标题
     @Bind(R.id.issue_city)
     TextView mIssueCity;//走失城市
+    @Bind(R.id.issue_detail_address_layout)
+    LinearLayout mIssueDetailAddressLayout;//详细地址
     @Bind(R.id.issue_detail_address)
     EditText mIssueDetailAddress;//详细地址
+    @Bind(R.id.issue_imgview_title)
+    TextView mIssueImgTitle;//图片标题
     @Bind(R.id.issue_img_one)
     ImageView mIssueImgOne;//图片一
     @Bind(R.id.issue_img_two)
@@ -123,7 +162,17 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     private SpinnerArrayAdapter mSpinnerAdapter;// 自定义spinner
     private ChooseAddressWheel chooseAddressWheel = null;
     private String[] mAddressIdArray;//地区id对照表
-    private List<Uri> mImgList ;
+    private List<Uri>  mImgList = new ArrayList<Uri>() ;
+    private List<Picturelist> mPicturelists ;
+    private IssueContent issueContent = new IssueContent();
+    private String provinceId;
+    private String cityId;
+    //这个个类型默认状态和界面默认状态需保持一致
+    private String mPushType = "1";
+    private String mTopType ="1";
+    //目标类型ID
+    private String mCategoryID ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +203,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         LocationUtils.initLocation(mContext);
         new Thread(networkTask).start();
 
+
+
     }
 
     /**
@@ -170,9 +221,9 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
             if (data == null) return;
             mIssueCity.setText(data.Province + " " + data.City /*+ " " + data.Area*/);
 
-            String provinceId = getAddressId(mAddressIdArray,data.Province);
-            String cityId     = getAddressId(mAddressIdArray,data.City);
-            //showAlert(provinceId+"---"+cityId,mContext);
+             provinceId = getAddressId(mAddressIdArray,data.Province);
+             cityId     = getAddressId(mAddressIdArray,data.City);
+//             showAlert(provinceId+"---"+cityId,mContext);
 
             if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
 
@@ -200,8 +251,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      */
     @Override
     public void onAddressChange(String province, String city, String district) {
-        String provinceId = getAddressId(mAddressIdArray,province);
-        String cityId     = getAddressId(mAddressIdArray,city);
+         provinceId = getAddressId(mAddressIdArray,province);
+         cityId     = getAddressId(mAddressIdArray,city);
 //        showAlert(provinceId+"---"+cityId,mContext);
         mIssueCity.setText(province + " " + city /*+ " " + district*/);
     }
@@ -217,6 +268,22 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 UIHelper.showHome(mContext);
             }
         });
+        //对目标类型spinner监听
+        mIssueSecondType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SecondMenu secondMenu = (SecondMenu)mIssueSecondType.getSelectedItem();
+//                String title = secondMenu.getCategoryTitle();
+//                showToast(title,mContext);
+                mCategoryID = secondMenu.getCategoryID();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -230,26 +297,64 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         switch (parentID){
             case "80":
                 mIssueType.setText("曝光");
+                //initUI
+                mIssueTextCity.setText("所在城市");
+                mIssuePriceLayout.setVisibility(View.GONE);
+                mIssueDetailAddressLayout.setVisibility(View.GONE);
+                //获取目标类型
                 getIssueSecondList("80");
                 break;
             case "81":
                 mIssueType.setText("求助");
+                //initUI
+                mIssueTextCity.setText("所在城市");
+                mIssuePriceLayout.setVisibility(View.GONE);
+                mIssueDetailAddressLayout.setVisibility(View.GONE);
+                //获取目标类型
                 getIssueSecondList("81");
                 break;
             case "549":
                 mIssueType.setText("圈子");
+                //initUI
+                mIssueContent.setHint("有啥好玩的，好笑的，好吃的，高营养鸡汤...给大家分享下吧");
+                mIssueTypeLayout.setVisibility(View.GONE);
+                mIssueSecondLayout.setVisibility(View.GONE);
+                mIssuePriceLayout.setVisibility(View.GONE);
+                mIssueCitydLayout.setVisibility(View.GONE);
+                mIssueDetailAddressLayout.setVisibility(View.GONE);
+                mIssueServerdLayout.setVisibility(View.GONE);
+                mIssueSaveDraft.setVisibility(View.GONE);
+                mIssuePushPriceLayout.setVisibility(View.GONE);
+                mIssuePushLayout.setVisibility(View.GONE);
+                mIssueAreaTopLayout.setVisibility(View.GONE);
+                mIssueAreaTopPriceLayout.setVisibility(View.GONE);
+                mIssueRemarkLayout.setVisibility(View.GONE);
+                //获取目标类型
                 getIssueSecondList("549");
                 break;
             case "83":
                 mIssueType.setText("寻人");
+                //initUI
+                mIssueTextCity.setText("丢失城市");
+                //获取目标类型
                 getIssueSecondList("83");
                 break;
             case "82":
                 mIssueType.setText("寻物");
+                //initUI
+                mIssueTextCity.setText("丢失城市");
+                //获取目标类型
                 getIssueSecondList("82");
                 break;
             case "394":
                 mIssueType.setText("招领");
+                //initUI
+                mIssueTypeText.setText("招领类型");
+                mIssuePriceText.setText("认领金额");
+                mIssueTextCity.setText("拾遗城市");
+                mIssueImgTitle.setText("认领物品图片");
+                mIssuePriceAfter.setText("0元即表示无，由失主线下支付");
+                //获取目标类型
                 getIssueSecondList("394");
                 break;
            default: break;
@@ -257,7 +362,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     }
 
     /**
-     * 获取发布类别列表（二级）
+     * 目标类型--获取发布类别列表（二级）
      */
     private void getIssueSecondList(String value){
         HashMap<String, String> params = new HashMap<>();
@@ -286,6 +391,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                         mSpinnerAdapter = new SpinnerArrayAdapter(mContext, menuList);
                     }
                     mIssueSecondType.setAdapter(mSpinnerAdapter);
+
 
                 }else{
                     CommUtil.showToast(message,mContext);
@@ -360,7 +466,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            mImgList = new ArrayList<Uri>();
+
             switch (requestCode){
 
                 //图片一
@@ -429,11 +535,11 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      */
     private String locToAddress(String location){
         //baidu
-        String params = "output=json&location="+location;
-        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params.trim());
+//        String params = "output=json&location="+location;
+//        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params.trim());
         //google
-//        String params = "latlng="+location+"&sensor=true&language=zh-CN";
-//        String resutl =  HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION,params);
+        String params = "latlng="+location+"&sensor=true&language=zh-CN";
+        String resutl =  HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION,params);
 
         return resutl;
     }
@@ -448,10 +554,15 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
             Bundle data = msg.getData();
             String val = data.getString("value");
                 // UI界面的更新等相关操作
-            Location2Address location2Address = parseObject(val,Location2Address.class);
-            LocResult locResult = location2Address.getResult();
-            String address = locResult.getFormatted_address();
-            mIssueDetailAddress.setText(address);
+//            Location2Address location2Address = parseObject(val,Location2Address.class);
+//            LocResult locResult = location2Address.getResult();
+//            String address = locResult.getFormatted_address();
+//            mIssueDetailAddress.setText(address);
+            GoogleLoc googleLoc = parseObject(val,GoogleLoc.class);
+            List<GoogleResults> googleResults = JSON.parseArray(googleLoc.getResults(),GoogleResults.class);
+            String address =  googleResults.get(0).getFormatted_address();
+            String addressStr = address.substring(2,address.length());//截去‘中国’
+            mIssueDetailAddress.setText(addressStr);
         }
     };
 
@@ -475,51 +586,53 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     };
 
     /**
-     * 选择推送地区
+     * 选择推送地区 0
      */
     @OnClick(R.id.issue_choose_city)
     public void chooseCity(View view){
         mIssueChooseCity.setBackgroundResource(R.drawable.btn_selected);
         mIssueChooseNational.setBackgroundResource(R.drawable.btn_select);
+        mPushType = "0";
+
     }
 
     /**
-     * 选择推送全国
+     * 选择推送全国 1
      */
     @OnClick(R.id.issue_choose_national)
     public void chooseNational(View view){
         mIssueChooseCity.setBackgroundResource(R.drawable.btn_select);
         mIssueChooseNational.setBackgroundResource(R.drawable.btn_selected);
-
+        mPushType = "1";
     }
 
     /**
-     * 地区置顶---不需要
+     * 地区置顶---不需要 0
      */
     @OnClick(R.id.issue_area_top_no)
     public void areaTopNo(View view){
         mIssueAreaTopNo.setBackgroundResource(R.drawable.btn_selected);
         mIssueAreaTopYes.setBackgroundResource(R.drawable.btn_select);
+        mTopType = "0";
     }
 
     /**
-     * 地区置顶---需要
+     * 地区置顶---需要 1
      */
     @OnClick(R.id.issue_area_top_yes)
     public void areaTopYes(View view){
         mIssueAreaTopNo.setBackgroundResource(R.drawable.btn_select);
         mIssueAreaTopYes.setBackgroundResource(R.drawable.btn_selected);
-
+        mTopType = "1";
     }
 
     /**
      * 上传图片
      */
-    private  void uploadImage(List<Uri> mImgList){
+    private  void uploadImage(){
+        mPicturelists = new ArrayList<Picturelist>();
         //保存图片id集合
-        final List<String> saveImgID = new ArrayList<String>();
-        for (int i =0 ; i< mImgList.size(); i++){
-
+        for ( int i =0 ; i< mImgList.size(); i++){
             String fileUrl =  ImageUtils.getImageAbsolutePath(mContext,mImgList.get(i));
             File file1 = new File(fileUrl);
             RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream") , file1);//multipart/form-data
@@ -541,12 +654,25 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                     String     message  =  response.getMessage();
                     String     data     =  response.getData();
 
-                    UploadImg uploadImg = JSON.parseObject(data, UploadImg.class);
+                    UploadImg uploadImg = parseObject(data, UploadImg.class);
 
                     if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
                         String id = uploadImg.getFileid();
                         String path =  uploadImg.getFilepath();
-                        saveImgID.add(id);
+                        Picturelist  picture = new Picturelist();
+                        picture.setPictureID(id);
+                        mPicturelists.add(picture);
+                        //图片id -List长度 等于 选择图片的List长度  才可以发消息进行保存操作
+                        if(mPicturelists.size() == mImgList.size()){
+                            Message saveDraftMsg = new Message();
+                            saveDraftMsg.what = 101;
+                            saveDraftHandler.sendMessage(saveDraftMsg);
+                        }
+
+
+                        CommUtil.showToast("图片上传ok",mContext);
+
+
                     }else{
                         CommUtil.showToast(message,mContext);
                     }
@@ -561,56 +687,90 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
 
 
+    }
 
+    /**
+     * 发布消息内容
+     */
+    public String issueContent(){
+
+        IssueContent issueContent = new IssueContent();
+        issueContent.setTitle(showEditString(mIssueTitle));//标题
+        issueContent.setContent(showEditString(mIssueContent));//发布内容
+        issueContent.setCategoryID(mCategoryID);//目标类型
+        issueContent.setMoney(showEditString(mIssuePrice));//悬赏金额
+        issueContent.setProvince(provinceId);//省ID
+        issueContent.setCity(cityId);//市ID
+        issueContent.setAddress(showEditString(mIssueDetailAddress));//详细地址
+        issueContent.setPushType(mPushType);//推送地区 0 选择地区 1 全国
+        issueContent.setPushMoney(showEditString(mIssuePushPrice));//推送价格
+        issueContent.setTopType(mTopType);//地区置顶 0不需要 1 需要
+        issueContent.setTopMoney(showEditString(mIssueAreaTopPrice));//置顶价格
+
+        String publishinfo = JSON.toJSONString(issueContent);
+
+//        showAlert(publishinfo,mContext);
+
+        return publishinfo;
     }
 
     /**
      * 保存草稿箱
-     * @param view
-     */
-    /**发布信息实体
-     *  [publishinfo_dictionary setValue:Title forKey:@"Title"];
-     [publishinfo_dictionary setValue:Content forKey:@"Content"];
-     [publishinfo_dictionary setValue:CategoryID forKey:@"CategoryID"];
-     [publishinfo_dictionary setValue:Money forKey:@"Money"];
-     [publishinfo_dictionary setValue:Province forKey:@"Province"];
-     [publishinfo_dictionary setValue:City forKey:@"City"];
-     [publishinfo_dictionary setValue:Address forKey:@"Address"];
-     [publishinfo_dictionary setValue:PushType forKey:@"PushType"];
-     [publishinfo_dictionary setValue:PushMoney forKey:@"PushMoney"];
-     [publishinfo_dictionary setValue:TopType forKey:@"TopType"];
-     [publishinfo_dictionary setValue:TopMoney forKey:@"TopMoney"];
-     [publishinfo_dictionary setValue:PushMoney forKey:@"PushMoney"];
-
-     * @param view
+     *点击 【保存草稿箱】-上传所有图片-图片上传完毕-开始调保存草稿箱接口
      */
     @OnClick(R.id.issue_save_draft)
-    public  void saveDraft(View view){
-        HashMap<String, String> params = new HashMap<>();
-        params.put("userid","5516");
-        params.put("publishinfo","=====");//发布信息实体
-        params.put("picturelist","=====");//发布图片信息实体 [{PictureID:""},{},{}]
-//        params.put("provepicturelist","=====");//发布证明图片信息实体
-
-        HttpClient.get(Caller.ADD_ISSUE_INFO,params, new HttpResponseHandler() {
-            @Override
-            public void onSuccess(RestApiResponse response) {
-                String     result   =  response.getResult();
-                String     message  =  response.getMessage();
-
-                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
-
-                    CommUtil.showToast(message,mContext);
-            }else{
-                    CommUtil.showToast(message,mContext);
-                }
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                CommUtil.showToast("发布信息失败",mContext);
-            }
-        });
-
+    public void uploadImg(View view){
+        //保存草稿箱
+        uploadImage();
     }
+    /**
+     * 保存至草稿箱
+     */
+    private void saveDraft(){
+//             showToast("imgLIST===>"+ toJSONString(mPicturelists),mContext);
+            //发布信息实体
+       // {"address":"南京市浦口区","categoryID":"541","city":"3034","content":"发布什么曝光","money":"12345","province":"3033","pushMoney":"","pushType":"1","title":"安卓测试","topMoney":"10","topType":"0"}
+               String publishinfo =  issueContent();
+               HashMap<String, String> params = new HashMap<>();
+                params.put("userid","5516");
+        //[{"pictureID":"231"},{"pictureID":"232"}]
+                params.put("publishinfo",publishinfo);//发布信息实体
+                params.put("picturelist", toJSONString(mPicturelists));//发布图片信息实体 [{PictureID:""},{},{}]
+                //        params.put("provepicturelist","=====");//发布证明图片信息实体
+               LogUtil.d("=============params=============",publishinfo+"----\n----"+toJSONString(mPicturelists));
+                HttpClient.get(Caller.ADD_ISSUE_INFO,params, new HttpResponseHandler() {
+                    @Override
+                    public void onSuccess(RestApiResponse response) {
+                        String     result   =  response.getResult();
+                        String     message  =  response.getMessage();
+
+                        if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+
+                            CommUtil.showToast(message,mContext);
+                        }else{
+                            CommUtil.showToast(message,mContext);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Request request, Exception e) {
+                        CommUtil.showToast("发布信息失败",mContext);
+                    }
+                });
+    }
+
+
+    Handler saveDraftHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    //保存到草稿箱
+                    saveDraft();
+                    break;
+                default:break;
+            }
+        }
+    };
 }

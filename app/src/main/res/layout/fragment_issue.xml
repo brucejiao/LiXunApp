@@ -55,7 +55,7 @@
                             android:cursorVisible="false"
                             android:ellipsize="end"
                             android:hint="请填写信息标题"
-                            android:maxLength = "20"
+                            android:maxLength="20"
                             android:singleLine="true"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/text_size_12" />
@@ -84,6 +84,7 @@
             </LinearLayout>
             <!--类型-->
             <LinearLayout
+                android:id="@+id/issue_type_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -120,7 +121,7 @@
                 android:ellipsize="end"
                 android:gravity="top"
                 android:hint="尽量详细的描述下你寻找的目标,让更多的人去帮助你"
-                android:maxLength = "500"
+                android:maxLength="500"
                 android:singleLine="false"
                 android:textSize="@dimen/text_size_12" />
 
@@ -137,6 +138,7 @@
             <!--目标类型-->
 
             <LinearLayout
+                android:id="@+id/issue_second_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -144,6 +146,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/issue_type_text"
                     android:layout_width="65dp"
                     android:layout_height="23dp"
                     android:gravity="center_vertical"
@@ -155,15 +158,16 @@
                     android:id="@+id/issue_second_type_spiner"
                     android:layout_width="85dp"
                     android:layout_height="23dp"
-                    android:spinnerMode="dropdown"
+                    android:background="@drawable/btn_selected"
                     android:fadeScrollbars="true"
-                    android:background="@drawable/btn_selected" />
+                    android:spinnerMode="dropdown" />
             </LinearLayout>
 
 
             <!--悬赏金额-->
 
             <LinearLayout
+                android:id="@+id/issue_price_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -172,6 +176,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/issue_price_text"
                     android:layout_width="65dp"
                     android:layout_height="23dp"
                     android:gravity="center_vertical"
@@ -197,6 +202,7 @@
                     android:textSize="@dimen/text_size_12" />
 
                 <TextView
+                    android:id="@+id/issue_price_after"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0元即表示无悬赏"
@@ -206,6 +212,7 @@
 
             <!--走失城市-->
             <LinearLayout
+                android:id="@+id/issue_city_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -214,6 +221,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/issue_text_city"
                     android:layout_width="65dp"
                     android:layout_height="23dp"
                     android:gravity="center_vertical"
@@ -236,6 +244,7 @@
 
             <!--详细地址-->
             <LinearLayout
+                android:id="@+id/issue_detail_address_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -286,6 +295,7 @@
                     android:src="@drawable/uploadimg_tit" />
 
                 <TextView
+                    android:id="@+id/issue_imgview_title"
                     android:layout_width="wrap_content"
                     android:layout_height="23dp"
                     android:layout_marginLeft="5dp"
@@ -373,9 +383,9 @@
                     android:id="@+id/issue_img_six"
                     android:layout_width="73dp"
                     android:layout_height="73dp"
-                    android:scaleType="fitXY"
                     android:layout_marginLeft="@dimen/space_10"
                     android:onClick="onCheckImg"
+                    android:scaleType="fitXY"
                     android:src="@drawable/lx_lodind_image" />
 
                 <ImageView
@@ -405,6 +415,7 @@
                 android:background="@color/line" />
             <!--服务支持-->
             <LinearLayout
+                android:id="@+id/issue_server_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -429,6 +440,7 @@
             </LinearLayout>
             <!--推送地区-->
             <LinearLayout
+                android:id="@+id/issue_push_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -505,6 +517,7 @@
 
             <!--全国推广金额-->
             <LinearLayout
+                android:id="@+id/issue_push_price_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -526,8 +539,8 @@
                     android:layout_height="23dp"
                     android:background="@drawable/editsharp_issue_edit_bg"
                     android:gravity="center"
-                    android:inputType="numberDecimal"
                     android:hint="全国推送金额≥100"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/xs_short_gary2"
                     android:textSize="@dimen/text_size_8" />
 
@@ -562,6 +575,7 @@
             </LinearLayout>
             <!--地区置顶-->
             <LinearLayout
+                android:id="@+id/issue_area_top_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -612,10 +626,10 @@
 
                     <TextView
                         android:layout_width="25dp"
-                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:background="@drawable/editsharp_red_all"
+                        android:gravity="center"
                         android:text="收费"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_9" />
@@ -636,6 +650,7 @@
 
             <!--全国推广金额-->
             <LinearLayout
+                android:id="@+id/issue_area_top_price_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -657,8 +672,8 @@
                     android:layout_height="23dp"
                     android:background="@drawable/editsharp_issue_edit_bg"
                     android:gravity="center"
-                    android:inputType="numberDecimal"
                     android:hint="地区置顶金额"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/xs_short_gary2"
                     android:textSize="@dimen/text_size_8" />
 
@@ -693,6 +708,7 @@
             </LinearLayout>
             <!--说明文字-->
             <LinearLayout
+                android:id="@+id/issue_remark_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
@@ -728,7 +744,7 @@
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_marginRight="@dimen/space_10"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/btn_green"
+                android:background="@drawable/selector_button_green_click"
                 android:text="保存至草稿箱"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_12" />
@@ -741,7 +757,7 @@
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_marginRight="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
-                android:background="@drawable/btn_red"
+                android:background="@drawable/selector_button_red_click"
                 android:text="现在发布"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_12" />

@@ -3,6 +3,7 @@ package com.yuzhi.fine.utils;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -15,11 +16,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -547,5 +550,45 @@ public class CommUtil {
 		return fileName;
 	}
 
+	/**
+	 * 返回EditText的文本信息
+	 * @param editText
+	 * @return
+	 */
+	public static String showEditString(EditText editText){
+		return  editText.getText().toString().trim();
+	}
+
+
+	/**
+	 * 加载进度条
+	 * @param activity
+	 * @param hintText
+	 * @return
+	 * 用法
+	 * private ProgressDialog progress;
+	 * progress = showProgress(ActivitySelectCity.this, "正在加载数据，请稍候...");
+	 * if (progress != null)
+		{
+		progress.dismiss();
+		}
+	 */
+	public static ProgressDialog showProgress(Activity activity, String hintText) {
+		Activity mActivity = null;
+		if (activity.getParent() != null) {
+			mActivity = activity.getParent();
+			if (mActivity.getParent() != null) {
+				mActivity = mActivity.getParent();
+			}
+		} else {
+			mActivity = activity;
+		}
+		final Activity finalActivity = mActivity;
+		ProgressDialog window = ProgressDialog.show(finalActivity, "", hintText);
+		window.getWindow().setGravity(Gravity.CENTER);
+
+		window.setCancelable(false);
+		return window;
+	}
 
 }

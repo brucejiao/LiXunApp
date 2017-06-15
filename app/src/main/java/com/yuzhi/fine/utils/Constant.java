@@ -23,6 +23,11 @@ public class Constant {
     //发布--选择图片八
     public static final int ISSUE_RESULT_EIGHTH = 0x1008;
 
+    //首页--定位
+    public static final int LX_MAIN_ADDRESS_RESULT = 0x1009;
+    public static final int LX_MAIN_ADDRESS_REQUEST = 0x1010;
+
+
 
 
 }
