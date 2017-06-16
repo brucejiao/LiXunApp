@@ -116,4 +116,5 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile files('src/main/libs/locSDK_3.3.jar')
+
 }

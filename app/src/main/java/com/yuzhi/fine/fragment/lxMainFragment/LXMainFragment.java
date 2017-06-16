@@ -287,7 +287,6 @@ public class LXMainFragment extends Fragment {
      */
     @OnClick(R.id.lx_main_address_text)
     public void addressResult(View view){
-        CommUtil.showToast("===addrress is ok ===",getActivity());
         Intent intent = new Intent(getActivity(),LXMainAddressActivity.class);
         LXMainFragment.this.startActivityForResult(intent, LX_MAIN_ADDRESS_REQUEST);
     }

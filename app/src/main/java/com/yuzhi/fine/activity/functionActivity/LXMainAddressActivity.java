@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,13 +25,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
+import com.alibaba.fastjson.JSON;
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.http.HttpRequestUtil;
 import com.yuzhi.fine.model.City;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
 import com.yuzhi.fine.ui.MyLetterListView;
+import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.LocationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,8 +43,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.alibaba.fastjson.JSON.parseObject;
+import static com.yuzhi.fine.http.Caller.GOOGLE_MAP_LOCATION;
 import static com.yuzhi.fine.utils.CommUtil.showProgress;
 import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_RESULT;
 
@@ -62,19 +69,24 @@ public class LXMainAddressActivity extends AppCompatActivity {
     private ArrayList<City> city_lists;// 城市列表
     private String lngCityName ="";//存放返回的城市名
     private JSONArray chineseCities ;
-    private LocationClient locationClient = null;
     private EditText sh;
     private TextView lng_city;
     private LinearLayout lng_city_lay;
     private ProgressDialog progress;
     private static final int SHOWDIALOG = 2;
     private static final int DISMISSDIALOG = 3;
+//    private WindowManager mWindowManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lxmain_address);
         mContext = this ;
+
+        //初始化定位工具
+        LocationUtils.initLocation(mContext);
+        new Thread(networkTask).start();
+
         personList = (ListView) findViewById(R.id.list_view);
         allCity_lists = new ArrayList<City>();
         letterListView = (MyLetterListView) findViewById(R.id.MyLetterListView01);
@@ -89,8 +101,8 @@ public class LXMainAddressActivity extends AppCompatActivity {
         overlayThread = new OverlayThread();
         personList.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                arg1.setBackgroundResource(R.color.short_gary);
                 Intent intent = new Intent();
                 intent.putExtra("lngCityName", ShowCity_lists.get(arg2).name);
                 setResult(LX_MAIN_ADDRESS_RESULT,intent);
@@ -102,7 +114,7 @@ public class LXMainAddressActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("lngCityName",lngCityName);
+                intent.putExtra("lngCityName",lng_city.getText().toString());//lng_city   lngCityName
                 setResult(LX_MAIN_ADDRESS_RESULT,intent);
                 finish();
             }
@@ -301,15 +313,13 @@ public class LXMainAddressActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         overlay = (TextView) inflater.inflate(R.layout.overlay, null);
         overlay.setVisibility(View.INVISIBLE);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                PixelFormat.TRANSLUCENT);
-        WindowManager windowManager = (WindowManager) this
-                .getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+                                                                        WindowManager.LayoutParams.TYPE_APPLICATION,
+                                                                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                                                        PixelFormat.TRANSLUCENT);
+        WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         windowManager.addView(overlay, lp);
+
     }
 
     private class LetterListViewListener implements MyLetterListView.OnTouchingLetterChangedListener {
@@ -361,58 +371,25 @@ public class LXMainAddressActivity extends AppCompatActivity {
     }
 
     private void initGps() {
-        try{
-            MyLocationListenner myListener = new MyLocationListenner();
-            locationClient = new LocationClient(mContext);
-            locationClient.registerLocationListener(myListener);
-            LocationClientOption option = new LocationClientOption();
-            option.setOpenGps(true);
-            option.setAddrType("all");
-            option.setCoorType("bd09ll");
-            option.setScanSpan(5000);
-            option.disableCache(true);
-            option.setPoiNumber(5);
-            option.setPoiDistance(1000);
-            option.setPoiExtraInfo(true);
-            option.setPriority(LocationClientOption.GpsFirst);
-            locationClient.setLocOption(option);
-            locationClient.start();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
     }
+
+
+
+
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        locationClient.stop();
+        new Thread(networkTask).interrupt();
+//        mWindowManager.removeViewImmediate(overlay);
     }
 
+//
 
-    private class MyLocationListenner implements BDLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
 
-            if (location == null)
-                return;
-            StringBuffer sb = new StringBuffer(256);
-            if (location.getLocType() == BDLocation.TypeGpsLocation) {
-//				sb.append(location.getAddrStr());
-                sb.append(location.getCity());
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-                sb.append(location.getCity());
-            }
-            if (sb.toString() != null && sb.toString().length() > 0) {
-                lngCityName=sb.toString();
-                lng_city.setText(lngCityName);
-            }
-
-        }
-
-        public void onReceivePoi(BDLocation poiLocation) {
-
-        }
-    }
 
     Handler handler2 = new Handler(){
         public void handleMessage(android.os.Message msg) {
@@ -460,4 +437,83 @@ public class LXMainAddressActivity extends AppCompatActivity {
             }
         };
     };
+
+    /**
+     * 网络操作相关的子线程
+     */
+    Runnable networkTask = new Runnable() {
+
+        @Override
+        public void run() {
+            // 在这里进行 http request.网络请求相关操作
+            String loc = String.valueOf(LocationUtils.latitude)+","+String.valueOf(LocationUtils.longitude);
+            String address = locToAddress(loc);
+            Message msg = new Message();
+            Bundle data = new Bundle();
+            data.putString("value", address);
+            msg.setData(data);
+            addressHandler.sendMessage(msg);
+        }
+    };
+
+    /**
+     * 将经纬度转换为地址
+     * location 拼接方式   ： 纬度，经度
+     */
+    private String locToAddress(String location){
+        //baidu
+//        String params = "output=json&location="+location;
+//        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params.trim());
+        //google
+        String params = "latlng="+location+"&sensor=true&language=zh-CN";
+        String resutl =  HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION,params);
+
+        return resutl;
+    }
+
+    /**
+     * 获取请求地址结果并更新到UI
+     */
+    Handler addressHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle data = msg.getData();
+            String val = data.getString("value");
+            // UI界面的更新等相关操作
+            GoogleLoc googleLoc = parseObject(val,GoogleLoc.class);
+            List<GoogleResults> googleResults = JSON.parseArray(googleLoc.getResults(),GoogleResults.class);
+            String address_components =  googleResults.get(0).getAddress_components();
+            List<GoogleAddressComponents> googleAddressComponents = JSON.parseArray(address_components, GoogleAddressComponents.class);
+
+            for(int i = 0 ;i<googleAddressComponents.size();i++){
+                String county = googleAddressComponents.get(i).getLong_name();//县级市或者区
+
+                if (!CommUtil.isNullOrBlank(county) && county.contains("区") ){
+                    lng_city.setText(county);
+                    return;
+                }else if(!CommUtil.isNullOrBlank(county) && county.contains("县") ){
+                    lng_city.setText(county);
+                    return;
+                }else if(!CommUtil.isNullOrBlank(county) && county.contains("市")){
+                    lng_city.setText(county);
+                    return;
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        new Thread(networkTask).interrupt();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        new Thread(networkTask).interrupt();
+//        mWindowManager.removeViewImmediate(overlay);
+    }
 }
