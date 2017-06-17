@@ -25,6 +25,7 @@ import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.AddressDtailsEntity;
 import com.yuzhi.fine.model.AddressModel;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
 import com.yuzhi.fine.model.IssueModel.IssueContent;
@@ -560,9 +561,23 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 //            mIssueDetailAddress.setText(address);
             GoogleLoc googleLoc = parseObject(val,GoogleLoc.class);
             List<GoogleResults> googleResults = JSON.parseArray(googleLoc.getResults(),GoogleResults.class);
+            String address_components =  googleResults.get(0).getAddress_components();
+            List<GoogleAddressComponents> googleAddressComponents = JSON.parseArray(address_components, GoogleAddressComponents.class);
+            String road = googleAddressComponents.get(0).getLong_name();//道路
+            String county = googleAddressComponents.get(1).getLong_name();//县级市或者区
+            String city = googleAddressComponents.get(2).getLong_name();//地级市
+            String province =  googleAddressComponents.get(3).getLong_name();//省
+            String national =  googleAddressComponents.get(4).getLong_name();//国家
+            //详细地址
             String address =  googleResults.get(0).getFormatted_address();
             String addressStr = address.substring(2,address.length());//截去‘中国’
-            mIssueDetailAddress.setText(addressStr);
+            if (addressStr.contains(" ")){
+                String[] addressStrArray =  addressStr.split(" ");
+                mIssueDetailAddress.setText(addressStrArray[0]);
+            }else{
+                mIssueDetailAddress.setText(addressStr);
+            }
+
         }
     };
 
