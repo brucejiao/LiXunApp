@@ -52,7 +52,7 @@ public class MyLetterListView extends View {
 			float xPos = width / 2 - paint.measureText(b[i]) / 2;
 			float yPos = singleHeight * i + singleHeight;
 			canvas.drawText(b[i], xPos, yPos, paint);
-			paint.reset();
+			paint.reset(); 
 		}
 
 	}
