@@ -29,13 +29,15 @@
         android:theme="@style/AppTheme">
 
         <!-- LeakCanary  staty -->
-<!--        <service
+        <!--
+            <service
             android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
             android:enabled="false"
             android:process=":leakcanary" />
         <service
             android:name="com.squareup.leakcanary.DisplayLeakService"
-            android:enabled="false" />-->
+            android:enabled="false" />
+        -->
         <!-- LeakCanary  end -->
 
 
@@ -76,7 +78,16 @@
         <activity
             android:name=".activity.loginActivity.ForgetPassActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.functionActivity.LXMainAddressActivity"
+        <activity
+            android:name=".activity.functionActivity.LXMainAddressActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activity.mainActivity.SearchActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activity.mainActivity.ShaiXuanActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.mineActivity.AccountInfosActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

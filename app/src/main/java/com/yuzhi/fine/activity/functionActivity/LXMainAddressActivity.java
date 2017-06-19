@@ -33,11 +33,11 @@ import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
 import com.yuzhi.fine.ui.MyLetterListView;
+import com.yuzhi.fine.utils.ChineseCharToEn;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.LocationUtils;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,12 +76,14 @@ public class LXMainAddressActivity extends AppCompatActivity {
     private static final int SHOWDIALOG = 2;
     private static final int DISMISSDIALOG = 3;
 //    private WindowManager mWindowManager;
+    private String[] mAddressIdArray;//地区id对照表
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lxmain_address);
         mContext = this ;
+        mAddressIdArray = getResources().getStringArray(R.array.address_arrays);
 
         //初始化定位工具
         LocationUtils.initLocation(mContext);
@@ -176,10 +178,20 @@ public class LXMainAddressActivity extends AppCompatActivity {
     private ArrayList<City> getCityList() {
         ArrayList<City> list = new ArrayList<City>();
         try {
-            chineseCities = new JSONArray(getResources().getString(R.string.citys));
+           /* chineseCities = new JSONArray(getResources().getString(R.string.citys));
             for(int i=0;i<chineseCities.length();i++){
                 JSONObject jsonObject = chineseCities.getJSONObject(i);
                 City city = new City(jsonObject.getString("name"), jsonObject.getString("pinyin"));
+                list.add(city);
+            }*/
+
+            for(int index=0;index<mAddressIdArray.length;index++){
+                ChineseCharToEn cte = new ChineseCharToEn();
+                String id = mAddressIdArray[index].substring(0, mAddressIdArray[index].indexOf("|"));
+                String name = mAddressIdArray[index].substring(mAddressIdArray[index].indexOf("|")+1, mAddressIdArray[index].length());
+                String pingYin = cte.getAllFirstLetter(name);
+//                System.out.println("id---"+id+"获取拼音首字母："+ cte.getAllFirstLetter(name));
+                City city = new City(name, pingYin);
                 list.add(city);
             }
 

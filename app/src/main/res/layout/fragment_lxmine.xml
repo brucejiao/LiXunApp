@@ -31,6 +31,7 @@
                 android:orientation="horizontal">
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/mine_round_header"
                     android:layout_width="0dp"
                     android:layout_height="65dp"
                     android:layout_gravity="center"
@@ -51,7 +52,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/username"
+                        android:id="@+id/mine_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
@@ -62,6 +63,7 @@
                         android:textSize="@dimen/text_size_10" />
 
                     <EditText
+                        android:id="@+id/mine_user_style_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
@@ -75,7 +77,7 @@
                         android:textSize="@dimen/text_size_10" />
 
                     <TextView
-                        android:id="@+id/certification_text"
+                        android:id="@+id/mine_certification_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_6"
@@ -86,6 +88,7 @@
                 </LinearLayout>
                 <!--完善度-->
                 <TextView
+                    android:id="@+id/mine_complete"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -112,6 +115,7 @@
 
             <!--账户/悬赏/积分-->
             <LinearLayout
+                android:id="@+id/mine_account"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:orientation="horizontal">
@@ -291,6 +295,7 @@
                 android:orientation="horizontal">
                 <!--个人认证-->
                 <LinearLayout
+                    android:id="@+id/mine_user_verifi"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -306,7 +311,7 @@
 
 
                     <TextView
-                        android:id="@+id/textView4"
+
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -320,6 +325,7 @@
 
                 <!--设置-->
                 <LinearLayout
+                    android:id="@+id/mine_setting"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -348,6 +354,7 @@
 
                 <!--投诉建议-->
                 <LinearLayout
+                    android:id="@+id/mine_complaints"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

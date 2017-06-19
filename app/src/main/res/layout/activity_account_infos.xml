@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sx_gary"
+    android:orientation="vertical"
+    tools:context="com.yuzhi.fine.activity.mineActivity.AccountInfosActivity">
+
+    <!--标题栏-->
+    <include layout="@layout/layout_main_header" />
+    <!--账户余额-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_black"
+            android:text="账户余额" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_gary2"
+            android:text="100元" />
+    </LinearLayout>
+
+    <!--悬赏金额-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_black"
+            android:text="悬赏金额" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_gary2"
+            android:text="100元" />
+    </LinearLayout>
+
+    <!--账户积分-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_black"
+            android:layout_weight="1"
+            android:text="账户积分" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_gary2"
+            android:text="100积分" />
+    </LinearLayout>
+
+
+    <!--提现-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="45dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_black"
+            android:layout_weight="1"
+            android:text="提现" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_gary2"
+            android:drawableRight="@drawable/arrow_right"
+            android:drawablePadding="@dimen/space_15"
+            android:text="可提现100元" />
+    </LinearLayout>
+    <!--提现记录-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_black"
+            android:layout_weight="1"
+            android:text="提现记录" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_gary2"
+            android:drawableRight="@drawable/arrow_right"
+            android:drawablePadding="@dimen/space_15"
+            />
+    </LinearLayout>
+    <!--收支明细-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_black"
+            android:layout_weight="1"
+            android:text="收支明细" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="@dimen/space_14"
+            android:textColor="@color/xs_short_gary2"
+            android:drawableRight="@drawable/arrow_right"
+            android:drawablePadding="@dimen/space_15"
+            />
+    </LinearLayout>
+</LinearLayout>
