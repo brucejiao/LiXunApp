@@ -12,6 +12,8 @@ import com.yuzhi.fine.activity.coreActivity.IssueActivity;
 import com.yuzhi.fine.activity.loginActivity.ForgetPassActivity;
 import com.yuzhi.fine.activity.loginActivity.LXLoginActivity;
 import com.yuzhi.fine.activity.loginActivity.RegisteActivity;
+import com.yuzhi.fine.activity.mineActivity.AccountInfosActivity;
+import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -113,5 +115,18 @@ public class UIHelper {
         }
 
     }
+
+    //我的-- 我的账户信息
+    public static void showMineAccount(Activity context){
+        Intent intent = new Intent(context, AccountInfosActivity.class);
+        context.startActivity(intent);
+    }
+    //我的-- 我的寻找
+    public static void showMineFind(Activity context){
+        Intent intent = new Intent(context,  MineFindActivity.class);
+        context.startActivity(intent);
+    }
+
+
 
 }

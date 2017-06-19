@@ -87,8 +87,11 @@
         <activity
             android:name=".activity.mainActivity.ShaiXuanActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.mineActivity.AccountInfosActivity"
+        <activity
+            android:name=".activity.mineActivity.AccountInfosActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.mineActivity.MineFindActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

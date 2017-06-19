@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -14,14 +16,16 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.ui.GridImageAdapter;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MineFragment extends Fragment {
 
-    private Activity context;
+    private Activity mContext;
 
 
     //标题
@@ -57,6 +61,7 @@ public class MineFragment extends Fragment {
 
 
 
+
     //GridView
     @Bind(R.id.lxmine_gridview)
     GridView mMineGridView;
@@ -78,7 +83,7 @@ public class MineFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        context = getActivity();
+        mContext = getActivity();
         initData();
         initView();
     }
@@ -94,6 +99,56 @@ public class MineFragment extends Fragment {
     }
 
     private void initData() {
+        mMineGridView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
 
+                if (0 == position) {//我的寻找
+                UIHelper.showMineFind(getActivity());
+
+                } else if (1 == position) {//招领认领
+
+
+                } else if (2 == position) {//我的推广
+
+
+
+                } else if (3 == position) {//草稿箱
+
+
+
+                } else if (4 == position) {//网络社交
+
+                    CommUtil.showToast("网络社交",mContext);
+
+                } else if (5 == position) {//我的关注
+
+
+
+                } else if (6 == position) {//提供线索
+
+                } else if (7 == position) {//好友邀请
+
+
+                }
+                else {
+                        return;
+
+                }
+
+            }
+
+        });
+    }
+
+    private void initOnClickLinstener(){
+
+    }
+
+    @OnClick(R.id.mine_account)
+    public void goAccountInfos(View view)
+    {
+        UIHelper.showMineAccount(mContext);
     }
 }
