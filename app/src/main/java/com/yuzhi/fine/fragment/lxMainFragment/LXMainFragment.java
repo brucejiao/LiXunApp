@@ -12,10 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
+import com.yuzhi.fine.activity.mainActivity.SearchActivity;
+import com.yuzhi.fine.activity.mainActivity.ShaiXuanActivity;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
@@ -45,11 +49,21 @@ public class LXMainFragment extends Fragment {
     //定位
     @Bind(R.id.lx_main_address_text)
     TextView mLxMainAddressText;
+    //搜索
+    @Bind(R.id.lxmain_search_layout)
+    RelativeLayout mLxMainSearchLayout;
     //轮播
     @Bind(R.id.pager)
     AutoLoopViewPager pager;
     @Bind(R.id.indicator)
     CirclePageIndicator indicator;
+    //筛选
+    @Bind(R.id.sx)
+    TextView mSX;
+    @Bind(R.id.sx_img)
+    ImageView mSXImg;
+
+
     private int[] imageViewIds;
     private List<String> imageList = new ArrayList<String>(Arrays.asList(
             "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
@@ -86,6 +100,7 @@ public class LXMainFragment extends Fragment {
     private LXFindXSFragmet xsFragment;              //悬赏找寻服务fragment
     private LXFindPTFragment ptFragment;            //普通找寻服务fragment
 
+    private String[] mAddressIdArray;//地区id对照表
 
     public LXMainFragment() {
         // Required empty public constructor
@@ -107,6 +122,7 @@ public class LXMainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAddressIdArray = getResources().getStringArray(R.array.address_arrays);
         //获取值
 //        if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
@@ -297,9 +313,54 @@ public class LXMainFragment extends Fragment {
         if (requestCode == LX_MAIN_ADDRESS_REQUEST){
             if (resultCode == LX_MAIN_ADDRESS_RESULT){
                 mLxMainAddressText.setText(data.getStringExtra("lngCityName"));
+                String addressId = getAddressId( mAddressIdArray,mLxMainAddressText.getText().toString());
+                CommUtil.showAlert("addressId-->"+addressId,getActivity());
             }
         }
     }
+
+
+    /**
+     * 获取地区编码id
+     */
+    public static String getAddressId(String[] arrays , String params){
+        final  int arraysNum = arrays.length;
+        for (int index = 0 ; index < arraysNum ; index ++)
+        {
+            //1|中国
+            String id = arrays[index].substring(0, arrays[index].indexOf("|"));
+            String name = arrays[index].substring(arrays[index].indexOf("|")+1, arrays[index].length());
+            if (params.equals(name))
+            {
+                return id;
+            }
+
+        }
+        return "";
+    }
+
+    //搜索
+    @OnClick(R.id.lxmain_search_layout)
+    public void seacchLayout(View view){
+        Intent intent = new Intent(getActivity(), SearchActivity.class);
+        getActivity().startActivity(intent);
+    }
+
+    //筛选
+    @OnClick({R.id.sx_img,R.id.sx})
+    public void sxOnclick(View view){
+        switch (view.getId()){
+            case R.id.sx_img:
+            case  R.id.sx:
+                Intent intent = new Intent(getActivity(), ShaiXuanActivity.class);
+                getActivity().startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
+    }
+
 }
 
 

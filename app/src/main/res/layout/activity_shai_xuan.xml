@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yuzhi.fine.activity.mainActivity.ShaiXuanActivity">
+
+    <!--标题栏-->
+    <include layout="@layout/layout_main_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="全部分类"
+                android:gravity="center"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_15"/>
+            <TextView
+                android:id="@+id/sx_wlbg"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="网络曝光"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="center"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_15"/>
+            <TextView
+                android:id="@+id/sx_wlqz"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="网络求助"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="center"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_15"/>
+            <TextView
+                android:id="@+id/sx_lxqz"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="立寻圈子"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="center"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_15"/>
+            <TextView
+                android:id="@+id/sx_wtxr"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="委托寻人"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="center"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_15"/>
+
+            <TextView
+                android:id="@+id/sx_wtxw"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="委托寻物"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="center"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_15"/>
+
+            <TextView
+                android:id="@+id/sx_zlrl"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="招领认领"
+                android:drawableRight="@drawable/arrow_right"
+                android:gravity="center"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_15"/>
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/sx_listview"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:dividerHeight="@dimen/space_0"
+            android:divider="@null"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

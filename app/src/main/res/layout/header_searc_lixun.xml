@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_header"
+    android:layout_width="match_parent"
+    android:layout_height="48dip"
+    android:layout_gravity="top"
+    android:orientation="horizontal"
+    android:background="@color/main_header_bg">
+
+    <!-- 返回按钮 -->
+
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/btn_back"
+        android:visibility="visible" />
+
+
+<!--      android:layout_marginLeft="18dp"
+        android:layout_marginRight="68dp"-->
+
+    <RelativeLayout
+        android:id="@+id/lxmain_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_weight="3"
+
+        android:background="@drawable/editsharp"
+        android:layout_gravity="center">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/search"
+            android:hint="请输入查询的关键字"
+            android:imeOptions="actionDone"
+            android:background="@null"
+            android:cursorVisible="false"
+            android:singleLine="true"
+            android:textColorHint="#5C5C5C"
+            android:textSize="@dimen/text_size_11"
+            />
+    </RelativeLayout>
+
+
+
+
+    <Button
+        android:id="@+id/aa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="center"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="11dp"
+        android:text="搜索"
+        android:textSize="@dimen/space_15"
+        android:textColor="@color/white"
+        android:background="@null"
+        android:visibility="visible" />
+
+</LinearLayout>

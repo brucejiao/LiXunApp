@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yuzhi.fine.activity.mainActivity.SearchActivity"
+    android:orientation="vertical">
+    <include layout="@layout/header_searc_lixun" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/space_15"
+        android:layout_marginTop="@dimen/space_15"
+        android:layout_marginLeft="@dimen/space_15"
+        android:text="热门标签"/>
+    <com.yuzhi.fine.ui.FlowTagLayout
+        android:id="@+id/flowTagLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_15"
+        app:horizontal_diver="5dp"
+        app:vertical_diver="5dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_1"
+        android:layout_marginTop="@dimen/space_20"
+        android:background="@color/xs_short_gary"
+/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清除历史搜索"
+        android:textSize="@dimen/space_15"
+        android:textColor="@color/xs_short_gary2"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        />
+
+</LinearLayout>
