@@ -64,7 +64,7 @@ public class BufferKnifeFragment extends Fragment {
             }
         };
 
-        listView.withLoadMoreView();
+
         listView.setAdapter(adapter);
         // 下拉刷新
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {

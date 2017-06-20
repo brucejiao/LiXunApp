@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yuzhi.fine.activity.mineActivity.MineFindAllFragment">
+    tools:context="com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineFindAllFragment">
 
     <ListView
         android:id="@+id/mine_find_wtzw"

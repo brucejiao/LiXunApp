@@ -106,16 +106,15 @@ public class MineFragment extends Fragment {
 
                 if (0 == position) {//我的寻找
                 UIHelper.showMineFind(getActivity());
-
                 } else if (1 == position) {//招领认领
 
+                     UIHelper.showMinZLRL(getActivity());
 
                 } else if (2 == position) {//我的推广
-
-
+                    UIHelper.showMinPromote(getActivity());
 
                 } else if (3 == position) {//草稿箱
-
+                    UIHelper.showMinDraft(getActivity());
 
 
                 } else if (4 == position) {//网络社交

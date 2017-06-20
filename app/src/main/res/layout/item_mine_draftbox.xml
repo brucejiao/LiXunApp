@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <!--3-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginTop="@dimen/space_13"
+        android:orientation="horizontal">
+
+        <!--发布时间-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="11dp"
+            android:layout_gravity="center"
+            android:background="@drawable/time" />
+
+        <TextView
+            android:id="@+id/mine_draft_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:text="发布时间:2017-06-19 20:20"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/text_size_9" />
+
+    </LinearLayout>
+    <!--1-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--头像-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/mine_draft_header_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/default_headimg"
+                app:riv_border_color="@color/green"
+                app:riv_border_width="1dp"
+                app:riv_oval="false" />
+
+
+        </LinearLayout>
+        <!--找寻信息-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="5"
+            android:orientation="vertical">
+            <!--标题-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/mine_draft__title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="寻找我的宠物狗法克"
+                    android:textColor="@color/xs_short_black"
+                    android:textSize="@dimen/text_size_12" />
+
+
+            </LinearLayout>
+            <!--内容-->
+            <TextView
+                android:id="@+id/mine_draft__content"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="@dimen/space_5"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。鹅鹅鹅，曲向想提昂个ad阿萨德阿萨德啊实打实大asdwqqweqwe"
+                android:textColor="@color/xs_short_black"
+                android:textSize="@dimen/text_size_11" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!--2-->
+    <!--图片-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editsharp_gary_all"
+                android:text="悬赏金"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/text_size_8" />
+
+            <TextView
+                android:id="@+id/mine_draft_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginLeft="3dp"
+                android:text="1500元"
+                android:textColor="@color/xs_red"
+                android:textSize="@dimen/text_size_8" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/mine_draft_edit_btn"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:background="@drawable/editsharp_blue"
+                android:text="编辑"
+                android:textColor="@color/xs_blue"
+                android:textSize="@dimen/space_10" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

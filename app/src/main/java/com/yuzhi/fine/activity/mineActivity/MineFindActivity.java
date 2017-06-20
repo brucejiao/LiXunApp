@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.ui.CustomViewpager;
+import com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineFindAllFragment;
+import com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineWTZRFragment;
+import com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineWTZWFragment;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.utils.CommUtil;
 
@@ -22,6 +24,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的--我的寻找
+ */
 public class MineFindActivity extends AppCompatActivity {
     private MineFindActivity mContext ;
 
@@ -34,7 +39,8 @@ public class MineFindActivity extends AppCompatActivity {
     @Bind(R.id.tab_FindFragment_title)
     TabLayout tab_FindFragment_title;                            //定义TabLayout
     @Bind(R.id.vp_FindFragment_pager)
-    CustomViewpager vp_FindFragment_pager;                             //定义viewPager
+    ViewPager vp_FindFragment_pager;
+
     private FragmentPagerAdapter fAdapter;                               //定义adapter
     private List<Fragment> list_fragment;                                //定义要装fragment的列表
     private List<String> list_title;                                     //tab名称列表
@@ -64,15 +70,13 @@ public class MineFindActivity extends AppCompatActivity {
     }
 
     /**
-     * 悬赏/普通找寻服务
+     * 我的寻找
      */
     public void findServersViewPager() {
 
-        //初始化各fragment
-        mineFindAllFragment = new MineFindAllFragment(vp_FindFragment_pager);//我的寻找--全部
-        mineWTZRFragment = new MineWTZRFragment(vp_FindFragment_pager); //委托找人
-        mineWTZWFragment = new MineWTZWFragment(vp_FindFragment_pager); //委托找物
-
+        mineFindAllFragment = new MineFindAllFragment();//我的寻找--全部
+        mineWTZRFragment = new MineWTZRFragment(); //委托找人
+        mineWTZWFragment = new MineWTZWFragment(); //委托找物
 
         //将fragment装进列表中
         list_fragment = new ArrayList<Fragment>();
@@ -93,7 +97,7 @@ public class MineFindActivity extends AppCompatActivity {
         tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(1)));
         tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(2)));
         //   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失  看网上讲这边要用getChildFragmentManager()
-        fAdapter = new Find_tab_Adapter(getSupportFragmentManager(), list_fragment, list_title);// getChildFragmentManager  getActivity().getSupportFragmentManager()会导致一个问题：数据丢失
+        fAdapter = new Find_tab_Adapter( getSupportFragmentManager(), list_fragment, list_title);// getChildFragmentManager  getActivity().getSupportFragmentManager()会导致一个问题：数据丢失
 
         //viewpager加载adapter
         vp_FindFragment_pager.setAdapter(fAdapter);
@@ -102,7 +106,6 @@ public class MineFindActivity extends AppCompatActivity {
         //TabLayout加载viewpager
         tab_FindFragment_title.setupWithViewPager(vp_FindFragment_pager);
         tab_FindFragment_title.setTabsFromPagerAdapter(fAdapter);
-
         vp_FindFragment_pager.setCurrentItem(0);
         //切换viewpaper事件
         vp_FindFragment_pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -113,7 +116,6 @@ public class MineFindActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                vp_FindFragment_pager.resetHeight(position);
 
                 switch (position){
                     case 0:
@@ -135,7 +137,6 @@ public class MineFindActivity extends AppCompatActivity {
 
             }
         });
-        vp_FindFragment_pager.resetHeight(0);
 
 
     }

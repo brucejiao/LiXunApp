@@ -298,9 +298,6 @@ public class WTXRFragment extends Fragment {
             default:
                 break;
         }
-
-
-
     }
 
 
