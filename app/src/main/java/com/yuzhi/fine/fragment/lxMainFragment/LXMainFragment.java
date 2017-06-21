@@ -6,11 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,12 +22,14 @@ import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.activity.mainActivity.SearchActivity;
 import com.yuzhi.fine.activity.mainActivity.ShaiXuanActivity;
+import com.yuzhi.fine.fragment.coreFragment.WTXRFragment;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
 import com.yuzhi.fine.ui.GridImageAdapter;
 import com.yuzhi.fine.ui.HorizontalListView;
 import com.yuzhi.fine.ui.HorizontalListViewAdapter;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.ui.loopviewpager.AutoLoopViewPager;
 import com.yuzhi.fine.ui.viewpagerindicator.CirclePageIndicator;
 import com.yuzhi.fine.utils.CommUtil;
@@ -161,6 +165,7 @@ public class LXMainFragment extends Fragment {
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName,false);
         mLxMainGridView.setAdapter(adapter);
         CommUtil.calGridViewWidthAndHeigh(4, mLxMainGridView);
+        gridViewOnItemClick();
 
         //3.图片切换
         initGalleryViewPager();
@@ -169,6 +174,50 @@ public class LXMainFragment extends Fragment {
         findServersViewPager();
 
 
+    }
+
+    /**
+     * GridView 事件监听
+     */
+    private void gridViewOnItemClick() {
+       final FragmentManager fm = getActivity().getSupportFragmentManager();
+        mLxMainGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
+
+                if (0 == position) {//委托寻人
+                    WTXRFragment wtxrFragment = new WTXRFragment();
+                    fm.beginTransaction().show(wtxrFragment).commit();
+                } else if (1 == position) {//委托寻物
+
+                    UIHelper.showMinZLRL(getActivity());
+
+                } else if (2 == position) {//招领认领
+
+                } else if (3 == position) {//招商加盟
+
+
+                } else if (4 == position) {//网络曝光
+
+
+                } else if (5 == position) {//网络求助
+
+
+
+                } else if (6 == position) {//立寻圈子
+
+                } else if (7 == position) {//积分商城
+
+
+                }
+                else {
+                    return;
+
+                }
+
+            }
+
+        });
     }
 
 

@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.model.MineDraftListBean;
+import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.ArrayList;
 
@@ -78,8 +80,12 @@ public class MineDraftItemapter extends BaseAdapter {
 		}
 		MineDraftListBean bean = getItem(position);
 
+		Picasso.with(activity).load(bean.getDraftHeaderImg())
+				.resize(DeviceUtil.dp2px(activity, 50), DeviceUtil.dp2px(activity, 50))
+				.placeholder(R.drawable.default_image).into(holder.mine_draft_header_img);
+
 		holder.mine_draft_time.setText(bean.getDraftTime());
-		holder.mine_draft_header_img.setImageResource(R.drawable.default_headimg);
+//		holder.mine_draft_header_img.setImageResource(R.drawable.default_headimg);
 		holder.mine_draft__title.setText(bean.getDraftTitle());
 		holder.mine_draft__content.setText(bean.getDraftContent());
 		holder.mine_draft_price.setText(bean.getDraftPrice());

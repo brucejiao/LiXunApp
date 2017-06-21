@@ -22,6 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Request;
 
+import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_REGISTER_CODE;
 
 public class RegisteActivity extends AppCompatActivity {
@@ -120,7 +121,7 @@ public class RegisteActivity extends AppCompatActivity {
             public void onSuccess(RestApiResponse response) {
                 String result = response.getResult();
                 String message = response.getMessage();
-                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                if(!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)){
                     //保存登录状态
                     CommUtil.showToast(message,mContext);
                     UIHelper.showHome(mContext);
@@ -150,7 +151,7 @@ public class RegisteActivity extends AppCompatActivity {
                 String result = response.getResult();
                 String message = response.getMessage();
                 String data = response.getData();
-                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                if(!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)){
                     share.putString(SHARE_REGISTER_CODE, data);
                     CommUtil.showToast(message,mContext);
                 }else{

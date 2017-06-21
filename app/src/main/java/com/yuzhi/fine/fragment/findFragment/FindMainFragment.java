@@ -20,7 +20,6 @@ import com.yuzhi.fine.fragment.coreFragment.WTXWFragment;
 import com.yuzhi.fine.fragment.coreFragment.ZLRLFragment;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
-import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,20 +159,15 @@ public class FindMainFragment extends Fragment {
                 switch (position) {
                     case 0:
                         horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_LEFT);
-                        CommUtil.showToast("-0-",context);
                         break;
                     case 1:
-                        CommUtil.showToast("-1-",context);
                         break;
                     case 2:
-                        CommUtil.showToast("-2-",context);
                         break;
                     case 3:
-                        CommUtil.showToast("-3-",context);
                         break;
                     case 4:
                         horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                        CommUtil.showToast("-4-",context);
                         break;
                     default:
                         break;

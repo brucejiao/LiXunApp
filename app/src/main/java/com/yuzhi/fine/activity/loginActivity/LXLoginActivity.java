@@ -24,6 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Request;
 
+import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_ISLOGIN;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
@@ -129,6 +130,7 @@ public class LXLoginActivity extends AppCompatActivity {
      */
     private void initData(){
         isLogin = false;
+        share.putBoolean(SHARE_LOGIN_ISLOGIN,isLogin);
         HashMap<String, String> params = new HashMap<>();
         params.put("password",mPassWord.getText().toString().trim());
         params.put("mobile",mPhone.getText().toString().trim());
@@ -138,13 +140,15 @@ public class LXLoginActivity extends AppCompatActivity {
                 String result = response.getResult();
                 String message = response.getMessage();
                 String data = response.getData();
-                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                if(!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)){
                     isLogin = true;
                     LXLoginBean bean = JSON.parseObject(data,LXLoginBean.class);
 //                    CommUtil.showAlert(bean.getUserID()+"---"+bean.getUserName(),mContext);
                     share.putString(SHARE_LOGIN_USERID,bean.getUserID());//保存用户Id
                     //保存登录状态
                     UIHelper.showHome(mContext);
+                    CommUtil.showToast(message,mContext);
+                    share.putBoolean(SHARE_LOGIN_ISLOGIN,isLogin);
                 }else{
                     CommUtil.showAlert(message,mContext);
                 }
@@ -155,6 +159,6 @@ public class LXLoginActivity extends AppCompatActivity {
                 CommUtil.showToast("登录失败",mContext);
             }
         });
-            share.putBoolean(SHARE_LOGIN_ISLOGIN,isLogin);
+
     }
 }

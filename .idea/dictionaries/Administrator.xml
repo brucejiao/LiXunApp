@@ -7,10 +7,12 @@
       <w>baidu</w>
       <w>cohr</w>
       <w>filespace</w>
+      <w>fiveth</w>
       <w>fragmet</w>
       <w>franmet</w>
       <w>getcategorytwolist</w>
       <w>ishas</w>
+      <w>islogin</w>
       <w>latlng</w>
       <w>memberuser</w>
       <w>memberuserlogin</w>
@@ -20,6 +22,12 @@
       <w>sendsmscode</w>
       <w>uploadimg</w>
       <w>userid</w>
+      <w>wlbg</w>
+      <w>wlqzhu</w>
+      <w>wlqzi</w>
+      <w>wtxr</w>
+      <w>wtxw</w>
+      <w>zlrl</w>
     </words>
   </dictionary>
 </component>

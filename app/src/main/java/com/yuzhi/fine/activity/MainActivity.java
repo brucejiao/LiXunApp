@@ -20,12 +20,15 @@ import com.yuzhi.fine.fragment.mineFragment.MineFragment;
 import com.yuzhi.fine.fragment.msgFragment.MessageFragment;
 import com.yuzhi.fine.ui.IssuePopWin;
 import com.yuzhi.fine.ui.UIHelper;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends BaseFragmentActivity {
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_ISLOGIN;
 
+public class MainActivity extends BaseFragmentActivity {
+    private MainActivity mContext ;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String CURR_INDEX = "currIndex";
     private static int currIndex = 0;
@@ -36,12 +39,14 @@ public class MainActivity extends BaseFragmentActivity {
     private FragmentManager fragmentManager;
 
     private ImageView mIssue;//发布
+    SharePreferenceUtil1 share ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mContext =this;
+        share = new SharePreferenceUtil1(mContext, "lx_data", 0);
 
         fragmentManager = getSupportFragmentManager();
         initData(savedInstanceState);
@@ -122,9 +127,12 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void showFragment() {
-        if (currIndex == 3) {
+        //判断是否成功登陆过
+        boolean isLogin = share.getBoolean(SHARE_LOGIN_ISLOGIN, false);// 是否登陆
+        if(!isLogin && currIndex == 3){
             UIHelper.showLXLogin(MainActivity.this);
         }
+
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentTags.get(currIndex));

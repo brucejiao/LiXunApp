@@ -67,6 +67,13 @@ import static com.yuzhi.fine.utils.CommUtil.getAddressId;
 import static com.yuzhi.fine.utils.CommUtil.readAssert;
 import static com.yuzhi.fine.utils.CommUtil.showEditString;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.Constant.PARENTID_WLBG;
+import static com.yuzhi.fine.utils.Constant.PARENTID_WLQZHU;
+import static com.yuzhi.fine.utils.Constant.PARENTID_WLQZI;
+import static com.yuzhi.fine.utils.Constant.PARENTID_WTXR;
+import static com.yuzhi.fine.utils.Constant.PARENTID_WTXW;
+import static com.yuzhi.fine.utils.Constant.PARENTID_ZLRL;
+import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
 public class IssueActivity extends AppCompatActivity implements OnAddressChangeListener {
@@ -306,25 +313,25 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     private void initData(){
         String parentID= getIntent().getStringExtra("parentid");
         switch (parentID){
-            case "80":
+            case PARENTID_WLBG:
                 mIssueType.setText("曝光");
                 //initUI
                 mIssueTextCity.setText("所在城市");
                 mIssuePriceLayout.setVisibility(View.GONE);
                 mIssueDetailAddressLayout.setVisibility(View.GONE);
                 //获取目标类型
-                getIssueSecondList("80");
+                getIssueSecondList(PARENTID_WLBG);
                 break;
-            case "81":
+            case PARENTID_WLQZHU:
                 mIssueType.setText("求助");
                 //initUI
                 mIssueTextCity.setText("所在城市");
                 mIssuePriceLayout.setVisibility(View.GONE);
                 mIssueDetailAddressLayout.setVisibility(View.GONE);
                 //获取目标类型
-                getIssueSecondList("81");
+                getIssueSecondList(PARENTID_WLQZHU);
                 break;
-            case "549":
+            case PARENTID_WLQZI:
                 mIssueType.setText("圈子");
                 //initUI
                 mIssueContent.setHint("有啥好玩的，好笑的，好吃的，高营养鸡汤...给大家分享下吧");
@@ -341,23 +348,23 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 mIssueAreaTopPriceLayout.setVisibility(View.GONE);
                 mIssueRemarkLayout.setVisibility(View.GONE);
                 //获取目标类型
-                getIssueSecondList("549");
+                getIssueSecondList(PARENTID_WLQZI);
                 break;
-            case "83":
+            case PARENTID_WTXR:
                 mIssueType.setText("寻人");
                 //initUI
                 mIssueTextCity.setText("丢失城市");
                 //获取目标类型
-                getIssueSecondList("83");
+                getIssueSecondList(PARENTID_WTXR);
                 break;
-            case "82":
+            case PARENTID_WTXW:
                 mIssueType.setText("寻物");
                 //initUI
                 mIssueTextCity.setText("丢失城市");
                 //获取目标类型
-                getIssueSecondList("82");
+                getIssueSecondList(PARENTID_WTXW);
                 break;
-            case "394":
+            case PARENTID_ZLRL:
                 mIssueType.setText("招领");
                 //initUI
                 mIssueTypeText.setText("招领类型");
@@ -366,7 +373,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 mIssueImgTitle.setText("认领物品图片");
                 mIssuePriceAfter.setText("0元即表示无，由失主线下支付");
                 //获取目标类型
-                getIssueSecondList("394");
+                getIssueSecondList(PARENTID_ZLRL);
                 break;
            default: break;
         }
@@ -387,7 +394,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 String     message  =  response.getMessage();
                 String     data     =  response.getData();
 
-                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                if(!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)){
                     List<SecondMenu> menu     =  JSON.parseArray(data, SecondMenu.class);
                     final    int     menuNum  =  menu.size();
                     List<SecondMenu>  menuList = new ArrayList<SecondMenu>();
@@ -694,7 +701,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
                     UploadImg uploadImg = parseObject(data, UploadImg.class);
 
-                    if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                    if(!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)){
                         String id = uploadImg.getFileid();
                         String path =  uploadImg.getFilepath();
                         Picturelist  picture = new Picturelist();
@@ -803,7 +810,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                         String     result   =  response.getResult();
                         String     message  =  response.getMessage();
 
-                        if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                        if(!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)){
                             if (progress != null)
                             {
                                 progress.dismiss();
@@ -872,7 +879,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 String     message  =  response.getMessage();
                 String     data  =  response.getData();
 
-                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                if(!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)){
                     if (progress != null)
                     {
                         progress.dismiss();

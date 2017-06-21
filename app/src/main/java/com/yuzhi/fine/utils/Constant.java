@@ -5,6 +5,8 @@ package com.yuzhi.fine.utils;
  */
 
 public class Constant {
+    public static final String RESUTL_TRUE = "true";
+    public static final String RESUTL_FALSE = "false";
 
     //发布--选择图片一
     public static final int ISSUE_RESULT_FIRST = 0x1001;
@@ -32,6 +34,14 @@ public class Constant {
     public static final String SHARE_LOGIN_ISLOGIN = "isLogin";//是否登录过
     public static final String SHARE_REGISTER_CODE = "codeId";//注册码ID
 
+
+    //Parentid
+    public static final String PARENTID_WLBG = "80";//网络曝光
+    public static final String PARENTID_WLQZHU = "81";//网络求助
+    public static final String PARENTID_WTXW= "82";//委托寻物
+    public static final String PARENTID_WTXR = "83";//委托寻人
+    public static final String PARENTID_ZLRL = "394";//招领认领
+    public static final String PARENTID_WLQZI= "549";//网络圈子
 
 
 

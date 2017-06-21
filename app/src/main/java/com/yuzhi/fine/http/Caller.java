@@ -26,6 +26,9 @@ public class Caller  {
      string KEY = "zhaomandewangzhanlixun110henniub";
      string APPSECRET = "db305d6d99746433564ec3c13330bc44";
 
+
+     Picasso.with(mContext).load("http://pic.nipic.com/2008-07-11/20087119630716_2.jpg").resize(DeviceUtil.dp2px(mContext,73), DeviceUtil.dp2px(mContext,73)).placeholder(R.drawable.default_image).into(mIssueImgOne);
+
      */
 
     public static String HTTP = "http://api.lixun110.com/";
@@ -62,5 +65,10 @@ public class Caller  {
     //现在发布信息
     public static String ADD_ISSUE_INFO =HTTP+"publish/publish/addsubmitpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
 
+    //发现列表
+    public static String FIND_LIST_INFOS =HTTP+"publish/publish/getfindpublishcomplexlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 获取发布列表（我的草稿箱）
+    public static String MINE_DRAFT_INFOS =HTTP+"publish/publish/getuserdraftpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
 
 }
