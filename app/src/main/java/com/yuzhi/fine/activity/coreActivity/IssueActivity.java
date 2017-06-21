@@ -1,5 +1,7 @@
 package com.yuzhi.fine.activity.coreActivity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +44,7 @@ import com.yuzhi.fine.utils.ImageUtils;
 import com.yuzhi.fine.utils.JsonUtil;
 import com.yuzhi.fine.utils.LocationUtils;
 import com.yuzhi.fine.utils.LogUtil;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,6 +66,8 @@ import static com.yuzhi.fine.utils.CommUtil.generateFileName;
 import static com.yuzhi.fine.utils.CommUtil.getAddressId;
 import static com.yuzhi.fine.utils.CommUtil.readAssert;
 import static com.yuzhi.fine.utils.CommUtil.showEditString;
+import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
 public class IssueActivity extends AppCompatActivity implements OnAddressChangeListener {
 
@@ -173,13 +178,18 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     private String mTopType ="1";
     //目标类型ID
     private String mCategoryID ;
+    private ProgressDialog progress;
+    SharePreferenceUtil1 share ;
 
+    private final int mDraftFlag = 101;
+    private final int mIssueFlag = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_issue);
         ButterKnife.bind(this);
+        share = new SharePreferenceUtil1(mContext, "lx_data", 0);
         mAddressIdArray = getResources().getStringArray(R.array.address_arrays);
         initUI();
         initData();
@@ -366,6 +376,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      * 目标类型--获取发布类别列表（二级）
      */
     private void getIssueSecondList(String value){
+        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("parentid",value);
 
@@ -392,16 +403,27 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                         mSpinnerAdapter = new SpinnerArrayAdapter(mContext, menuList);
                     }
                     mIssueSecondType.setAdapter(mSpinnerAdapter);
-
+                    if (progress != null)
+                    {
+                        progress.dismiss();
+                    }
 
                 }else{
-                    CommUtil.showToast(message,mContext);
+                    showToast(message,mContext);
+                    if (progress != null)
+                    {
+                        progress.dismiss();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
-                CommUtil.showToast("二级菜单获取失败",mContext);
+                if (progress != null)
+                {
+                    progress.dismiss();
+                }
+                showToast("二级菜单获取失败",mContext);
             }
         });
     }
@@ -644,7 +666,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     /**
      * 上传图片
      */
-    private  void uploadImage(){
+    private  void uploadImage(final int Flag){
+        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         mPicturelists = new ArrayList<Picturelist>();
         //保存图片id集合
         for ( int i =0 ; i< mImgList.size(); i++){
@@ -677,25 +700,46 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                         Picturelist  picture = new Picturelist();
                         picture.setPictureID(id);
                         mPicturelists.add(picture);
+
                         //图片id -List长度 等于 选择图片的List长度  才可以发消息进行保存操作
-                        if(mPicturelists.size() == mImgList.size()){
-                            Message saveDraftMsg = new Message();
-                            saveDraftMsg.what = 101;
-                            saveDraftHandler.sendMessage(saveDraftMsg);
+                        if(mPicturelists.size() == mImgList.size())
+                        {
+                            switch (Flag){
+                                case mDraftFlag:
+                                    Message saveDraftMsg = new Message();
+                                    saveDraftMsg.what = mDraftFlag;
+                                    saveDraftHandler.sendMessage(saveDraftMsg);
+                                    showToast("图片上传成功",mContext);
+                                    break;
+                                case mIssueFlag:
+                                    Message saveIssueMsg = new Message();
+                                    saveIssueMsg.what = mIssueFlag;
+                                    saveDraftHandler.sendMessage(saveIssueMsg);
+                                    showToast("图片上传成功",mContext);
+                                    break;
+                                default:break;
+                            }
                         }
-
-
-                        CommUtil.showToast("图片上传ok",mContext);
-
-
+                        if (progress != null)
+                        {
+                            progress.dismiss();
+                        }
                     }else{
-                        CommUtil.showToast(message,mContext);
+                        showToast(message,mContext);
+                        if (progress != null)
+                        {
+                            progress.dismiss();
+                        }
                     }
                 }
 
                 @Override
                 public void onFailure(Request request, Exception e) {
-                    CommUtil.showToast("图片上传失败",mContext);
+                    showToast("图片上传失败",mContext);
+                    if (progress != null)
+                    {
+                        progress.dismiss();
+                    }
                 }
             });
         }
@@ -713,14 +757,14 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         issueContent.setTitle(showEditString(mIssueTitle));//标题
         issueContent.setContent(showEditString(mIssueContent));//发布内容
         issueContent.setCategoryID(mCategoryID);//目标类型
-        issueContent.setMoney(showEditString(mIssuePrice));//悬赏金额
+        issueContent.setMoney(CommUtil.isNullOrBlank(showEditString(mIssuePrice))?"0":showEditString(mIssuePrice));//悬赏金额
         issueContent.setProvince(provinceId);//省ID
         issueContent.setCity(cityId);//市ID
         issueContent.setAddress(showEditString(mIssueDetailAddress));//详细地址
         issueContent.setPushType(mPushType);//推送地区 0 选择地区 1 全国
-        issueContent.setPushMoney(showEditString(mIssuePushPrice));//推送价格
+        issueContent.setPushMoney(CommUtil.isNullOrBlank(showEditString(mIssuePushPrice))?"0":showEditString(mIssuePushPrice));//推送价格
         issueContent.setTopType(mTopType);//地区置顶 0不需要 1 需要
-        issueContent.setTopMoney(showEditString(mIssueAreaTopPrice));//置顶价格
+        issueContent.setTopMoney(CommUtil.isNullOrBlank(showEditString(mIssueAreaTopPrice))?"0":showEditString(mIssueAreaTopPrice));//置顶价格
 
         String publishinfo = JSON.toJSONString(issueContent);
 
@@ -736,42 +780,131 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     @OnClick(R.id.issue_save_draft)
     public void uploadImg(View view){
         //保存草稿箱
-        uploadImage();
+        uploadImage(mDraftFlag);
     }
     /**
      * 保存至草稿箱
      */
     private void saveDraft(){
+        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
 //             showToast("imgLIST===>"+ toJSONString(mPicturelists),mContext);
+         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
             //发布信息实体
-       // {"address":"南京市浦口区","categoryID":"541","city":"3034","content":"发布什么曝光","money":"12345","province":"3033","pushMoney":"","pushType":"1","title":"安卓测试","topMoney":"10","topType":"0"}
                String publishinfo =  issueContent();
                HashMap<String, String> params = new HashMap<>();
-                params.put("userid","5516");
-        //[{"pictureID":"231"},{"pictureID":"232"}]
+                params.put("userid",userID);
                 params.put("publishinfo",publishinfo);//发布信息实体
                 params.put("picturelist", toJSONString(mPicturelists));//发布图片信息实体 [{PictureID:""},{},{}]
                 //        params.put("provepicturelist","=====");//发布证明图片信息实体
                LogUtil.d("=============params=============",publishinfo+"----\n----"+toJSONString(mPicturelists));
-                HttpClient.get(Caller.ADD_ISSUE_INFO,params, new HttpResponseHandler() {
+                HttpClient.get(Caller.ADD_ISSUE_DRAFT_INFO,params, new HttpResponseHandler() {
                     @Override
                     public void onSuccess(RestApiResponse response) {
                         String     result   =  response.getResult();
                         String     message  =  response.getMessage();
 
                         if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                            if (progress != null)
+                            {
+                                progress.dismiss();
+                            }
+                            CommUtil.showAlert(message, mContext, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    UIHelper.showHome(mContext);
+                                    finish();
+                                }
+                            });
 
-                            CommUtil.showToast(message,mContext);
+
                         }else{
-                            CommUtil.showToast(message,mContext);
+                            if (progress != null)
+                            {
+                                progress.dismiss();
+                            }
+                            showToast(message,mContext);
                         }
                     }
 
                     @Override
                     public void onFailure(Request request, Exception e) {
-                        CommUtil.showToast("发布信息失败",mContext);
+                        e.printStackTrace();
+                        if (progress != null)
+                        {
+                            progress.dismiss();
+                        }
+                        showToast("发布信息失败",mContext);
                     }
                 });
+    }
+
+
+    /**
+     * 现在发布
+     *点击 【现在发布】-上传所有图片-图片上传完毕-开始调现在发布接口
+     */
+    @OnClick(R.id.issue_now_submit)
+    public void saveIssue(View view){
+        //保存草稿箱
+        uploadImage(mIssueFlag);
+    }
+
+
+    /**
+     * 发布信息
+     */
+    private void saveIssue(){
+        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
+//             showToast("imgLIST===>"+ toJSONString(mPicturelists),mContext);
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        //发布信息实体
+        String publishinfo =  issueContent();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userid",userID);
+        params.put("publishinfo",publishinfo);//发布信息实体
+        params.put("picturelist", toJSONString(mPicturelists));//发布图片信息实体 [{PictureID:""},{},{}]
+        //        params.put("provepicturelist","=====");//发布证明图片信息实体
+        LogUtil.d("=============params=============",publishinfo+"----\n----"+toJSONString(mPicturelists));
+        HttpClient.get(Caller.ADD_ISSUE_INFO,params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String     result   =  response.getResult();
+                String     message  =  response.getMessage();
+                String     data  =  response.getData();
+
+                if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                    if (progress != null)
+                    {
+                        progress.dismiss();
+                    }
+                    CommUtil.showAlert(message, mContext, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            UIHelper.showHome(mContext);
+                            finish();
+                        }
+                    });
+
+
+                }else{
+                    if (progress != null)
+                    {
+                        progress.dismiss();
+                    }
+                    showToast(message,mContext);
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                e.printStackTrace();
+                if (progress != null)
+                {
+                    progress.dismiss();
+                }
+                showToast("发布信息失败",mContext);
+            }
+        });
     }
 
 
@@ -780,9 +913,13 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
-                case 101:
-                    //保存到草稿箱
+                //保存到草稿箱
+                case mDraftFlag:
                     saveDraft();
+                    break;
+                //发布信息
+                case mIssueFlag:
+                    saveIssue();
                     break;
                 default:break;
             }

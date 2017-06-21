@@ -1,9 +1,25 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Administrator">
     <words>
+      <w>addpublishinfo</w>
+      <w>addsubmitpublishinfo</w>
+      <w>appid</w>
+      <w>baidu</w>
+      <w>cohr</w>
+      <w>filespace</w>
       <w>fragmet</w>
       <w>franmet</w>
+      <w>getcategorytwolist</w>
+      <w>ishas</w>
+      <w>latlng</w>
+      <w>memberuser</w>
+      <w>memberuserlogin</w>
+      <w>memberuserregiest</w>
+      <w>memberuserretrievepassword</w>
       <w>parentid</w>
+      <w>sendsmscode</w>
+      <w>uploadimg</w>
+      <w>userid</w>
     </words>
   </dictionary>
 </component>

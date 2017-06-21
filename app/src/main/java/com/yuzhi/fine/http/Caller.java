@@ -12,11 +12,20 @@ public class Caller  {
       合作伙伴身份（PID）：2088721000412067
        MD5密钥：fihrw34i0zudeszpec4zckry79d85f1g
 
-     支付宝参数
+     APPID_ALIPAY
+     2017051807278319
+
+     支付宝参数  RSA_PRIMARY_KEY_ALIPAY
      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDpOjRuxMDrhP8s9OMu0eZIjWVTuzkRjD+IRXbKbjZ6Fznh2NLCLo8NgR9tJNv6IrduZj+WdwktCfOd3EZL8xr27iFCosEGC2DP0UPHmWmJHlauwccIfkasrUKvH+c7AAk8mc0h4fv4dN9qMfiOWR/xZfBXGxQ6c5NSFCTtcY13KM//m8jYgkOncYKjD3B1ckr5ptcD4Xy8y0t4X9L2CNOFqbvPaYCg1oyEJmwM10VWlU4tnNawZksvr4cliKCe/7+5H+sS64grRGk6BKjiX5rB8In8PdfdguZY/JV35SkLQaJV4GMbei1Qe+25xGqtsn/oSFdmH64UeCNmTnm3BXN5AgMBAAECggEARSngoLSybWW8cq2QrbLLctqToPgVnXGU6amH59I1T5GRtbsiDTnXbG7NTgWvQoeHFDM4Sju0uemImFjZc+59IZtOu78eNNes9xQc4JVLKcGYfSy0BH3GIbEj5GE2plWFZ7ZIkfK9UVn/YzO8fSJLCcBsPLioEAl0N9QHe27AQASGdVLViwuPO0alyieDgwQikOnOwmRTqakifovC6wyDPLboksIsSseIZL+QZeVNrimikV0n1WklvM8C+FuDwUTjZ6NIDVbH+fL4CCss4pIXGKhKAj14livORDz86HVcqI3ghnKY7AJoL5Pt2JaWRbHMB3TpmxLji8jX5nH6lMohjQKBgQD03q9HEwauH3uL1H3DEm2tcWIDoUNFEVArifAdh4hZMa2IIgYLYPjHL+zzB+/Qi3ZmKYlRZsJoj4V7dktiXQPZaz2zxMP0C/GxOrJGA51lbJjr/Wmn3eAfpvOq/HWiPyDPlOWdoor8BdEaJRo9vtKXane6zQNbbRnCJI27jYqE8wKBgQDz1Awsp6Il/efNns2P5o80ZFE2OeOD5aN0qJuNdO/2fEN47W9F0TxsX8ArN/aR+gkfiVDY77Alg6MCEGPtnvUba6FjEWuRounKOcpD0EvE4uk54WIDj4J47T14gtx1WG41V8JWUXClPvgMixU6JBosDEJF5kDQi0EW22F+s6ww4wKBgQCp4JtE+aQWxGyXk3E0FeLVAuX2krfygJJXwjg8pDwpdNdorAH5furYdR0zdXwf98DKG2LSgDG7DGaUQnsF4HW9LjL+NjGja23fgFMRU4ysQmzMu1/DP6AvFUnSg5awWo9Os4OgmpVFRlvMgZT05R+AQDKT+4qqsMO/9lAFn6pLlQKBgHmk+M3uc/7wRY1YBMYeCKPiyIF9L/zFvF6fH7va8zzNkfvquPDkCnkm7ACj0ufRDmwlXahdLEwK+HA3LSOHglFDyShbsIbf+DNj0X0zlhmL+z9dKkEMf9NEyL4uyz3f+Fu0hMf7qW9Hkwju+pAfIs+G7ilhTkS8tKRqnqFPkkBxAoGBAMytyhUGyUIGZnFUun/BWX+hLqvQAbJa/QJXP5WnjKTGnV7xNOrG4k1HNtIks9AD5JBNfOhW5tn8zhSKl1A/7xVRnrE1AgLfaAmZy1wcE8xI+DF+1tTqQ+dJeiOOqViG2wa2+MAp6x9AOiEBZkgeJZCJWaq3itr11XeNZ31c+tcM
 
-     商户公钥：
-     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6To0bsTA64T/LPTjLtHmSI1lU7s5EYw/iEV2ym42ehc54djSwi6PDYEfbSTb+iK3bmY/lncJLQnzndxGS/Ma9u4hQqLBBgtgz9FDx5lpiR5WrsHHCH5GrK1Crx/nOwAJPJnNIeH7+HTfajH4jlkf8WXwVxsUOnOTUhQk7XGNdyjP/5vI2IJDp3GCow9wdXJK+abXA+F8vMtLeF/S9gjTham7z2mAoNaMhCZsDNdFVpVOLZzWsGZLL6+HJYignv+/uR/rEuuIK0RpOgSo4l+awfCJ/D3X3YLmWPyVd+UpC0GiVeBjG3otUHvtucRqrbJ/6EhXZh+uFHgjZk55twVzeQIDAQAB
+
+     微信支付回调地址
+     http://user.lixun110.com/payment/WxPay/ResultNotifyPage.aspx
+     string APPID = "wx7074ea72756fdfbc";
+     string MCHID = "1480542612";
+     string KEY = "zhaomandewangzhanlixun110henniub";
+     string APPSECRET = "db305d6d99746433564ec3c13330bc44";
+
      */
 
     public static String HTTP = "http://api.lixun110.com/";
@@ -48,8 +57,10 @@ public class Caller  {
     public static String UPLOAD_IMAGE =HTTP+"common/filespace/uploadimg.html?appid="+APPID ;// +"&sign={SIGN}";
 
     //添加发布信息(草稿箱)
-    public static String ADD_ISSUE_INFO =HTTP+"publish/publish/addpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+    public static String ADD_ISSUE_DRAFT_INFO =HTTP+"publish/publish/addpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
 
+    //现在发布信息
+    public static String ADD_ISSUE_INFO =HTTP+"publish/publish/addsubmitpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
 
 
 }

@@ -7,19 +7,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.LXLogin.LXLoginBean;
 import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Request;
+
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_ISLOGIN;
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
 public class LXLoginActivity extends AppCompatActivity {
 
@@ -48,6 +54,9 @@ public class LXLoginActivity extends AppCompatActivity {
     @Bind(R.id.fastlogin_sina)
     Button mFastLoginSina;//新浪登录
 
+    SharePreferenceUtil1 share ;
+    private boolean isLogin = false;//登录状态
+
 
 
 
@@ -56,7 +65,7 @@ public class LXLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lxlogin);
         ButterKnife.bind(this);
-
+        share = new SharePreferenceUtil1(mContext, "lx_data", 0);
         initUI();
         onClickListener();
     }
@@ -66,7 +75,7 @@ public class LXLoginActivity extends AppCompatActivity {
      */
     private void initUI(){
         //测试数据
-        mPhone.setText("18724199038");
+        mPhone.setText("15312376060");
         mPassWord.setText("123123");
         //返回
         mBackBtn.setVisibility(View.VISIBLE);
@@ -119,17 +128,21 @@ public class LXLoginActivity extends AppCompatActivity {
      * 获取数据
      */
     private void initData(){
+        isLogin = false;
         HashMap<String, String> params = new HashMap<>();
         params.put("password",mPassWord.getText().toString().trim());
-        params.put("mobile",mPhone.getText(
-
-        ).toString().trim());
+        params.put("mobile",mPhone.getText().toString().trim());
         HttpClient.get(Caller.LOGIN,params, new HttpResponseHandler() {
             @Override
             public void onSuccess(RestApiResponse response) {
                 String result = response.getResult();
                 String message = response.getMessage();
+                String data = response.getData();
                 if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
+                    isLogin = true;
+                    LXLoginBean bean = JSON.parseObject(data,LXLoginBean.class);
+//                    CommUtil.showAlert(bean.getUserID()+"---"+bean.getUserName(),mContext);
+                    share.putString(SHARE_LOGIN_USERID,bean.getUserID());//保存用户Id
                     //保存登录状态
                     UIHelper.showHome(mContext);
                 }else{
@@ -142,6 +155,6 @@ public class LXLoginActivity extends AppCompatActivity {
                 CommUtil.showToast("登录失败",mContext);
             }
         });
-
+            share.putBoolean(SHARE_LOGIN_ISLOGIN,isLogin);
     }
 }

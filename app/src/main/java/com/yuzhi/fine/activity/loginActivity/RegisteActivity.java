@@ -22,6 +22,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Request;
 
+import static com.yuzhi.fine.utils.Constant.SHARE_REGISTER_CODE;
+
 public class RegisteActivity extends AppCompatActivity {
     private RegisteActivity mContext = this;
     @Bind(R.id.btnBack)
@@ -106,7 +108,7 @@ public class RegisteActivity extends AppCompatActivity {
      * 获取数据
      */
     private void initData(){
-        String codeId = share.getString("codeId", "");// 验证码Id
+        String codeId = share.getString(SHARE_REGISTER_CODE, "");// 验证码Id
         HashMap<String, String> params = new HashMap<>();
         params.put("mobile",mPhone.getText().toString().trim());//手机号
         params.put("vaildcode",mCode.getText().toString().trim());//验证码
@@ -122,7 +124,7 @@ public class RegisteActivity extends AppCompatActivity {
                     //保存登录状态
                     CommUtil.showToast(message,mContext);
                     UIHelper.showHome(mContext);
-                    share.remove("codeId");
+                    share.remove(SHARE_REGISTER_CODE);
                 }else{
                     CommUtil.showAlert(message,mContext);
                 }
@@ -149,7 +151,7 @@ public class RegisteActivity extends AppCompatActivity {
                 String message = response.getMessage();
                 String data = response.getData();
                 if(!CommUtil.isNullOrBlank(result) && result.equals("true")){
-                    share.putString("codeId", data);
+                    share.putString(SHARE_REGISTER_CODE, data);
                     CommUtil.showToast(message,mContext);
                 }else{
                     CommUtil.showAlert(message,mContext);

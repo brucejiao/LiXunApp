@@ -547,7 +547,7 @@ public class CommUtil {
 	 * @return
 	 * 用法
 	 * private ProgressDialog progress;
-	 * progress = showProgress(ActivitySelectCity.this, "正在加载数据，请稍候...");
+	 *  progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
 	 * if (progress != null)
 		{
 		progress.dismiss();
