@@ -37,7 +37,7 @@ import okhttp3.Request;
 
 import static com.alibaba.fastjson.JSON.parseArray;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
-import static com.yuzhi.fine.utils.Constant.PARENTID_WLQZI;
+import static com.yuzhi.fine.utils.Constant.PARENTID_WLBG;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 
 /**
@@ -332,7 +332,7 @@ private Activity mContext ;
 //        params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
 //        params.put("toptype", "0");//	置顶类型（0所有，1置顶，2不置顶）
 //        params.put("moneytype", "0");//赏金类型（0所有，1有赏金，2无赏金）
-        params.put("parentid", PARENTID_WLQZI);//发布类别父级ID
+        params.put("parentid", PARENTID_WLBG);//发布类别父级ID
 //        params.put("categoryid", value);//发布类别ID
 //        params.put("keywords", value);//搜索关键词
 //        params.put("pagesize", value);//每页显示条数（默认10条）

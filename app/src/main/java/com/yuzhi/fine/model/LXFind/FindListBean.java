@@ -6,11 +6,11 @@ package com.yuzhi.fine.model.LXFind;
  */
 
 public class FindListBean {
-    private String PublishID;
-    private String Title;
-    private String Content;
+    private String PublishID;//发布ID
+    private String Title;// 标题
+    private String Content;// 内容
     private String UserID;
-    private String PictureID;
+    private String PictureID;// 图片
     private String CategoryID;
     private String Money;
     private String Province;
@@ -22,9 +22,9 @@ public class FindListBean {
     private String TopType;
     private String TopMoney;
     private String CreateTime;
-    private String UpdateTime;
+    private String UpdateTime;// 更新时间
     private String PublishStatus;
-    private String IsDelete;
+    private String IsDelete;// 删除状态1:已删除
     private String CheckState;
     private String CheckID;
     private String CheckTime;

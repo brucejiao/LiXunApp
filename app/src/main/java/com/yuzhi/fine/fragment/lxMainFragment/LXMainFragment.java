@@ -19,10 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.activity.coreActivity.WTXRActivity;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.activity.mainActivity.SearchActivity;
 import com.yuzhi.fine.activity.mainActivity.ShaiXuanActivity;
-import com.yuzhi.fine.fragment.coreFragment.WTXRFragment;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
@@ -49,7 +49,6 @@ import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_RESULT;
 
 
 public class LXMainFragment extends Fragment {
-
     //定位
     @Bind(R.id.lx_main_address_text)
     TextView mLxMainAddressText;
@@ -186,8 +185,8 @@ public class LXMainFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
 
                 if (0 == position) {//委托寻人
-                    WTXRFragment wtxrFragment = new WTXRFragment();
-                    fm.beginTransaction().show(wtxrFragment).commit();
+                    Intent intent = new Intent(getActivity(), WTXRActivity.class);
+                    getActivity().startActivity(intent);
                 } else if (1 == position) {//委托寻物
 
                     UIHelper.showMinZLRL(getActivity());
@@ -205,10 +204,9 @@ public class LXMainFragment extends Fragment {
 
 
                 } else if (6 == position) {//立寻圈子
-
+                    CommUtil.showToast("正在开发中...",getActivity());
                 } else if (7 == position) {//积分商城
-
-
+                    CommUtil.showToast("正在开发中...",getActivity());
                 }
                 else {
                     return;

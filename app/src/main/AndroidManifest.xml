@@ -99,7 +99,10 @@
         <activity
             android:name=".activity.mineActivity.MinePromoteActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.mineActivity.MineDraftActivity"
+        <activity
+            android:name=".activity.mineActivity.MineDraftActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.coreActivity.WTXRActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

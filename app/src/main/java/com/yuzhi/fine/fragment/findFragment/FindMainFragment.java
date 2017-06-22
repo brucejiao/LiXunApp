@@ -134,7 +134,7 @@ public class FindMainFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText(list_title.get(3)));
         tabLayout.addTab(tabLayout.newTab().setText(list_title.get(4)));
         //   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失  看网上讲这边要用getChildFragmentManager()
-        fAdapter = new Find_tab_Adapter(getChildFragmentManager(), list_fragment, list_title);//   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失
+        fAdapter = new Find_tab_Adapter(getChildFragmentManager(), list_fragment, list_title);//getChildFragmentManager()   getActivity().getSupportFragmentManager()会导致一个问题：数据丢失
 
         //viewpager加载adapter
         viewpager.setAdapter(fAdapter);
