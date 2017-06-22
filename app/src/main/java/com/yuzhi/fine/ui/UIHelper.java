@@ -9,6 +9,12 @@ import com.yuzhi.fine.activity.HouseDetailActivity;
 import com.yuzhi.fine.activity.LoginActivity;
 import com.yuzhi.fine.activity.MainActivity;
 import com.yuzhi.fine.activity.coreActivity.IssueActivity;
+import com.yuzhi.fine.activity.coreActivity.LXQZActivity;
+import com.yuzhi.fine.activity.coreActivity.WLBGActivity;
+import com.yuzhi.fine.activity.coreActivity.WLQZActivity;
+import com.yuzhi.fine.activity.coreActivity.WTXRActivity;
+import com.yuzhi.fine.activity.coreActivity.WTXWActivity;
+import com.yuzhi.fine.activity.coreActivity.ZLRLActivity;
 import com.yuzhi.fine.activity.loginActivity.ForgetPassActivity;
 import com.yuzhi.fine.activity.loginActivity.LXLoginActivity;
 import com.yuzhi.fine.activity.loginActivity.RegisteActivity;
@@ -147,6 +153,42 @@ public class UIHelper {
     //我的-- 草稿箱
     public static void showMinDraft(Activity context) {
         Intent intent = new Intent(context, MineDraftActivity.class);
+        context.startActivity(intent);
+    }
+
+    //主界面--委托找人
+    public static void showMainWTZR(Activity context) {
+        Intent intent = new Intent(context, WTXRActivity.class);
+        context.startActivity(intent);
+    }
+
+    //主界面--委托找物
+    public static void showMainWTZW(Activity context) {
+        Intent intent = new Intent(context, WTXWActivity.class);
+        context.startActivity(intent);
+    }
+
+    //主界面--招领认领
+    public static void showMainZLRL(Activity context) {
+        Intent intent = new Intent(context, ZLRLActivity.class);
+        context.startActivity(intent);
+    }
+
+    //主界面--网络曝光
+    public static void showMainWLBG(Activity context) {
+        Intent intent = new Intent(context, WLBGActivity.class);
+        context.startActivity(intent);
+    }
+
+    //主界面--网络求助
+    public static void showMainWLQZ(Activity context) {
+        Intent intent = new Intent(context, WLQZActivity.class);
+        context.startActivity(intent);
+    }
+
+    //主界面--立寻圈子
+    public static void showMainLXQZ(Activity context) {
+        Intent intent = new Intent(context, LXQZActivity.class);
         context.startActivity(intent);
     }
 

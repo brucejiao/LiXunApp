@@ -26,7 +26,6 @@ import com.yuzhi.fine.utils.CommUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,8 +74,9 @@ public class WTXRActivity extends AppCompatActivity {
     @Bind(R.id.checked_horlist_layout)//横向滚动布局
             LinearLayout mCheckedHorlistLayout;
 
-    List<TextView> mSecondMenuList = new ArrayList<TextView>();
-    ;//二级菜单列表
+    List<TextView> mSecondMenuList = new ArrayList<TextView>();//二级菜单列表
+    List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class WTXRActivity extends AppCompatActivity {
 
 
     private void initData() {
-        getWTXRData();
+
     }
 
 
@@ -148,63 +148,25 @@ public class WTXRActivity extends AppCompatActivity {
         mFindXSListview.setAdapter(mFindItemAdapter);
 //        CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);
 //        CommUtil.fixListViewHeight(mFindXSListview);*/
-        lxFindOnClick();
+//
     }
 
-    /**
-     * 置顶/最新-按钮背景切换
-     */
-    public void lxFindOnClick() {
-        mTopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTopBtn.setTextColor(mContext.getResources().getColor(R.color.white));
-                mNewBtn.setTextColor(mContext.getResources().getColor(R.color.black));
-                mXSBtn.setTextColor(mContext.getResources().getColor(R.color.black));
-                mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
-                mNewBtn.setBackgroundResource(R.drawable.zuixin);
-                mXSBtn.setBackgroundResource(R.drawable.zuixin);
 
-            }
-        });
-        mNewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mNewBtn.setTextColor(mContext.getResources().getColor(R.color.white));
-                mTopBtn.setTextColor(mContext.getResources().getColor(R.color.black));
-                mXSBtn.setTextColor(mContext.getResources().getColor(R.color.black));
-                mNewBtn.setBackgroundResource(R.drawable.editsharp_green_all);
-                mTopBtn.setBackgroundResource(R.drawable.zuixin);
-                mXSBtn.setBackgroundResource(R.drawable.zuixin);
-
-            }
-        });
-
-        mXSBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mXSBtn.setTextColor(mContext.getResources().getColor(R.color.white));
-                mTopBtn.setTextColor(mContext.getResources().getColor(R.color.black));
-                mNewBtn.setTextColor(mContext.getResources().getColor(R.color.black));
-                mXSBtn.setBackgroundResource(R.drawable.editsharp_green_all);
-                mTopBtn.setBackgroundResource(R.drawable.zuixin);
-                mNewBtn.setBackgroundResource(R.drawable.zuixin);
-
-            }
-        });
-    }
 
     /**
      * 委托寻人--获取发布列表
+     * String categoryID
+     * String toptype
+     * String monetype
      */
-    private void getWTXRData() {
+    private void getWTXRData(String categoryID ,String toptype , String monetype) {
 //        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
-//        params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
-//        params.put("toptype", "0");//	置顶类型（0所有，1置顶，2不置顶）
-//        params.put("moneytype", "0");//赏金类型（0所有，1有赏金，2无赏金）
+        params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
+        params.put("toptype", toptype);//	置顶类型（0所有，1置顶，2不置顶）
+        params.put("moneytype", monetype);//赏金类型（0所有，1有赏金，2无赏金）
         params.put("parentid", PARENTID_WTXR);//发布类别父级ID
-//        params.put("categoryid", value);//发布类别ID
+        params.put("categoryid", categoryID);//发布类别ID
 //        params.put("keywords", value);//搜索关键词
 //        params.put("pagesize", value);//每页显示条数（默认10条）
 //        params.put("lastnumber", value);//最后一条记录的ID
@@ -352,20 +314,22 @@ public class WTXRActivity extends AppCompatActivity {
                     List<SecondMenu> menu = JSON.parseArray(data, SecondMenu.class);
                     final int menuNum = menu.size();
                     for (int index = 0; index < menuNum; index++) {
-                        Map<String,TextView>  SecondTextID = new HashMap<String,TextView>();
                         TextView mTextView = new TextView(mContext);
                         String cateID = menu.get(index).getCategoryID();
                         String cateTitle = menu.get(index).getCategoryTitle();
 
                         mTextView.setText(cateTitle);
-                        mTextView.setTextSize(12);
+                        mTextView.setTextSize(10);
+                        mTextView.setTextColor(getResources().getColor(R.color.black));
                         LinearLayout.LayoutParams mLayoutParams = new
                                 LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         mLayoutParams.leftMargin = 25;
                         mLayoutParams.gravity = Gravity.CENTER;
                         mCheckedHorlistLayout.addView(mTextView, mLayoutParams);
                         mSecondMenuList.add(mTextView);
-                        checkedSecondMenu(index);//二级菜单获取选中/非选择效果
+                        mCategoryIDList.add(cateID);
+                        checkedSecondMenu(index,menuNum,mCategoryIDList);//二级菜单获取选中/非选择效果  根据ID 获取二级菜单对应的内容
+//                        byIdGetSecondContent(index,mCategoryIDList);//
                     }
 
                   /*  if (progress != null)
@@ -396,142 +360,76 @@ public class WTXRActivity extends AppCompatActivity {
     /**
      * 二级菜单获取选中/非选择效果
      */
-    private void checkedSecondMenu(int index) {
+    private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList) {
         //默认第一位选中状态
         mSecondMenuList.get(0).setBackgroundResource(R.drawable.editsharp_green_all);
-        setSecondState(index);
+        mSecondMenuList.get(0).setTextColor(getResources().getColor(R.color.white));
+        getWTXRData(mCategoryIDList.get(0),"0","0");
+        //筛选置顶/悬赏...
+        lxFindOnClick(0);
+        mSecondMenuList.get(index).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //先将所有的TextView 刷成白色
+                for (int i = 0 ;i < size; i++){
+                    mSecondMenuList.get(i).setBackgroundResource(R.color.white);
+                    mSecondMenuList.get(i).setTextColor(getResources().getColor(R.color.black));
+                }
+                //单独将选中的刷绿
+                mSecondMenuList.get(index).setBackgroundResource(R.drawable.editsharp_green_all);
+                mSecondMenuList.get(index).setTextColor(getResources().getColor(R.color.white));
+                getWTXRData(mCategoryIDList.get(index),"0","0");
+                //筛选置顶/悬赏...
+                lxFindOnClick(index);
+            }
+        });
     }
 
     /**
-     *TextVeiw点击效果
-     * @param index
+     * 置顶/最新-按钮背景切换
      */
-    private void setSecondState(final int index){
+    public void lxFindOnClick(final int index) {
+        mTopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTopBtn.setTextColor(mContext.getResources().getColor(R.color.white));
+                mNewBtn.setTextColor(mContext.getResources().getColor(R.color.black));
+                mXSBtn.setTextColor(mContext.getResources().getColor(R.color.black));
+                mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
+                mNewBtn.setBackgroundResource(R.drawable.zuixin);
+                mXSBtn.setBackgroundResource(R.drawable.zuixin);
+                getWTXRData(mCategoryIDList.get(index),"1","0");
+                CommUtil.showToast("mTopBtn"+index,mContext);
+            }
+        });
+        mNewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNewBtn.setTextColor(mContext.getResources().getColor(R.color.white));
+                mTopBtn.setTextColor(mContext.getResources().getColor(R.color.black));
+                mXSBtn.setTextColor(mContext.getResources().getColor(R.color.black));
+                mNewBtn.setBackgroundResource(R.drawable.editsharp_green_all);
+                mTopBtn.setBackgroundResource(R.drawable.zuixin);
+                mXSBtn.setBackgroundResource(R.drawable.zuixin);
+                getWTXRData(mCategoryIDList.get(index),"0","0");
+                CommUtil.showToast("mNewBtn"+index,mContext);
 
-        switch (index){
-            case 0:
-                mSecondMenuList.get(0).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(0).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(1).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(2).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(3).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(4).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(5).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(6).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(7).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-            case 1:
-                mSecondMenuList.get(1).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(1).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(0).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(2).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(3).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(4).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(5).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(6).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(7).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-            case 2:
-                mSecondMenuList.get(2).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(2).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(1).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(0).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(3).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(4).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(5).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(6).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(7).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-            case 3:
-                mSecondMenuList.get(3).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(3).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(1).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(2).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(0).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(4).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(5).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(6).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(7).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-            case 4:
-                mSecondMenuList.get(4).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(4).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(1).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(2).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(3).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(0).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(5).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(6).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(7).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-            case 5:
-                mSecondMenuList.get(5).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(5).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(1).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(2).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(3).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(4).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(0).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(6).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(7).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-            case 6:
-                mSecondMenuList.get(6).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(6).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(1).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(2).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(3).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(4).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(5).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(0).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(7).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-            case 7:
-                mSecondMenuList.get(7).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSecondMenuList.get(7).setBackgroundResource(R.drawable.editsharp_green_all);
-                        mSecondMenuList.get(1).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(2).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(3).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(4).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(5).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(6).setBackgroundResource(R.color.white);
-                        mSecondMenuList.get(0).setBackgroundResource(R.color.white);
-                    }
-                });
-                break;
-           default:break;
-        }
+            }
+        });
 
+        mXSBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mXSBtn.setTextColor(mContext.getResources().getColor(R.color.white));
+                mTopBtn.setTextColor(mContext.getResources().getColor(R.color.black));
+                mNewBtn.setTextColor(mContext.getResources().getColor(R.color.black));
+                mXSBtn.setBackgroundResource(R.drawable.editsharp_green_all);
+                mTopBtn.setBackgroundResource(R.drawable.zuixin);
+                mNewBtn.setBackgroundResource(R.drawable.zuixin);
+                getWTXRData(mCategoryIDList.get(index),"0","1");
+                CommUtil.showToast("mXSBtn"+index,mContext);
 
+            }
+        });
     }
 }

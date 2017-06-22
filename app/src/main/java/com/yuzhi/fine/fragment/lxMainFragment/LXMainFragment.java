@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.activity.coreActivity.WTXRActivity;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.activity.mainActivity.SearchActivity;
 import com.yuzhi.fine.activity.mainActivity.ShaiXuanActivity;
@@ -161,7 +160,7 @@ public class LXMainFragment extends Fragment {
         indicator.setPadding(5, 5, 10, 5);
 
         //2. 添加元素给gridview
-        GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName,false);
+        GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName, false);
         mLxMainGridView.setAdapter(adapter);
         CommUtil.calGridViewWidthAndHeigh(4, mLxMainGridView);
         gridViewOnItemClick();
@@ -179,36 +178,30 @@ public class LXMainFragment extends Fragment {
      * GridView 事件监听
      */
     private void gridViewOnItemClick() {
-       final FragmentManager fm = getActivity().getSupportFragmentManager();
+        final FragmentManager fm = getActivity().getSupportFragmentManager();
         mLxMainGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
                 if (0 == position) {//委托寻人
-                    Intent intent = new Intent(getActivity(), WTXRActivity.class);
-                    getActivity().startActivity(intent);
+                    UIHelper.showMainWTZR(getActivity());
                 } else if (1 == position) {//委托寻物
-
-                    UIHelper.showMinZLRL(getActivity());
-
+                    UIHelper.showMainWTZW(getActivity());
                 } else if (2 == position) {//招领认领
-
+                    UIHelper.showMainZLRL(getActivity());
                 } else if (3 == position) {//招商加盟
-
+                    CommUtil.showToast("正在开发中...", getActivity());
 
                 } else if (4 == position) {//网络曝光
-
+                    UIHelper.showMainWLBG(getActivity());
 
                 } else if (5 == position) {//网络求助
-
-
-
+                    UIHelper.showMainWLQZ(getActivity());
                 } else if (6 == position) {//立寻圈子
-                    CommUtil.showToast("正在开发中...",getActivity());
+                    UIHelper.showMainLXQZ(getActivity());
                 } else if (7 == position) {//积分商城
-                    CommUtil.showToast("正在开发中...",getActivity());
-                }
-                else {
+                    CommUtil.showToast("正在开发中...", getActivity());
+                } else {
                     return;
 
                 }
@@ -349,19 +342,19 @@ public class LXMainFragment extends Fragment {
      * 标题栏定位
      */
     @OnClick(R.id.lx_main_address_text)
-    public void addressResult(View view){
-        Intent intent = new Intent(getActivity(),LXMainAddressActivity.class);
+    public void addressResult(View view) {
+        Intent intent = new Intent(getActivity(), LXMainAddressActivity.class);
         LXMainFragment.this.startActivityForResult(intent, LX_MAIN_ADDRESS_REQUEST);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LX_MAIN_ADDRESS_REQUEST){
-            if (resultCode == LX_MAIN_ADDRESS_RESULT){
+        if (requestCode == LX_MAIN_ADDRESS_REQUEST) {
+            if (resultCode == LX_MAIN_ADDRESS_RESULT) {
                 mLxMainAddressText.setText(data.getStringExtra("lngCityName"));
-                String addressId = getAddressId( mAddressIdArray,mLxMainAddressText.getText().toString());
-                CommUtil.showAlert("addressId-->"+addressId,getActivity());
+                String addressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                CommUtil.showAlert("addressId-->" + addressId, getActivity());
             }
         }
     }
@@ -370,15 +363,13 @@ public class LXMainFragment extends Fragment {
     /**
      * 获取地区编码id
      */
-    public static String getAddressId(String[] arrays , String params){
-        final  int arraysNum = arrays.length;
-        for (int index = 0 ; index < arraysNum ; index ++)
-        {
+    public static String getAddressId(String[] arrays, String params) {
+        final int arraysNum = arrays.length;
+        for (int index = 0; index < arraysNum; index++) {
             //1|中国
             String id = arrays[index].substring(0, arrays[index].indexOf("|"));
-            String name = arrays[index].substring(arrays[index].indexOf("|")+1, arrays[index].length());
-            if (params.equals(name))
-            {
+            String name = arrays[index].substring(arrays[index].indexOf("|") + 1, arrays[index].length());
+            if (params.equals(name)) {
                 return id;
             }
 
@@ -388,17 +379,17 @@ public class LXMainFragment extends Fragment {
 
     //搜索
     @OnClick(R.id.lxmain_search_layout)
-    public void seacchLayout(View view){
+    public void seacchLayout(View view) {
         Intent intent = new Intent(getActivity(), SearchActivity.class);
         getActivity().startActivity(intent);
     }
 
     //筛选
-    @OnClick({R.id.sx_img,R.id.sx})
-    public void sxOnclick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.sx_img, R.id.sx})
+    public void sxOnclick(View view) {
+        switch (view.getId()) {
             case R.id.sx_img:
-            case  R.id.sx:
+            case R.id.sx:
                 Intent intent = new Intent(getActivity(), ShaiXuanActivity.class);
                 getActivity().startActivity(intent);
                 break;
