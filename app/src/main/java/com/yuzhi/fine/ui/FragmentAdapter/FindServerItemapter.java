@@ -72,7 +72,7 @@ public class FindServerItemapter extends BaseAdapter {
 
         return position;
     }
-
+    //判断获取到数据则展示 否则展示缺省页
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;

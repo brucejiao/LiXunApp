@@ -17,7 +17,7 @@ public class FindListBean {
     private String City;
     private String Country;
     private String Address;
-    private String PushType;
+    private String PushType;//推广 1-全国推广  0-不推广
     private String PushMoney;
     private String TopType;
     private String TopMoney;

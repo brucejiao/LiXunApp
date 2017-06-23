@@ -35,7 +35,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -571,4 +573,75 @@ public class CommUtil {
 		return window;
 	}
 
+
+
+	/**
+	 *字符串的日期格式的计算
+	 */
+	public static String daysBetween(String smdate,String bdate) {
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(sdf.parse(smdate));
+			long time1 = cal.getTimeInMillis();
+			cal.setTime(sdf.parse(bdate));
+			long time2 = cal.getTimeInMillis();
+			long between_days=(time2-time1)/(1000*3600*24);
+			int distanceDate = Integer.parseInt(String.valueOf(between_days));
+			if (distanceDate>0){
+				return String.valueOf(between_days);
+			}
+		}catch (ParseException  e){
+
+		}
+		return  "";
+	}
+
+	/**
+	 *字符串的日期格式的计算
+	 */
+	public static String daysBetween2(String smdate,String bdate) {
+		long day = 1000 * 24 * 60 * 60;
+		long hour = 1000 * 60 * 60;
+		long minute = 1000 * 60;
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(sdf.parse(smdate));
+			long time1 = cal.getTimeInMillis();
+			cal.setTime(sdf.parse(bdate));
+			long time2 = cal.getTimeInMillis();
+
+			long between_days=(time2-time1)/day;
+			int distanceDate = Integer.parseInt(String.valueOf(between_days));
+			if (distanceDate>0){
+				return String.valueOf(between_days)+"天前发布";
+			}
+			else
+			{
+				long between_times=(time2-time1)/hour;
+				return String.valueOf(between_times)+"小时前发布";
+			}
+
+
+		}catch (ParseException  e){
+
+		}
+		return  "";
+	}
+
+	/**
+	 * 获取当前时间
+	 * @return
+	 */
+	public static String currentDate(){
+		String temp_str="";
+		Date dt = new Date();
+		//hh 12
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss hh");
+		temp_str=sdf.format(dt);
+		return temp_str;
+	}
+
 }
+

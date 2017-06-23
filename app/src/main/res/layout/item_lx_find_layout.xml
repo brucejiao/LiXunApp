@@ -61,206 +61,228 @@
             android:orientation="vertical">
             <!--标题-->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/lx_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="寻找我的宠物狗法克"
                     android:textColor="@color/xs_short_black2"
                     android:textSize="@dimen/text_size_12" />
 
-                <TextView
-                    android:id="@+id/lx_isfind"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
-                    android:background="@drawable/editsharp_red_all"
-                    android:text="找宠"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_9" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/lx_isgenerailze"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:background="@drawable/editsharp_gary_all"
-                    android:text="全国推广"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_9" />
+                    <TextView
+                        android:id="@+id/lx_isfind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:background="@drawable/editsharp_red_all"
+                        android:text="找宠"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_9" />
+
+                    <TextView
+                        android:id="@+id/lx_isgenerailze"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/editsharp_gary_all"
+                        android:text="全国推广"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_9" />
+                </LinearLayout>
+
 
             </LinearLayout>
             <!--地点-->
             <!--地点-->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="9dp"
-                    android:layout_height="11dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/address" />
-
-                <TextView
-                    android:id="@+id/lx_address"
-                    android:layout_width="130dp"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="丢失地：电信一区 艾欧尼亚 野区"
-                    android:textColor="@color/xs_short_gary2"
-                    android:textSize="@dimen/text_size_9" />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="9dp"
+                        android:layout_height="11dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/address" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/lx_address"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="4dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="丢失地：电信一区 艾欧尼亚 野区"
+                        android:textColor="@color/xs_short_gary2"
+                        android:textSize="@dimen/text_size_9" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:layout_marginLeft="50dp"
-                    android:background="@drawable/editsharp_short_gary_all"
-                    android:text="悬赏金"
-                    android:textColor="@color/xs_short_gary2"
-                    android:textSize="@dimen/text_size_9" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:layout_marginLeft="50dp"
+                        android:background="@drawable/editsharp_short_gary_all"
+                        android:text="悬赏金"
+                        android:textColor="@color/xs_short_gary2"
+                        android:textSize="@dimen/text_size_9" />
 
-                <TextView
-                    android:id="@+id/lx_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="50元"
-                    android:textColor="@color/xs_short_red"
-                    android:textSize="@dimen/text_size_12" />
+                    <TextView
+                        android:id="@+id/lx_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="50元"
+                        android:textColor="@color/xs_short_red"
+                        android:textSize="@dimen/text_size_12" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/lx_content"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_marginRight="13dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。鹅鹅鹅，曲向想提昂个ad阿萨德阿萨德啊实打实大asdwqqweqwe"
+                android:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。eqweweweqwewqewqewe鹅鹅鹅，曲向想提昂个ad阿萨德阿萨德啊实打实大asdwqqweqwe"
                 android:textColor="@color/xs_short_black"
                 android:textSize="@dimen/text_size_11" />
+            <!--11111111111111-->
+            <!--2-->
+            <!--图片-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/lx_img_one"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:background="@color/gray" />
+                <!--android:background="@drawable/start_icon"-->
+                <ImageView
+                    android:id="@+id/lx_img_two"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/gray" />
+
+                <ImageView
+                    android:id="@+id/lx_img_three"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/gray" />
+            </LinearLayout>
+
+            <!--3-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="11dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="@dimen/space_13"
+                android:orientation="horizontal">
+                <!--发布时间-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="11dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/time" />
+
+                <TextView
+                    android:id="@+id/lx_time"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:text="12分钟前发布"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/text_size_9" />
+                <!--查看人数-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="11dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/browse" />
+
+                <TextView
+                    android:id="@+id/lx_looker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:text="12"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/text_size_9" />
+                <!--关注人数-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="11dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/space_21"
+                    android:background="@drawable/guanzhu" />
+
+                <TextView
+                    android:id="@+id/lx_focuson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:text="13"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/text_size_9" />
+                <!--留言人数-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="11dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/space_21"
+                    android:background="@drawable/comments" />
+
+                <TextView
+                    android:id="@+id/lx_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:text="14"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/text_size_9" />
+            </LinearLayout>
+
         </LinearLayout>
-
-
     </LinearLayout>
 
-    <!--2-->
-    <!--图片-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="77dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/lx_img_one"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:background="@color/gray" />
-        <!--android:background="@drawable/start_icon"-->
-        <ImageView
-            android:id="@+id/lx_img_two"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="8dp"
-            android:background="@color/gray" />
-
-        <ImageView
-            android:id="@+id/lx_img_three"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="8dp"
-            android:background="@color/gray" />
-    </LinearLayout>
-
-    <!--3-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="@dimen/space_13"
-        android:orientation="horizontal">
-        <!--发布时间-->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="11dp"
-            android:layout_gravity="center"
-            android:background="@drawable/time" />
-
-        <TextView
-            android:id="@+id/lx_time"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:textColor="@color/xs_short_gary2"
-            android:text="12分钟前发布"
-            android:textSize="@dimen/text_size_9" />
-        <!--查看人数-->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="11dp"
-            android:layout_gravity="center"
-            android:background="@drawable/browse" />
-
-        <TextView
-            android:id="@+id/lx_looker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:textColor="@color/xs_short_gary2"
-            android:text="12"
-            android:textSize="@dimen/text_size_9" />
-        <!--关注人数-->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="11dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/space_21"
-            android:background="@drawable/guanzhu" />
-
-        <TextView
-            android:id="@+id/lx_focuson"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/xs_short_gary2"
-            android:layout_marginLeft="4dp"
-            android:text="13"
-            android:textSize="@dimen/text_size_9" />
-        <!--留言人数-->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="11dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/space_21"
-            android:background="@drawable/comments" />
-
-        <TextView
-            android:id="@+id/lx_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:textColor="@color/xs_short_gary2"
-            android:text="14"
-            android:textSize="@dimen/text_size_9" />
-    </LinearLayout>
 
 </LinearLayout>
