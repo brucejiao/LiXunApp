@@ -138,7 +138,12 @@ public class FindServerItemapter extends BaseAdapter {
         holder.certification_text.setText(bean.getIsCertification());
         holder.lx_title.setText(bean.getTitle());
         holder.lx_isfind.setText(bean.getIsFind());
-        holder.lx_isgenerailze.setText(bean.getIsGenerailze());
+        if (!CommUtil.isNullOrBlank(bean.getIsGenerailze())){
+            holder.lx_isgenerailze.setText(bean.getIsGenerailze());
+        }else {
+            holder.lx_isgenerailze.setVisibility(View.GONE);
+        }
+
         holder.lx_address.setText(bean.getAddress());
         holder.lx_price.setText(bean.getPrice());
         holder.lx_content.setText(bean.getContent());
