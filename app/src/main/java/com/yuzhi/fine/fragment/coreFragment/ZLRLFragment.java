@@ -295,7 +295,7 @@ public class ZLRLFragment extends Fragment {
                         }
                         arrayBean.add(lxFindServerBean);
                     }
-                    mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean);
+                    mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,2);
                     mFindXSListview.setAdapter(mFindItemAdapter);
 
                     if (progress != null) {

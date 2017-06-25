@@ -293,7 +293,7 @@ public class WTXRFragment extends Fragment {
                         }
                         arrayBean.add(lxFindServerBean);
                     }
-                    mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean);
+                    mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,2);
                     mFindXSListview.setAdapter(mFindItemAdapter);
 
                     if (progress != null) {
@@ -373,6 +373,7 @@ public class WTXRFragment extends Fragment {
 
     /**
      * 二级菜单获取选中/非选择效果
+     *
      */
     private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList) {
 //        CommUtil.showToast("index-->"+index+"\nsize-->"+size+"\nList-->"+mCategoryIDList.size(),mContext);

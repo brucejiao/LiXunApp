@@ -71,4 +71,7 @@ public class Caller  {
     // 获取发布列表（我的草稿箱）
     public static String MINE_DRAFT_INFOS =HTTP+"publish/publish/getuserdraftpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
 
+    //发现列表(首页)
+    public static String MAIN_FIND_LIST_INFOS =HTTP+"publish/publish/getindexpublishcomplexlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
 }

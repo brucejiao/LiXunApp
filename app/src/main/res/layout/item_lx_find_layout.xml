@@ -143,7 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|center"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="35dp"
                         android:background="@drawable/editsharp_short_gary_all"
                         android:text="悬赏金"
                         android:textColor="@color/xs_short_gary2"

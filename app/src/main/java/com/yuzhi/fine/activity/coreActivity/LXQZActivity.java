@@ -304,7 +304,7 @@ public class LXQZActivity extends AppCompatActivity {
                         }
                         arrayBean.add(lxFindServerBean);
                     }
-                    mFindItemAdapter = new FindServerItemapter(mContext, arrayBean);
+                    mFindItemAdapter = new FindServerItemapter(mContext, arrayBean,0);
                     mFindXSListview.setAdapter(mFindItemAdapter);
 
                     if (progress != null) {
