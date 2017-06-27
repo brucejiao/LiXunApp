@@ -75,6 +75,7 @@
 	<color name="xs_short_black2"> #303030</color>
 	<color name="short_gary"> #F3F3F3</color>
 	<color name="sx_gary"> #EEEEEE</color>
+	<color name="lx_blue">#00CCCC </color>
 
 
 </resources>

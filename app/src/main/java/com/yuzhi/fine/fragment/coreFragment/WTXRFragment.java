@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,6 +28,7 @@ import com.yuzhi.fine.model.LXFind.FindListPicList;
 import com.yuzhi.fine.model.LXFindServerBean;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.FragmentAdapter.FindServerItemapter;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.AnimationUtil;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
@@ -77,7 +79,8 @@ public class WTXRFragment extends Fragment {
         @Bind(R.id.checked_horlist_layout)//横向滚动布局
         LinearLayout mCheckedHorlistLayout;
     public CustomViewpager customViewpager;
-    List<TextView> mSecondMenuList = new ArrayList<TextView>();//二级菜单列表
+    List<TextView> mSecondMenuList = new ArrayList<TextView>();//二级菜单TextView列表
+    List<String> mSecondMenu= new ArrayList<String>();//二级菜单名称列表
     List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
     private ProgressDialog progress;
 
@@ -184,7 +187,7 @@ public class WTXRFragment extends Fragment {
     /**
      * 委托寻人--获取发布列表
      */
-    private void getWTXRData(String categoryID ,String toptype , String monetype) {
+    private void getWTXRData(String categoryID ,String toptype , String monetype,final String secondmenu) {
 //        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
@@ -204,7 +207,7 @@ public class WTXRFragment extends Fragment {
                 String data = response.getData();
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    List<FindListBean> findList =  parseArray(data, FindListBean.class);
+                   final List<FindListBean> findList =  parseArray(data, FindListBean.class);
                     final int findListNum = findList.size();
                     for (int index  = 0 ; index < findListNum ; index ++){
                         LXFindServerBean lxFindServerBean = new LXFindServerBean();
@@ -295,7 +298,13 @@ public class WTXRFragment extends Fragment {
                     }
                     mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,2);
                     mFindXSListview.setAdapter(mFindItemAdapter);
-
+                    mFindXSListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String publistID = findList.get(position).getPublishID();
+                            UIHelper.showDetails(mContext,publistID,secondmenu);
+                        }
+                    });
                     if (progress != null) {
                         progress.dismiss();
                     }
@@ -324,8 +333,9 @@ public class WTXRFragment extends Fragment {
      * 目标类型--获取发布类别列表（二级）
      */
     private void getIssueSecondList(String value) {
-        mSecondMenuList.clear();
         mCategoryIDList.clear();
+        mSecondMenuList.clear();
+        mSecondMenu.clear();
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("parentid", value);
@@ -356,8 +366,9 @@ public class WTXRFragment extends Fragment {
                         mLayoutParams.gravity= Gravity.CENTER;
                         mCheckedHorlistLayout.addView(mTextView, mLayoutParams);
                         mSecondMenuList.add(mTextView);
+                        mSecondMenu.add(cateTitle);
                         mCategoryIDList.add(cateID);
-                        checkedSecondMenu(index,menuNum,mCategoryIDList);//二级菜单获取选中/非选择效果  根据ID 获取二级菜单对应的内容
+                        checkedSecondMenu(index,menuNum,mCategoryIDList,mSecondMenu);//二级菜单获取选中/非选择效果  根据ID 获取二级菜单对应的内容
                     }
                 } else {
                     showToast(message, mContext);
@@ -375,12 +386,12 @@ public class WTXRFragment extends Fragment {
      * 二级菜单获取选中/非选择效果
      *
      */
-    private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList) {
+    private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList,final List<String> mSecondMenu) {
 //        CommUtil.showToast("index-->"+index+"\nsize-->"+size+"\nList-->"+mCategoryIDList.size(),mContext);
         //默认第一位选中状态
         mSecondMenuList.get(0).setBackgroundResource(R.drawable.editsharp_green_all);
         mSecondMenuList.get(0).setTextColor(getResources().getColor(R.color.white));
-        getWTXRData(mCategoryIDList.get(0),"0","0");
+        getWTXRData(mCategoryIDList.get(0),"0","0",mSecondMenu.get(0));
         //筛选置顶/悬赏...
         lxFindOnClick(0);
         mSecondMenuList.get(index).setOnClickListener(new View.OnClickListener() {
@@ -394,7 +405,7 @@ public class WTXRFragment extends Fragment {
                 //单独将选中的刷绿
                 mSecondMenuList.get(index).setBackgroundResource(R.drawable.editsharp_green_all);
                 mSecondMenuList.get(index).setTextColor(getResources().getColor(R.color.white));
-                getWTXRData(mCategoryIDList.get(index),"0","0");
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
                 //筛选置顶/悬赏...
                 lxFindOnClick(index);
             }
@@ -414,7 +425,7 @@ public class WTXRFragment extends Fragment {
                 mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"1","0");
+                getWTXRData(mCategoryIDList.get(index),"1","0",mSecondMenu.get(index));
             }
         });
         mNewBtn.setOnClickListener(new View.OnClickListener() {
@@ -426,7 +437,7 @@ public class WTXRFragment extends Fragment {
                 mNewBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","0");
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
 
             }
         });
@@ -440,7 +451,7 @@ public class WTXRFragment extends Fragment {
                 mXSBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","1");
+                getWTXRData(mCategoryIDList.get(index),"0","1",mSecondMenu.get(index));
 
             }
         });

@@ -74,4 +74,8 @@ public class Caller  {
     //发现列表(首页)
     public static String MAIN_FIND_LIST_INFOS =HTTP+"publish/publish/getindexpublishcomplexlist.html?appid="+APPID ;// +"&sign={SIGN}";
 
+    //获取发布信息详情（包含图片列表）
+    public static String DETAILS_ISSUE_INFOS =HTTP+"publish/publish/getpublishdetailcomplex.html?appid="+APPID ;// +"&sign={SIGN}";
+
+
 }

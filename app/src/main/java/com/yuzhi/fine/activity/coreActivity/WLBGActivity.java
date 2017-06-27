@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -80,7 +81,8 @@ public class WLBGActivity extends AppCompatActivity {
     @Bind(R.id.checked_horlist_layout)//横向滚动布局
             LinearLayout mCheckedHorlistLayout;
 
-    List<TextView> mSecondMenuList = new ArrayList<TextView>();//二级菜单列表
+    List<TextView> mSecondMenuList = new ArrayList<TextView>();//二级菜单TextView列表
+    List<String> mSecondMenu= new ArrayList<String>();//二级菜单名称列表
     List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
     private ProgressDialog progress;
     //第一次调接口 如果出现没有数据会弹出default_page 但是默认是要加载出当前界面的
@@ -168,7 +170,7 @@ public class WLBGActivity extends AppCompatActivity {
      * String toptype
      * String monetype
      */
-    private void getWTXRData(String categoryID ,String toptype , String monetype) {
+    private void getWTXRData(String categoryID ,String toptype , String monetype,final String secondmenu) {
         HashMap<String, String> params = new HashMap<>();
         params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
         params.put("toptype", toptype);//	置顶类型（0所有，1置顶，2不置顶）
@@ -187,7 +189,7 @@ public class WLBGActivity extends AppCompatActivity {
                 String data = response.getData();
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    List<FindListBean> findList = parseArray(data, FindListBean.class);
+                 final   List<FindListBean> findList = parseArray(data, FindListBean.class);
                     //判断当前界面是否有数据
                     //如果没有数据 则展示默认页
                     if (CommUtil.isNullOrBlank(findList)&& isOpenNet == true){
@@ -306,7 +308,13 @@ public class WLBGActivity extends AppCompatActivity {
                     }
                     mFindItemAdapter = new FindServerItemapter(mContext, arrayBean,0);
                     mFindXSListview.setAdapter(mFindItemAdapter);
-
+                    mFindXSListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String publistID = findList.get(position).getPublishID();
+                            UIHelper.showDetails(mContext,publistID,secondmenu);
+                        }
+                    });
                     if (progress != null) {
                         progress.dismiss();
                     }
@@ -334,7 +342,9 @@ public class WLBGActivity extends AppCompatActivity {
      * 目标类型--获取发布类别列表（二级）
      */
     private void getIssueSecondList(String value) {
-
+        mCategoryIDList.clear();
+        mSecondMenuList.clear();
+        mSecondMenu.clear();
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("parentid", value);
@@ -365,8 +375,9 @@ public class WLBGActivity extends AppCompatActivity {
                         mLayoutParams.gravity= Gravity.CENTER;
                         mCheckedHorlistLayout.addView(mTextView, mLayoutParams);
                         mSecondMenuList.add(mTextView);
+                        mSecondMenu.add(cateTitle);
                         mCategoryIDList.add(cateID);
-                        checkedSecondMenu(index,menuNum,mCategoryIDList);//二级菜单获取选中/非选择效果  根据ID 获取二级菜单对应的内容
+                        checkedSecondMenu(index,menuNum,mCategoryIDList,mSecondMenu);//二级菜单获取选中/非选择效果  根据ID 获取二级菜单对应的内容
 //                        byIdGetSecondContent(index,mCategoryIDList);//
                     }
                 } else {
@@ -384,11 +395,11 @@ public class WLBGActivity extends AppCompatActivity {
     /**
      * 二级菜单获取选中/非选择效果
      */
-    private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList) {
+    private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList,final List<String> mSecondMenu) {
         //默认第一位选中状态
         mSecondMenuList.get(0).setBackgroundResource(R.drawable.editsharp_green_all);
         mSecondMenuList.get(0).setTextColor(getResources().getColor(R.color.white));
-        getWTXRData(mCategoryIDList.get(0),"0","0");
+        getWTXRData(mCategoryIDList.get(0),"0","0",mSecondMenu.get(0));
         //筛选置顶/悬赏...
         lxFindOnClick(0);
         mSecondMenuList.get(index).setOnClickListener(new View.OnClickListener() {
@@ -402,7 +413,7 @@ public class WLBGActivity extends AppCompatActivity {
                 //单独将选中的刷绿
                 mSecondMenuList.get(index).setBackgroundResource(R.drawable.editsharp_green_all);
                 mSecondMenuList.get(index).setTextColor(getResources().getColor(R.color.white));
-                getWTXRData(mCategoryIDList.get(index),"0","0");
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
                 //筛选置顶/悬赏...
                 lxFindOnClick(index);
             }
@@ -422,7 +433,7 @@ public class WLBGActivity extends AppCompatActivity {
                 mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"1","0");
+                getWTXRData(mCategoryIDList.get(index),"1","0",mSecondMenu.get(index));
             }
         });
         mNewBtn.setOnClickListener(new View.OnClickListener() {
@@ -434,7 +445,7 @@ public class WLBGActivity extends AppCompatActivity {
                 mNewBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","0");
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
 
             }
         });
@@ -448,7 +459,7 @@ public class WLBGActivity extends AppCompatActivity {
                 mXSBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","1");
+                getWTXRData(mCategoryIDList.get(index),"0","1",mSecondMenu.get(index));
 
             }
         });

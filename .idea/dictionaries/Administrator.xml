@@ -11,6 +11,7 @@
       <w>fragmet</w>
       <w>franmet</w>
       <w>getcategorytwolist</w>
+      <w>getpublishdetailcomplex</w>
       <w>ishas</w>
       <w>islogin</w>
       <w>latlng</w>
@@ -19,6 +20,8 @@
       <w>memberuserregiest</w>
       <w>memberuserretrievepassword</w>
       <w>parentid</w>
+      <w>publist</w>
+      <w>secondmenu</w>
       <w>sendsmscode</w>
       <w>uploadimg</w>
       <w>userid</w>

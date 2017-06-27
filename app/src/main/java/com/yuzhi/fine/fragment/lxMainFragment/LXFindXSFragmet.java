@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -21,6 +22,7 @@ import com.yuzhi.fine.model.LXFind.FindListPicList;
 import com.yuzhi.fine.model.LXFindServerBean;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.FragmentAdapter.FindServerItemapter;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
@@ -164,7 +166,7 @@ public class LXFindXSFragmet extends Fragment {
                 String data = response.getData();
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    List<FindListBean> findList =  parseArray(data, FindListBean.class);
+                   final List<FindListBean> findList =  parseArray(data, FindListBean.class);
                     final int findListNum = findList.size();
                     CommUtil.showToast("size-->"+findListNum,getActivity());
                     for (int index  = 0 ; index < findListNum ; index ++){
@@ -259,6 +261,13 @@ public class LXFindXSFragmet extends Fragment {
                     mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,1);
                     mFindXSListview.setAdapter(mFindItemAdapter);
                     CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);
+                    mFindXSListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String publistID = findList.get(position).getPublishID();
+                            UIHelper.showDetails(getActivity(),publistID,"");
+                        }
+                    });
 
                     if (progress != null) {
                         progress.dismiss();
