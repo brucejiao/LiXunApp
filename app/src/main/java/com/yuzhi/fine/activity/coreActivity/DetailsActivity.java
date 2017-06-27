@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
@@ -20,6 +21,7 @@ import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.model.LXFind.FindListPicList;
 import com.yuzhi.fine.model.LXFindServerBean;
 import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -123,7 +125,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void getDetailsInfos() {
         String publistID = getIntent().getStringExtra("publistID");//发布ID
         final String secondMenu = getIntent().getStringExtra("secondMenu");//二级菜单
-        CommUtil.showAlert(publistID+"---"+secondMenu,mContext);
+//        CommUtil.showAlert(publistID+"---"+secondMenu,mContext);
 
 
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
@@ -138,51 +140,50 @@ public class DetailsActivity extends AppCompatActivity {
                 String data = response.getData();
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    final List<FindListBean> findList = parseArray(data, FindListBean.class);
-                    final int findListNum = findList.size();
-                    for (int index = 0; index < findListNum; index++) {
+                    FindListBean findList = JSON.parseObject(data, FindListBean.class);
+
                         LXFindServerBean lxFindServerBean = new LXFindServerBean();
                         //接口数据
-                        String publistID = findList.get(index).getPublishID();
-                        String title = findList.get(index).getTitle();//标题
-                        String content = findList.get(index).getContent();//内容
+                        String publistID = findList.getPublishID();
+                        String title = findList.getTitle();//标题
+                        String content = findList.getContent();//内容
 //                        findList.get(index).getUserID();
 //                        findList.get(index).getPictureID();
 //                        findList.get(index).getCategoryID();
-                        String money = findList.get(index).getMoney();//悬赏金
+                        String money = findList.getMoney();//悬赏金
 //                        findList.get(index).getProvince();
 //                        findList.get(index).getCity();
 //                        findList.get(index).getCountry();
-                        String address = findList.get(index).getAddress();//地址
-                        String pushType = findList.get(index).getPushType();//推广类型（0所有，1推广，2不推广）
+                        String address = findList.getAddress();//地址
+                        String pushType = findList.getPushType();//推广类型（0所有，1推广，2不推广）
 //                        findList.get(index).getPushMoney();
-                        String topType = findList.get(index).getTopType();//置顶类型（0所有，1置顶，2不置顶）
+                        String topType = findList.getTopType();//置顶类型（0所有，1置顶，2不置顶）
 //                        findList.get(index).getTopMoney();
-                        String createTime = findList.get(index).getCreateTime();
-                        String updateTime = findList.get(index).getUpdateTime();
+                        String createTime = findList.getCreateTime();
+                        String updateTime = findList.getUpdateTime();
 //                        findList.get(index).getPublishStatus();
 //                        findList.get(index).getIsDelete();
 //                        findList.get(index).getCheckState();
 //                        findList.get(index).getCheckID();
 //                        findList.get(index).getCheckTime();
 //                        findList.get(index).getCheckRemark();
-                        String followCount = findList.get(index).getFollowCount();
-                        String commentCount = findList.get(index).getCommentCount();
-                        String visitCount = findList.get(index).getVisitCount();
+                        String followCount = findList.getFollowCount();
+                        String commentCount = findList.getCommentCount();
+                        String visitCount = findList.getVisitCount();
 //                        findList.get(index).getClueUserName();
 //                        findList.get(index).getPaymentTypeID();
 //                        findList.get(index).getPaymentTypeName();
 //                        findList.get(index).getPaymentStatus();
 //                        findList.get(index).getDatePayOrder();
 //                        findList.get(index).getMoneyPaid();
-                        String userName = findList.get(index).getUserName();
+                        String userName = findList.getUserName();
 //                        findList.get(index).getCheckUserName();
-                        String headerImgPath = findList.get(index).getImgFilePath();
-                        String provinceName = findList.get(index).getProvinceName();
-                        String cityName = findList.get(index).getCityName();
-                        String countryName = findList.get(index).getCountryName();
-                        String pictueeList = findList.get(index).getPictureList();///////
-                        String picturePath = findList.get(index).getPicturePath();
+                        String headerImgPath = findList.getImgFilePath();
+                        String provinceName = findList.getProvinceName();
+                        String cityName = findList.getCityName();
+                        String countryName = findList.getCountryName();
+                        String pictueeList = findList.getPictureList();///////
+                        String picturePath = findList.getPicturePath();
 //                        findList.get(index).getCategoryName();
 //                        findList.get(index).getFollowTime();
 
@@ -207,9 +208,8 @@ public class DetailsActivity extends AppCompatActivity {
                         //  lxFindServerBean.setImgOne(findListPicLists.get(0).getImgFilePath());
 
                         //////////////////////////////////////////////////////
-                        //  .resize(DeviceUtil.dp2px(mContext,73), DeviceUtil.dp2px(mContext,73))
                         //头像
-                        Picasso.with(mContext).load(headerImgPath).placeholder(R.drawable.default_image).into(mDetailsRoundHeader);
+                        Picasso.with(mContext).load(headerImgPath).resize(DeviceUtil.dp2px(mContext,50), DeviceUtil.dp2px(mContext,50)).placeholder(R.drawable.default_image).into(mDetailsRoundHeader);
                         mDetailsUserName.setText(userName);
                         mDetailsPrice.setText("¥"+money+"元");
                         mDetailsAddress.setText(provinceName + cityName + countryName);
@@ -217,7 +217,7 @@ public class DetailsActivity extends AppCompatActivity {
                         mDetailsTitle.setText(title);
                         mDetailsContent.setText(content);
                         mDetailsLoseAddress.setText(provinceName + cityName + countryName);
-                    }
+
                     if (progress != null) {
                         progress.dismiss();
                     }

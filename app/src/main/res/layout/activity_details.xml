@@ -41,7 +41,7 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_headimg"
                     app:riv_border_color="@color/green"
-                    app:riv_border_width="1dp"
+                    app:riv_border_width="0dp"
                     app:riv_oval="true" />
 
                 <LinearLayout
@@ -55,7 +55,7 @@
                         android:id="@+id/details_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="23dp"
+                        android:layout_marginTop="16dp"
                         android:ellipsize="end"
                         android:maxEms="15"
                         android:singleLine="true"
@@ -283,7 +283,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_headimg"
                         app:riv_border_color="@color/green"
-                        app:riv_border_width="1dp"
+                        app:riv_border_width="0dp"
                         app:riv_oval="true" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -293,7 +293,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_headimg"
                         app:riv_border_color="@color/green"
-                        app:riv_border_width="1dp"
+                        app:riv_border_width="0dp"
                         app:riv_oval="true" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -303,7 +303,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_headimg"
                         app:riv_border_color="@color/green"
-                        app:riv_border_width="1dp"
+                        app:riv_border_width="0dp"
                         app:riv_oval="true" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -313,7 +313,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_headimg"
                         app:riv_border_color="@color/green"
-                        app:riv_border_width="1dp"
+                        app:riv_border_width="0dp"
                         app:riv_oval="true" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -323,7 +323,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_headimg"
                         app:riv_border_color="@color/green"
-                        app:riv_border_width="1dp"
+                        app:riv_border_width="0dp"
                         app:riv_oval="true" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -333,7 +333,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_headimg"
                         app:riv_border_color="@color/green"
-                        app:riv_border_width="1dp"
+                        app:riv_border_width="0dp"
                         app:riv_oval="true" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -343,7 +343,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_headimg"
                         app:riv_border_color="@color/green"
-                        app:riv_border_width="1dp"
+                        app:riv_border_width="0dp"
                         app:riv_oval="true" />
 
                     <ImageView
