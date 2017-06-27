@@ -315,7 +315,6 @@ public class LXMainFragment extends Fragment {
 
                 if (position == 0) {
 
-                    CommUtil.showAlert("xs--ok", getActivity());
 
                 } else if (position == 1) {
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -323,7 +322,6 @@ public class LXMainFragment extends Fragment {
 //                    } else {
 //                        activityScdetailsBottomVp.resetHeight(1);
 //                    }
-                    CommUtil.showAlert("pt--ok", getActivity());
                 }
             }
 

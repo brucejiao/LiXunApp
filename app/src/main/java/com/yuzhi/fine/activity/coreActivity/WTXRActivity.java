@@ -34,6 +34,7 @@ import butterknife.OnClick;
 import okhttp3.Request;
 
 import static com.alibaba.fastjson.JSON.parseArray;
+import static com.yuzhi.fine.R.id.btnBack;
 import static com.yuzhi.fine.utils.CommUtil.currentDate;
 import static com.yuzhi.fine.utils.CommUtil.daysBetween2;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
@@ -43,7 +44,7 @@ import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 public class WTXRActivity extends AppCompatActivity {
 
     private WTXRActivity mContext;
-    @Bind(R.id.btnBack)
+    @Bind(btnBack)
     Button mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
@@ -80,6 +81,9 @@ public class WTXRActivity extends AppCompatActivity {
     List<TextView> mSecondMenuList = new ArrayList<TextView>();//二级菜单列表
     List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
     private ProgressDialog progress;
+    //第一次调接口 如果出现没有数据会弹出default_page 但是默认是要加载出当前界面的
+    // 加个标志位进了第一次之后再判断是否为空
+    private boolean isOpenNet  = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +100,11 @@ public class WTXRActivity extends AppCompatActivity {
         //返回
         mBackBtn.setVisibility(View.VISIBLE);
         //标题
-        mTextHeaderTitle.setText("委托找人");
+        mTextHeaderTitle.setText("委托寻人");
     }
 
     //返回
-    @OnClick(R.id.btnBack)
+    @OnClick(btnBack)
     public void onBack(View view) {
         UIHelper.showHome(mContext);
         finish();
@@ -182,13 +186,36 @@ public class WTXRActivity extends AppCompatActivity {
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
                     List<FindListBean> findList = parseArray(data, FindListBean.class);
-
-                    if (CommUtil.isNullOrBlank(findList)){
+                    //判断当前界面是否有数据
+                    //如果没有数据 则展示默认页
+                    if (CommUtil.isNullOrBlank(findList)&& isOpenNet == true){
                         setContentView(R.layout.activity_nodata_default);
+                        Button btnBack = (Button)findViewById(R.id.btnBack);
+                        TextView textHeadTitle = (TextView)findViewById(R.id.textHeadTitle);
+                        TextView default_return_mainpage = (TextView)findViewById(R.id.default_return_mainpage);
+                        //返回
+                        btnBack.setVisibility(View.VISIBLE);
+                        //标题
+                        textHeadTitle.setText("委托寻人");
+                        btnBack.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UIHelper.showMainWTZR(mContext);
+                                finish();
+                            }
+                        });
+                        default_return_mainpage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UIHelper.showHome(mContext);
+                                finish();
+                            }
+                        });
                         return;
                     }//if List为空
                     final int findListNum = findList.size();
                     for (int index = 0; index < findListNum; index++) {
+                        isOpenNet = true;
                         LXFindServerBean lxFindServerBean = new LXFindServerBean();
                         //接口数据
 //                        findList.get(index).getPublishID();
@@ -275,7 +302,7 @@ public class WTXRActivity extends AppCompatActivity {
                         }
                         arrayBean.add(lxFindServerBean);
                     }
-                    mFindItemAdapter = new FindServerItemapter(mContext, arrayBean);
+                    mFindItemAdapter = new FindServerItemapter(mContext, arrayBean,0);
                     mFindXSListview.setAdapter(mFindItemAdapter);
 
                     if (progress != null) {
@@ -331,8 +358,8 @@ public class WTXRActivity extends AppCompatActivity {
                         mTextView.setGravity(Gravity.CENTER);
                         LinearLayout.LayoutParams mLayoutParams = new
 //                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                                LinearLayout.LayoutParams(150,92);
-                        mLayoutParams.leftMargin = 25;
+                                LinearLayout.LayoutParams(180,60);
+                        mLayoutParams.leftMargin = 35;
                         mLayoutParams.gravity= Gravity.CENTER;
                         mCheckedHorlistLayout.addView(mTextView, mLayoutParams);
                         mSecondMenuList.add(mTextView);

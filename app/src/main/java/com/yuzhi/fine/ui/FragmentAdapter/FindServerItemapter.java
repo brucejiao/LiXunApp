@@ -20,16 +20,21 @@ import java.util.ArrayList;
 import static com.yuzhi.fine.R.id.lx_header_img;
 
 /**
- * 悬赏/普通找寻适配器
+ * 发现列表找寻适配器
+ * 保留状态mFlag   0：首页GridView--委托寻人......传入
+ *                1: 首页悬赏/普通找寻服务传入
+ *               2:发现Fragment界面传入
  */
 public class FindServerItemapter extends BaseAdapter {
     private Context activity;
     private ArrayList<LXFindServerBean> arrayBean;
+    private int mFlag;
 
-    public FindServerItemapter(Context activity, ArrayList<LXFindServerBean> arrayBean) {
+    public FindServerItemapter(Context activity, ArrayList<LXFindServerBean> arrayBean,int flag) {
         super();
         this.activity = activity;
         this.arrayBean = arrayBean;
+        this.mFlag = flag ;
     }
 
     private class ViewHolder {
@@ -138,7 +143,12 @@ public class FindServerItemapter extends BaseAdapter {
         holder.certification_text.setText(bean.getIsCertification());
         holder.lx_title.setText(bean.getTitle());
         holder.lx_isfind.setText(bean.getIsFind());
-        holder.lx_isgenerailze.setText(bean.getIsGenerailze());
+        if (!CommUtil.isNullOrBlank(bean.getIsGenerailze())){
+            holder.lx_isgenerailze.setText(bean.getIsGenerailze());
+        }else {
+            holder.lx_isgenerailze.setVisibility(View.GONE);
+        }
+
         holder.lx_address.setText(bean.getAddress());
         holder.lx_price.setText(bean.getPrice());
         holder.lx_content.setText(bean.getContent());

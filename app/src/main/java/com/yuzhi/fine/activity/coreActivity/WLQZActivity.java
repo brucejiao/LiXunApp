@@ -1,5 +1,6 @@
 package com.yuzhi.fine.activity.coreActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
@@ -32,6 +34,9 @@ import butterknife.OnClick;
 import okhttp3.Request;
 
 import static com.alibaba.fastjson.JSON.parseArray;
+import static com.yuzhi.fine.R.id.btnBack;
+import static com.yuzhi.fine.utils.CommUtil.currentDate;
+import static com.yuzhi.fine.utils.CommUtil.daysBetween2;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.Constant.PARENTID_WLQZHU;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
@@ -40,9 +45,8 @@ import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
  * 网络求助
  */
 public class WLQZActivity extends AppCompatActivity {
-
     private WLQZActivity mContext;
-    @Bind(R.id.btnBack)
+    @Bind(btnBack)
     Button mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
@@ -78,6 +82,10 @@ public class WLQZActivity extends AppCompatActivity {
 
     List<TextView> mSecondMenuList = new ArrayList<TextView>();//二级菜单列表
     List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
+    private ProgressDialog progress;
+    //第一次调接口 如果出现没有数据会弹出default_page 但是默认是要加载出当前界面的
+    // 加个标志位进了第一次之后再判断是否为空
+    private boolean isOpenNet  = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +106,7 @@ public class WLQZActivity extends AppCompatActivity {
     }
 
     //返回
-    @OnClick(R.id.btnBack)
+    @OnClick(btnBack)
     public void onBack(View view) {
         UIHelper.showHome(mContext);
         finish();
@@ -155,13 +163,12 @@ public class WLQZActivity extends AppCompatActivity {
 
 
     /**
-     * 委托寻人--获取发布列表
+     * 网络求助--获取发布列表
      * String categoryID
      * String toptype
      * String monetype
      */
     private void getWTXRData(String categoryID ,String toptype , String monetype) {
-//        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
         params.put("toptype", toptype);//	置顶类型（0所有，1置顶，2不置顶）
@@ -181,8 +188,36 @@ public class WLQZActivity extends AppCompatActivity {
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
                     List<FindListBean> findList = parseArray(data, FindListBean.class);
+                    //判断当前界面是否有数据
+                    //如果没有数据 则展示默认页
+                    if (CommUtil.isNullOrBlank(findList)&& isOpenNet == true){
+                        setContentView(R.layout.activity_nodata_default);
+                        Button btnBack = (Button)findViewById((R.id.btnBack));
+                        TextView textHeadTitle = (TextView)findViewById(R.id.textHeadTitle);
+                        TextView default_return_mainpage = (TextView)findViewById(R.id.default_return_mainpage);
+                        //返回
+                        btnBack.setVisibility(View.VISIBLE);
+                        //标题
+                        textHeadTitle.setText("网络求助");
+                        btnBack.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UIHelper.showMainWLQZ(mContext);
+                                finish();
+                            }
+                        });
+                        default_return_mainpage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UIHelper.showHome(mContext);
+                                finish();
+                            }
+                        });
+                        return;
+                    }//if List为空
                     final int findListNum = findList.size();
                     for (int index = 0; index < findListNum; index++) {
+                        isOpenNet = true;
                         LXFindServerBean lxFindServerBean = new LXFindServerBean();
                         //接口数据
 //                        findList.get(index).getPublishID();
@@ -234,12 +269,13 @@ public class WLQZActivity extends AppCompatActivity {
                         lxFindServerBean.setIsCertification("已认证");//是否认证
                         lxFindServerBean.setTitle(title);
                         lxFindServerBean.setIsFind("招领" + index);
-                        lxFindServerBean.setIsGenerailze("宇宙推广" + index);
+                        lxFindServerBean.setIsGenerailze(pushType.trim().equals("1")?"全国推广":"");
                         lxFindServerBean.setAddress(provinceName + cityName + countryName);
-                        lxFindServerBean.setPrice(money);
+                        lxFindServerBean.setPrice(money+"元");
                         lxFindServerBean.setContent(content);
 
-                        lxFindServerBean.setTime(index + "分钟前发布");
+                        String distanceTime = daysBetween2(createTime,currentDate());
+                        lxFindServerBean.setTime(distanceTime);
                         lxFindServerBean.setLookerNum(followCount);
                         lxFindServerBean.setFocusonNum(commentCount);
                         lxFindServerBean.setMessageNum(visitCount);
@@ -268,27 +304,26 @@ public class WLQZActivity extends AppCompatActivity {
                         }
                         arrayBean.add(lxFindServerBean);
                     }
-                    mFindItemAdapter = new FindServerItemapter(mContext, arrayBean);
+                    mFindItemAdapter = new FindServerItemapter(mContext, arrayBean,0);
                     mFindXSListview.setAdapter(mFindItemAdapter);
 
-/*
                     if (progress != null) {
                         progress.dismiss();
-                    }*/
+                    }
 
                 } else {
                     showToast(message, mContext);
-                    /*if (progress != null) {
+                    if (progress != null) {
                         progress.dismiss();
-                    }*/
+                    }
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
-                /*if (progress != null) {
+                if (progress != null) {
                     progress.dismiss();
-                }*/
+                }
                 showToast("发现列表获取失败", mContext);
             }
         });
@@ -300,7 +335,7 @@ public class WLQZActivity extends AppCompatActivity {
      */
     private void getIssueSecondList(String value) {
 
-//        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
+        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("parentid", value);
 
@@ -312,7 +347,7 @@ public class WLQZActivity extends AppCompatActivity {
                 String data = response.getData();
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    List<SecondMenu> menu = parseArray(data, SecondMenu.class);
+                    List<SecondMenu> menu = JSON.parseArray(data, SecondMenu.class);
                     final int menuNum = menu.size();
                     for (int index = 0; index < menuNum; index++) {
                         TextView mTextView = new TextView(mContext);
@@ -322,37 +357,25 @@ public class WLQZActivity extends AppCompatActivity {
                         mTextView.setText(cateTitle);
                         mTextView.setTextSize(10);
                         mTextView.setTextColor(getResources().getColor(R.color.black));
+                        mTextView.setGravity(Gravity.CENTER);
                         LinearLayout.LayoutParams mLayoutParams = new
-                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        mLayoutParams.leftMargin = 25;
-                        mLayoutParams.gravity = Gravity.CENTER;
+//                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                LinearLayout.LayoutParams(180,60);
+                        mLayoutParams.leftMargin = 35;
+                        mLayoutParams.gravity= Gravity.CENTER;
                         mCheckedHorlistLayout.addView(mTextView, mLayoutParams);
                         mSecondMenuList.add(mTextView);
                         mCategoryIDList.add(cateID);
                         checkedSecondMenu(index,menuNum,mCategoryIDList);//二级菜单获取选中/非选择效果  根据ID 获取二级菜单对应的内容
 //                        byIdGetSecondContent(index,mCategoryIDList);//
                     }
-
-                  /*  if (progress != null)
-                    {
-                        progress.dismiss();
-                    }*/
-
                 } else {
                     showToast(message, mContext);
-                   /* if (progress != null)
-                    {
-                        progress.dismiss();
-                    }*/
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
-               /* if (progress != null)
-                {
-                    progress.dismiss();
-                }*/
                 showToast("二级菜单获取失败", mContext);
             }
         });
@@ -400,7 +423,6 @@ public class WLQZActivity extends AppCompatActivity {
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
                 getWTXRData(mCategoryIDList.get(index),"1","0");
-                showToast("mTopBtn"+index,mContext);
             }
         });
         mNewBtn.setOnClickListener(new View.OnClickListener() {
@@ -413,7 +435,6 @@ public class WLQZActivity extends AppCompatActivity {
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
                 getWTXRData(mCategoryIDList.get(index),"0","0");
-                showToast("mNewBtn"+index,mContext);
 
             }
         });
@@ -428,10 +449,8 @@ public class WLQZActivity extends AppCompatActivity {
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
                 getWTXRData(mCategoryIDList.get(index),"0","1");
-                showToast("mXSBtn"+index,mContext);
 
             }
         });
     }
-
 }

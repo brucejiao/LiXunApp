@@ -17,7 +17,7 @@
             android:textSize="@dimen/text_size_14"
             android:textColor="@color/text_color_gray"
             android:background="@drawable/btn_back"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
 
