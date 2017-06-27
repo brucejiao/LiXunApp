@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.yuzhi.fine.activity.coreActivity.DetailsActivity">
+
+    <include layout="@layout/layout_main_header" />
+    <!--标题栏-->
+    <ScrollView
+        android:id="@+id/mainscrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        android:background="@color/white"
+        android:fadingEdge="none"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:background="@color/white"
+
+                android:orientation="horizontal">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/details_round_header"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/default_headimg"
+                    app:riv_border_color="@color/green"
+                    app:riv_border_width="0dp"
+                    app:riv_oval="true" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_3"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/details_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:ellipsize="end"
+                        android:maxEms="15"
+                        android:singleLine="true"
+                        android:text="熊大大大da da "
+                        android:textSize="@dimen/text_size_13" />
+
+
+                    <TextView
+                        android:id="@+id/details_certification_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_6"
+                        android:background="@drawable/editsharp_green_all"
+                        android:text="已认证"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_9" />
+                </LinearLayout>
+                <!--个人详情-->
+                <TextView
+                    android:id="@+id/details_personinfos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/space_5"
+                    android:layout_weight="1"
+                    android:background="@drawable/editsharp_white_edit"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxEms="9"
+                    android:singleLine="true"
+                    android:text="个人详情"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/space_10" />
+
+            </LinearLayout>
+            <!--分割线-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/xs_short_gary" />
+            <!--悬赏金额-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11"
+                android:layout_marginTop="@dimen/space_15"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="悬赏金额"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/space_15" />
+
+                <TextView
+                    android:id="@+id/details_price"
+                    android:layout_width="@dimen/space_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:text="￥200"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/space_20" />
+
+                <TextView
+                    android:id="@+id/details_report"
+                    android:layout_width="35dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/editsharp_white_edit"
+                    android:gravity="center"
+                    android:text="举报"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/space_10" />
+            </LinearLayout>
+            <!--发布信息位置-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11"
+                android:background="@color/white"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发布信息位置:  "
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/space_10" />
+
+                <TextView
+                    android:id="@+id/details_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="江苏省南京市浦口区高新区爱信诺大厦"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/space_10" />
+            </LinearLayout>
+            <!--标题-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11"
+                android:layout_marginTop="@dimen/space_15"
+
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/details_secondmenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/editsharp_red_all"
+                    android:text="找宠"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_10" />
+
+                <TextView
+                    android:id="@+id/details_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_7"
+                    android:text="寻找我的宠物狗毛毛"
+                    android:textColor="@color/xs_short_black"
+                    android:textSize="@dimen/text_size_12" />
+            </LinearLayout>
+            <!--发布内容-->
+            <TextView
+                android:id="@+id/details_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11"
+                android:layout_marginTop="@dimen/space_11"
+                android:text="最近热播的第十一期跑男大家都看了吧，这期节目中除了陈赫撕名牌战胜散打冠军很出彩之外，其中热巴在绕绳环节中耽误时间也成了网友们热议的话梗！看直播的时候没有留意，但是当翻看了一遍网播之后你会发现，跑男所有队员都在关心比赛输与赢的时候，似乎只有鹿晗在关心热巴。"
+                android:textColor="@color/xs_short_gary2"
+                android:textSize="@dimen/space_10" />
+            <!--发布图片-->
+            <LinearLayout
+                android:id="@+id/details_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <!--目标丢失地-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11"
+                android:layout_marginTop="@dimen/space_23"
+
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="11dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/address" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_5"
+                    android:text="目标丢失地:  "
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/space_10" />
+
+                <TextView
+                    android:id="@+id/details_loseaddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="江苏省南京市浦口区高新区爱信诺大厦"
+                    android:textColor="@color/xs_short_gary2"
+                    android:textSize="@dimen/space_10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11"
+                android:layout_marginTop="18dp"
+                android:background="@color/xs_short_gary"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/details_find_people_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/space_9"
+                        android:gravity="center_vertical"
+                        android:text="线索提供(7)"
+                        android:textColor="@color/xs_short_black"
+                        android:textSize="@dimen/space_10" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/details_peo_img1"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_headimg"
+                        app:riv_border_color="@color/green"
+                        app:riv_border_width="0dp"
+                        app:riv_oval="true" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/details_peo_img2"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_headimg"
+                        app:riv_border_color="@color/green"
+                        app:riv_border_width="0dp"
+                        app:riv_oval="true" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/details_peo_img3"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_headimg"
+                        app:riv_border_color="@color/green"
+                        app:riv_border_width="0dp"
+                        app:riv_oval="true" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/details_peo_img4"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_headimg"
+                        app:riv_border_color="@color/green"
+                        app:riv_border_width="0dp"
+                        app:riv_oval="true" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/details_peo_img5"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_headimg"
+                        app:riv_border_color="@color/green"
+                        app:riv_border_width="0dp"
+                        app:riv_oval="true" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/details_peo_img6"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_headimg"
+                        app:riv_border_color="@color/green"
+                        app:riv_border_width="0dp"
+                        app:riv_oval="true" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/details_peo_img7"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/default_headimg"
+                        app:riv_border_color="@color/green"
+                        app:riv_border_width="0dp"
+                        app:riv_oval="true" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="@dimen/space_10"
+                        android:src="@drawable/arrow_right" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11"
+                android:layout_marginTop="@dimen/space_15"
+                android:text="评论区"
+                android:textSize="@dimen/space_13" />
+
+
+            <ListView
+                android:id="@+id/details_review_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_11"
+                android:layout_marginRight="@dimen/space_11" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/xs_short_gary"
+        android:gravity="bottom">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_5"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/yzma"
+            android:text="关注"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_18" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_5"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/yzma"
+            android:text="评论"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_18" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/lx_blue"
+            android:text="聊一聊"
+            android:textColor="@color/white"
+            android:textSize="@dimen/space_18" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/xs_red"
+            android:text="我有线索"
+            android:textColor="@color/white"
+            android:textSize="@dimen/space_18" />
+    </LinearLayout>
+
+</LinearLayout>

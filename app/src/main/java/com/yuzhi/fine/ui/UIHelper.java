@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.yuzhi.fine.activity.HouseDetailActivity;
 import com.yuzhi.fine.activity.LoginActivity;
 import com.yuzhi.fine.activity.MainActivity;
+import com.yuzhi.fine.activity.coreActivity.DetailsActivity;
 import com.yuzhi.fine.activity.coreActivity.IssueActivity;
 import com.yuzhi.fine.activity.coreActivity.LXQZActivity;
 import com.yuzhi.fine.activity.coreActivity.WLBGActivity;
@@ -189,6 +190,14 @@ public class UIHelper {
     //主界面--立寻圈子
     public static void showMainLXQZ(Activity context) {
         Intent intent = new Intent(context, LXQZActivity.class);
+        context.startActivity(intent);
+    }
+
+    //展示发布详情界面
+    public  static void showDetails(Activity context,String publistID,String secondmenu){
+        Intent intent = new Intent(context,DetailsActivity.class);
+        intent.putExtra("publistID",publistID);
+        intent.putExtra("secondMenu",secondmenu);
         context.startActivity(intent);
     }
 

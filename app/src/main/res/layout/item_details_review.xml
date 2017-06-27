@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_11"
+        android:layout_marginRight="@dimen/space_11"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/details_review"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_headimg"
+            app:riv_border_color="@color/green"
+            app:riv_border_width="1dp"
+            app:riv_oval="true" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/space_15"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/details_review_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="寻不到的边际"
+                android:textSize="@dimen/space_11" />
+
+            <TextView
+                android:id="@+id/details_review_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="我好想找到你的狗了，请和我联系~"
+                android:textSize="@dimen/space_9" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/details_review_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="2016-06-27"
+            android:textSize="@dimen/space_10" />
+    </LinearLayout>
+</LinearLayout>
