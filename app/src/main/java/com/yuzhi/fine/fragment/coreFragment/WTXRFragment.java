@@ -45,6 +45,7 @@ import static com.alibaba.fastjson.JSON.parseArray;
 import static com.yuzhi.fine.utils.CommUtil.currentDate;
 import static com.yuzhi.fine.utils.CommUtil.daysBetween2;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
 import static com.yuzhi.fine.utils.Constant.PARENTID_WTXR;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 
@@ -83,7 +84,7 @@ public class WTXRFragment extends Fragment {
     List<String> mSecondMenu= new ArrayList<String>();//二级菜单名称列表
     List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
     private ProgressDialog progress;
-
+    private boolean isLoadAll;
     public WTXRFragment() {
     }
 
@@ -141,6 +142,7 @@ public class WTXRFragment extends Fragment {
     private void initData() {
         //获取目标类型
         getIssueSecondList(PARENTID_WTXR);
+
     }
 
     /**
@@ -188,6 +190,7 @@ public class WTXRFragment extends Fragment {
      * 委托寻人--获取发布列表
      */
     private void getWTXRData(String categoryID ,String toptype , String monetype,final String secondmenu) {
+
 //        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
@@ -202,6 +205,7 @@ public class WTXRFragment extends Fragment {
         HttpClient.get(Caller.FIND_LIST_INFOS, params, new HttpResponseHandler() {
             @Override
             public void onSuccess(RestApiResponse response) {
+
                 String result = response.getResult();
                 String message = response.getMessage();
                 String data = response.getData();
@@ -263,14 +267,14 @@ public class WTXRFragment extends Fragment {
                         lxFindServerBean.setIsFind("招领" + index);
                         lxFindServerBean.setIsGenerailze(pushType.trim().equals("1")?"全国推广":"");
                         lxFindServerBean.setAddress(provinceName + cityName + countryName);
-                        lxFindServerBean.setPrice(money+"元");
+                        lxFindServerBean.setPrice(subMoneyZero(money)+"元");
                         lxFindServerBean.setContent(content);
 
                         String distanceTime = daysBetween2(createTime,currentDate());
                         lxFindServerBean.setTime(distanceTime);
-                        lxFindServerBean.setLookerNum(followCount);
-                        lxFindServerBean.setFocusonNum(commentCount);
-                        lxFindServerBean.setMessageNum(visitCount);
+                        lxFindServerBean.setLookerNum(visitCount);
+                        lxFindServerBean.setFocusonNum(followCount);
+                        lxFindServerBean.setMessageNum(commentCount);
 
                         List<FindListPicList> findListPicLists = parseArray(pictueeList, FindListPicList.class);
                         final int findPicNum = findListPicLists.size();
@@ -333,6 +337,7 @@ public class WTXRFragment extends Fragment {
      * 目标类型--获取发布类别列表（二级）
      */
     private void getIssueSecondList(String value) {
+//        mFindXSListview.setLoadMoreViewTextLoading();
         mCategoryIDList.clear();
         mSecondMenuList.clear();
         mSecondMenu.clear();

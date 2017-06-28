@@ -28,7 +28,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.yuzhi.fine.R;
 import com.yuzhi.fine.common.AppContext;
+import com.yuzhi.fine.ui.AddContentDialog;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -641,6 +643,44 @@ public class CommUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss hh");
 		temp_str=sdf.format(dt);
 		return temp_str;
+	}
+
+	/**
+	 *截取价格小数点后的0
+	 */
+	public static String subMoneyZero(String params){
+		if(params.contains(".")){
+			String subMoney =  params.substring(params.indexOf(".")+1,params.length());
+			if(subMoney.equals("0")){
+				String money =  params.substring(0,params.indexOf("."));
+				return money;
+			}else{
+				return params;
+			}
+		}else{
+			return params;
+		}
+	}
+
+	/**
+	 * @param mDialog    dialog对象
+	 * @param mContext   上下文
+	 * @param title      标题
+	 * @param msg        消息
+	 * @param ok         确定
+	 * @param cancel     取消
+	 * @param okClick    确定监听
+	 * @param cancelClick 取消监听
+	 */
+	public static void okCancleDialog(AddContentDialog mDialog, Context mContext, String title,String msg, String ok, android.view.View.OnClickListener okClick, String cancel, android.view.View.OnClickListener cancelClick){
+		mDialog.setDialog(R.layout.dialog_add_content);
+		mDialog.txt_Title.setText(title);
+		mDialog.txt_content.setText(msg);
+		mDialog.dialog_button_details.setText(ok);
+		mDialog.dialog_button_cancel.setText(cancel);
+		mDialog.dialog_button_details.setOnClickListener((android.view.View.OnClickListener) okClick);
+		mDialog.dialog_button_cancel.setOnClickListener((android.view.View.OnClickListener) cancelClick);
+		mDialog.show();
 	}
 
 }

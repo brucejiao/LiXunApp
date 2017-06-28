@@ -3,6 +3,7 @@ package com.yuzhi.fine.common;
 import android.app.Activity;
 import android.app.Application;
 
+import com.yuzhi.fine.utils.LocationUtils;
 import com.yuzhi.fine.utils.LogUtil;
 
 import java.util.LinkedList;
@@ -37,7 +38,7 @@ public class AppContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        LocationUtils.initLocation(this);
         activitys = new LinkedList<Activity>();
 
         registerUncaughtExceptionHandler();

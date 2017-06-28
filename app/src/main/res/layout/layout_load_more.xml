@@ -23,6 +23,7 @@
         android:layout_toRightOf="@id/progress"
         android:gravity="center"
         android:text="@string/pull_to_refresh_refreshing_label"
+        android:textSize="@dimen/space_15"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

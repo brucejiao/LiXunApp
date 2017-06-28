@@ -217,8 +217,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
         initWheel();
 
-        //初始化定位工具
-        LocationUtils.initLocation(mContext);
+        //初始化定位
         new Thread(networkTask).start();
 
 

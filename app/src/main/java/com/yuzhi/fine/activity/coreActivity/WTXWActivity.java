@@ -39,6 +39,7 @@ import static com.yuzhi.fine.R.id.btnBack;
 import static com.yuzhi.fine.utils.CommUtil.currentDate;
 import static com.yuzhi.fine.utils.CommUtil.daysBetween2;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
 import static com.yuzhi.fine.utils.Constant.PARENTID_WTXW;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 
@@ -243,14 +244,14 @@ public class WTXWActivity extends AppCompatActivity {
                         lxFindServerBean.setIsFind("招领" + index);
                         lxFindServerBean.setIsGenerailze(pushType.trim().equals("1")?"全国推广":"");
                         lxFindServerBean.setAddress(provinceName + cityName + countryName);
-                        lxFindServerBean.setPrice(money+"元");
+                        lxFindServerBean.setPrice(subMoneyZero(money)+"元");
                         lxFindServerBean.setContent(content);
 
                         String distanceTime = daysBetween2(createTime,currentDate());
                         lxFindServerBean.setTime(distanceTime);
-                        lxFindServerBean.setLookerNum(followCount);
-                        lxFindServerBean.setFocusonNum(commentCount);
-                        lxFindServerBean.setMessageNum(visitCount);
+                        lxFindServerBean.setLookerNum(visitCount);
+                        lxFindServerBean.setFocusonNum(followCount);
+                        lxFindServerBean.setMessageNum(commentCount);
 
                         List<FindListPicList> findListPicLists = parseArray(pictueeList, FindListPicList.class);
                         final int findPicNum = findListPicLists.size();

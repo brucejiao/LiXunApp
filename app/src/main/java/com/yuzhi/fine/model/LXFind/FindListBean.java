@@ -29,9 +29,9 @@ public class FindListBean {
     private String CheckID;
     private String CheckTime;
     private String CheckRemark;
-    private String FollowCount;
-    private String CommentCount;
-    private String VisitCount;
+    private String FollowCount;//关注
+    private String CommentCount;//评论
+    private String VisitCount;//
     private String ClueUserID;
     private String ClueUserName;
     private String PaymentTypeID;

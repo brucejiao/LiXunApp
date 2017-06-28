@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
         android:background="@color/white"
         android:fadingEdge="none"
         android:scrollbars="none">
@@ -59,7 +58,7 @@
                         android:ellipsize="end"
                         android:maxEms="15"
                         android:singleLine="true"
-                        android:text="熊大大大da da "
+                        android:text=""
                         android:textSize="@dimen/text_size_13" />
 
 
@@ -113,14 +112,14 @@
                     android:text="悬赏金额"
                     android:textColor="@color/green"
                     android:textSize="@dimen/space_15" />
-
+<!--￥200-->
                 <TextView
                     android:id="@+id/details_price"
                     android:layout_width="@dimen/space_0"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="3"
-                    android:text="￥200"
+                    android:text=""
                     android:textColor="@color/green"
                     android:textSize="@dimen/space_20" />
 
@@ -156,7 +155,7 @@
                     android:id="@+id/details_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="江苏省南京市浦口区高新区爱信诺大厦"
+                    android:text=""
                     android:textColor="@color/xs_short_gary2"
                     android:textSize="@dimen/space_10" />
             </LinearLayout>
@@ -185,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/space_7"
-                    android:text="寻找我的宠物狗毛毛"
+                    android:text=""
                     android:textColor="@color/xs_short_black"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
@@ -197,7 +196,7 @@
                 android:layout_marginLeft="@dimen/space_11"
                 android:layout_marginRight="@dimen/space_11"
                 android:layout_marginTop="@dimen/space_11"
-                android:text="最近热播的第十一期跑男大家都看了吧，这期节目中除了陈赫撕名牌战胜散打冠军很出彩之外，其中热巴在绕绳环节中耽误时间也成了网友们热议的话梗！看直播的时候没有留意，但是当翻看了一遍网播之后你会发现，跑男所有队员都在关心比赛输与赢的时候，似乎只有鹿晗在关心热巴。"
+                android:text=""
                 android:textColor="@color/xs_short_gary2"
                 android:textSize="@dimen/space_10" />
             <!--发布图片-->
@@ -237,7 +236,7 @@
                     android:id="@+id/details_loseaddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="江苏省南京市浦口区高新区爱信诺大厦"
+                    android:text=""
                     android:textColor="@color/xs_short_gary2"
                     android:textSize="@dimen/space_10" />
             </LinearLayout>
@@ -264,95 +263,10 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/space_9"
                         android:gravity="center_vertical"
-                        android:text="线索提供(7)"
+                        android:text="评论(7)"
                         android:textColor="@color/xs_short_black"
                         android:textSize="@dimen/space_10" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="right">
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/details_peo_img1"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_headimg"
-                        app:riv_border_color="@color/green"
-                        app:riv_border_width="0dp"
-                        app:riv_oval="true" />
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/details_peo_img2"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_headimg"
-                        app:riv_border_color="@color/green"
-                        app:riv_border_width="0dp"
-                        app:riv_oval="true" />
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/details_peo_img3"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_headimg"
-                        app:riv_border_color="@color/green"
-                        app:riv_border_width="0dp"
-                        app:riv_oval="true" />
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/details_peo_img4"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_headimg"
-                        app:riv_border_color="@color/green"
-                        app:riv_border_width="0dp"
-                        app:riv_oval="true" />
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/details_peo_img5"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_headimg"
-                        app:riv_border_color="@color/green"
-                        app:riv_border_width="0dp"
-                        app:riv_oval="true" />
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/details_peo_img6"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_headimg"
-                        app:riv_border_color="@color/green"
-                        app:riv_border_width="0dp"
-                        app:riv_oval="true" />
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/details_peo_img7"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/default_headimg"
-                        app:riv_border_color="@color/green"
-                        app:riv_border_width="0dp"
-                        app:riv_oval="true" />
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="@dimen/space_10"
-                        android:src="@drawable/arrow_right" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -370,6 +284,8 @@
                 android:id="@+id/details_review_lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:dividerHeight="0dp"
+                android:divider="@null"
                 android:layout_marginLeft="@dimen/space_11"
                 android:layout_marginRight="@dimen/space_11" />
 
@@ -386,28 +302,31 @@
         android:gravity="bottom">
 
         <Button
+            android:id="@+id/details_attention"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/space_5"
             android:layout_weight="1"
             android:background="@null"
-            android:drawableTop="@drawable/yzma"
+            android:drawableTop="@drawable/info_ft_gz"
             android:text="关注"
             android:textColor="@color/xs_short_gary2"
-            android:textSize="@dimen/space_18" />
+            android:textSize="@dimen/space_12" />
 
         <Button
+            android:id="@+id/details_comment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/space_5"
             android:layout_weight="1"
             android:background="@null"
-            android:drawableTop="@drawable/yzma"
+            android:drawableTop="@drawable/comments_btn"
             android:text="评论"
             android:textColor="@color/xs_short_gary2"
-            android:textSize="@dimen/space_18" />
+            android:textSize="@dimen/space_12" />
 
         <Button
+            android:id="@+id/details_chat"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -417,6 +336,7 @@
             android:textSize="@dimen/space_18" />
 
         <Button
+            android:id="@+id/details_track"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
