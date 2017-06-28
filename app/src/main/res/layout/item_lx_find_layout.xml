@@ -87,6 +87,7 @@
                         android:layout_marginLeft="11dp"
                         android:background="@drawable/editsharp_red_all"
                         android:text="找宠"
+                        android:visibility="invisible"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_9" />
 

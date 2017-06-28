@@ -1,10 +1,14 @@
 package com.yuzhi.fine.activity.coreActivity;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,12 +21,17 @@ import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.DetailsComment.CommentBean;
 import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.model.LXFind.FindListPicList;
 import com.yuzhi.fine.model.LXFindServerBean;
+import com.yuzhi.fine.ui.AddContentDialog;
+import com.yuzhi.fine.ui.FragmentAdapter.ContentItemapter;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,8 +44,9 @@ import static com.alibaba.fastjson.JSON.parseArray;
 import static com.yuzhi.fine.R.id.btnBack;
 import static com.yuzhi.fine.R.id.details_loseaddress;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
-
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 /**
  * 发布详情界面
  */
@@ -72,23 +82,22 @@ public class DetailsActivity extends AppCompatActivity {
     TextView mDetailsPeoNum;//线索提供人数
     @Bind(R.id.details_images)
     LinearLayout mDetailsImages;//详情图片
-    @Bind(R.id.details_peo_img1)
-    RoundedImageView mDetailsPeoImg1;//头像1
-    @Bind(R.id.details_peo_img2)
-    RoundedImageView mDetailsPeoImg2;//头像2
-    @Bind(R.id.details_peo_img3)
-    RoundedImageView mDetailsPeoImg3;//头像3
-    @Bind(R.id.details_peo_img4)
-    RoundedImageView mDetailsPeoImg4;//头像4
-    @Bind(R.id.details_peo_img5)
-    RoundedImageView mDetailsPeoImg5;//头像5
-    @Bind(R.id.details_peo_img6)
-    RoundedImageView mDetailsPeoImg6;//头像6
-    @Bind(R.id.details_peo_img7)
-    RoundedImageView mDetailsPeoImg7;//头像7
     @Bind(R.id.details_review_lv)
     ListView mDetailsReviewLV;//评论区
+
+    @Bind(R.id.details_attention)
+    Button mDetailsAttention;//关注
+    @Bind(R.id.details_comment)
+    Button mDetailsComment;//评论
+    @Bind(R.id.details_chat)
+    Button mDetailsChat;//聊一聊
+    @Bind(R.id.details_track)
+    Button mDetailsTrack;//我有线索
+
     private ProgressDialog progress;
+    SharePreferenceUtil1 share ;
+    AddContentDialog mDialog;
+    private int isFocusFlag =1;//是否关注的标志位
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +105,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         mContext = this ;
         ButterKnife.bind(this);
-
+        share = new SharePreferenceUtil1(mContext, "lx_data", 0);
         initUI();
         initData();
     }
@@ -116,6 +125,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void initData(){
         getDetailsInfos();
+        getCommentList();
+        focusState();
     }
 
 
@@ -205,18 +216,37 @@ public class DetailsActivity extends AppCompatActivity {
 //                        lxFindServerBean.setMessageNum(visitCount);
 
                         List<FindListPicList> findListPicLists = parseArray(pictueeList, FindListPicList.class);
-                        //  lxFindServerBean.setImgOne(findListPicLists.get(0).getImgFilePath());
+                        final int findListPicListsNum = findListPicLists.size();
+                        for(int index =0 ; index <findListPicListsNum ; index++){
+                           String picDetails =  findListPicLists.get(index).getImgFilePath();
+                            ImageView imageView = new ImageView(mContext);
+                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                            LinearLayout.LayoutParams mLayoutParams = new
+                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                                    LinearLayout.LayoutParams(300,300);
+                            mLayoutParams.topMargin = 10;
+                            mLayoutParams.gravity= Gravity.CENTER;
+                            Picasso.with(mContext).load(picDetails)
+                                    .resize(DeviceUtil.dp2px(mContext,290), DeviceUtil.dp2px(mContext,375))
+                                    .placeholder(R.drawable.default_image).into(imageView);
+                            mDetailsImages.addView(imageView, mLayoutParams);
 
-                        //////////////////////////////////////////////////////
+                        }
+                        //数据刷新到界面上
                         //头像
                         Picasso.with(mContext).load(headerImgPath).resize(DeviceUtil.dp2px(mContext,50), DeviceUtil.dp2px(mContext,50)).placeholder(R.drawable.default_image).into(mDetailsRoundHeader);
                         mDetailsUserName.setText(userName);
-                        mDetailsPrice.setText("¥"+money+"元");
+                        mDetailsPrice.setText("¥"+subMoneyZero(money)+"元");
                         mDetailsAddress.setText(provinceName + cityName + countryName);
-                        mDetailSecondMenu.setText(secondMenu);
+                        if(!CommUtil.isNullOrBlank(secondMenu)){
+                            mDetailSecondMenu.setText(secondMenu);
+                        }else{
+                            mDetailSecondMenu.setVisibility(View.GONE);
+                        }
                         mDetailsTitle.setText(title);
                         mDetailsContent.setText(content);
                         mDetailsLoseAddress.setText(provinceName + cityName + countryName);
+
 
                     if (progress != null) {
                         progress.dismiss();
@@ -239,5 +269,259 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * 获取评论列表
+     */
+    private void getCommentList() {
+        String publistID = getIntent().getStringExtra("publistID");//发布ID
+        final String secondMenu = getIntent().getStringExtra("secondMenu");//二级菜单
+        HashMap<String, String> params = new HashMap<>();
+        params.put("publishid", publistID);
+//        params.put("pagesize", publistID);//每页显示条数（默认10条）
+//        params.put("lastnumber", publistID);//最后一条记录的ID
+
+        HttpClient.get(Caller.DETAILS_COMMENT_LIST, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+                String data = response.getData();
+                ArrayList<CommentBean> commentBeanList = new ArrayList<CommentBean>();
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+                    List<CommentBean> findList = JSON.parseArray(data, CommentBean.class);
+                    final int findListNum = findList.size();
+                    mDetailsPeoNum.setText("评论("+findListNum+")");
+                    for(int index =0 ; index < findListNum;index ++){
+                        CommentBean commentBean = new CommentBean();
+                        String content =   findList.get(index).getContent();//评论内容
+                        String userName =   findList.get(index).getUserName();//评论人
+                        String createTime =   findList.get(index).getCreateTime();//评论时间
+                        String imgFilePath =   findList.get(index).getImgFilePath();//评论人头像
+                        commentBean.setContent(content);
+                        commentBean.setUserName(userName);
+                        commentBean.setCreateTime(createTime);
+                        commentBean.setImgFilePath(imgFilePath);
+                        commentBeanList.add(commentBean);
+                    }
+                    ContentItemapter contentItemapter = new ContentItemapter(mContext,commentBeanList);
+                    mDetailsReviewLV.setAdapter(contentItemapter);
+                    CommUtil.setListViewHeightBasedOnChildren(mDetailsReviewLV,contentItemapter);
+
+                    if (progress != null) { progress.dismiss(); }
+                } else {
+                    showToast(message, mContext);
+                    if (progress != null) {progress.dismiss();}
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                showToast("信息详情获取失败", mContext);
+                if (progress != null) { progress.dismiss();}
+            }
+        });
+    }
+
+
+    /**
+     * 发表评论
+     */
+    private void addCommentItem(String content) {
+        String publistID = getIntent().getStringExtra("publistID");//发布ID
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        HashMap<String, String> params = new HashMap<>();
+        params.put("publishid", publistID);
+        params.put("userid", userID);
+        params.put("content", content);
+
+        HttpClient.get(Caller.DETAILS_ADD_COMMENT, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+                    showToast(message, mContext);
+                    getCommentList();
+                    mDialog.dismiss();
+                } else {
+                    showToast(message, mContext);
+                    if (progress != null) {progress.dismiss();}
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                showToast("发表评论失败", mContext);
+                if (progress != null) { progress.dismiss();}
+            }
+        });
+    }
+
+
+    /**
+     * 添加关注
+     */
+    private void addFocus() {
+        String publistID = getIntent().getStringExtra("publistID");//发布ID
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        HashMap<String, String> params = new HashMap<>();
+        params.put("publishid", publistID);
+        params.put("userid", userID);
+
+        HttpClient.get(Caller.ADD_FOCUS, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+//                    showToast(message, mContext);
+                } else {
+                    showToast(message, mContext);
+                    if (progress != null) {progress.dismiss();}
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                showToast("添加关注失败", mContext);
+                if (progress != null) { progress.dismiss();}
+            }
+        });
+    }
+
+    /**
+     * 取消关注
+     */
+    private void cancleFocus() {
+        String publistID = getIntent().getStringExtra("publistID");//发布ID
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        HashMap<String, String> params = new HashMap<>();
+        params.put("publishid", publistID);
+        params.put("userid", userID);
+
+        HttpClient.get(Caller.CANCLE_FOCUS, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+//                    showToast(message, mContext);
+                } else {
+                    showToast(message, mContext);
+                    if (progress != null) {progress.dismiss();}
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                showToast("取消关注失败", mContext);
+                if (progress != null) { progress.dismiss();}
+            }
+        });
+    }
+
+    /**
+     * 关注状态
+     */
+    private void focusState() {
+        String publistID = getIntent().getStringExtra("publistID");//发布ID
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        HashMap<String, String> params = new HashMap<>();
+        params.put("publishid", publistID);
+        params.put("userid", userID);
+
+        HttpClient.get(Caller.FOCUS_STATE, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+//                    showToast(message, mContext);
+                    isFocusFlag = 2;//能被2整除即可
+                    Drawable top = getResources().getDrawable(R.drawable.info_ft_gzed);
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                } else {
+                    isFocusFlag = 1;
+//                    showToast(message, mContext);
+                    Drawable top = getResources().getDrawable(R.drawable.info_ft_gz);
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                    if (progress != null) {progress.dismiss();}
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                showToast("获取关注状态失败", mContext);
+                if (progress != null) { progress.dismiss();}
+            }
+        });
+    }
+
+    /**
+     *
+     * 底部按钮监听
+     * @param view
+     */
+    @OnClick({R.id.details_attention,R.id.details_comment,R.id.details_chat,R.id.details_track})
+    public void getBottomClick(View view)
+    {
+        switch (view.getId())
+        {
+            //关注
+            case  R.id.details_attention:
+                isFocusFlag++;
+                if (isFocusFlag%2 ==0)
+                {
+                    addFocus();
+                    Drawable top = getResources().getDrawable(R.drawable.info_ft_gzed);
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                }else{
+                    cancleFocus();
+                    Drawable top = getResources().getDrawable(R.drawable.info_ft_gz);
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                }
+                break;
+            //评论
+            case  R.id.details_comment:
+                mDialog = new AddContentDialog(mContext,R.style.MessageDialog);
+			mDialog.setDialog(R.layout.dialog_add_content);
+			mDialog.txt_Title.setText("发表评论");
+			mDialog.txt_content.setHint("发表评论");
+			mDialog.dialog_button_details.setText("确定");
+			mDialog.dialog_button_cancel.setText("取消");
+			mDialog.dialog_button_details.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+                    addCommentItem(mDialog.txt_content.getText().toString());
+				}
+			});
+			mDialog.dialog_button_cancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					mDialog.dismiss();
+				}
+			});
+			 mDialog.show();
+                break;
+            //聊一聊
+            case  R.id.details_chat:
+                CommUtil.showToast("333",mContext);
+                break;
+            //我有线索
+            case  R.id.details_track:
+                CommUtil.showToast("444",mContext);
+                break;
+           default:break;
+        }
+    }
+
+
 }
 

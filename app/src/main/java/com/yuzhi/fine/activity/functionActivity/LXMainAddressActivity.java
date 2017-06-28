@@ -86,7 +86,7 @@ public class LXMainAddressActivity extends AppCompatActivity {
         mAddressIdArray = getResources().getStringArray(R.array.address_arrays);
 
         //初始化定位工具
-        LocationUtils.initLocation(mContext);
+//        LocationUtils.initLocation(mContext);
         new Thread(networkTask).start();
 
         personList = (ListView) findViewById(R.id.list_view);

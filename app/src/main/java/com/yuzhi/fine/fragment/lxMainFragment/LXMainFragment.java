@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,10 +20,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.activity.mainActivity.SearchActivity;
 import com.yuzhi.fine.activity.mainActivity.ShaiXuanActivity;
+import com.yuzhi.fine.http.HttpRequestUtil;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
+import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
@@ -32,6 +39,7 @@ import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.ui.loopviewpager.AutoLoopViewPager;
 import com.yuzhi.fine.ui.viewpagerindicator.CirclePageIndicator;
 import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.LocationUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +49,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.alibaba.fastjson.JSON.parseObject;
+import static com.yuzhi.fine.http.Caller.GOOGLE_MAP_LOCATION;
 import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_REQUEST;
 import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_RESULT;
 
@@ -143,6 +153,8 @@ public class LXMainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+        //初始化定位工具
+        new Thread(networkTask).start();
         //FIXME Leak
 //        RefWatcher refWatcher = AppContext.getRefWatcher(getActivity());
 //        refWatcher.watch(this);
@@ -352,7 +364,7 @@ public class LXMainFragment extends Fragment {
             if (resultCode == LX_MAIN_ADDRESS_RESULT) {
                 mLxMainAddressText.setText(data.getStringExtra("lngCityName"));
                 String addressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
-                CommUtil.showAlert("addressId-->" + addressId, getActivity());
+//                CommUtil.showAlert("addressId-->" + addressId, getActivity());
             }
         }
     }
@@ -394,9 +406,86 @@ public class LXMainFragment extends Fragment {
             default:
                 break;
         }
+    }
+
+    /**
+     * 网络操作相关的子线程
+     */
+    Runnable networkTask = new Runnable() {
+
+        @Override
+        public void run() {
+            // 在这里进行 http request.网络请求相关操作
+            String loc = String.valueOf(LocationUtils.latitude) + "," + String.valueOf(LocationUtils.longitude);
+            String address = locToAddress(loc);
+            Message msg = new Message();
+            Bundle data = new Bundle();
+            data.putString("value", address);
+            msg.setData(data);
+            addressHandler.sendMessage(msg);
+        }
+    };
+
+    /**
+     * 将经纬度转换为地址
+     * location 拼接方式   ： 纬度，经度
+     */
+    private String locToAddress(String location) {
+        //baidu
+//        String params = "output=json&location="+location;
+//        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params.trim());
+        //google
+        String params = "latlng=" + location + "&sensor=true&language=zh-CN";
+        String resutl = HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION, params);
+
+        return resutl;
+    }
+
+    /**
+     * 获取请求地址结果并更新到UI
+     */
+    Handler addressHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle data = msg.getData();
+            String val = data.getString("value");
+            // UI界面的更新等相关操作
+            GoogleLoc googleLoc = parseObject(val, GoogleLoc.class);
+            List<GoogleResults> googleResults = JSON.parseArray(googleLoc.getResults(), GoogleResults.class);
+            String address_components = googleResults.get(0).getAddress_components();
+            List<GoogleAddressComponents> googleAddressComponents = JSON.parseArray(address_components, GoogleAddressComponents.class);
+
+            for (int i = 0; i < googleAddressComponents.size(); i++) {
+                String county = googleAddressComponents.get(i).getLong_name();//县级市或者区
+
+                if (!CommUtil.isNullOrBlank(county) && county.contains("区")) {
+                    mLxMainAddressText.setText(county);
+                    return;
+                } else if (!CommUtil.isNullOrBlank(county) && county.contains("县")) {
+                    mLxMainAddressText.setText(county);
+                    return;
+                } else if (!CommUtil.isNullOrBlank(county) && county.contains("市")) {
+                    mLxMainAddressText.setText(county);
+                    return;
+                }
+            }
+        }
+    };
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        new Thread(networkTask).interrupt();
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        new Thread(networkTask).interrupt();
+    }
 }
 
 

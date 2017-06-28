@@ -78,4 +78,20 @@ public class Caller  {
     public static String DETAILS_ISSUE_INFOS =HTTP+"publish/publish/getpublishdetailcomplex.html?appid="+APPID ;// +"&sign={SIGN}";
 
 
+    //获取评论发布列表（某条发布信息的评论）
+    public static String DETAILS_COMMENT_LIST =HTTP+"publish/publish/getpublishcommentpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //添加评论发布信息
+    public static String DETAILS_ADD_COMMENT =HTTP+"publish/publish/addcommentpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //添加关注
+    public static String ADD_FOCUS =HTTP+"publish/publish/addfollowpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //取消关注
+    public static String CANCLE_FOCUS =HTTP+"publish/publish/cancelfollowpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //关注初始化状态
+    public static String FOCUS_STATE =HTTP+"publish/publish/isexistsfollowpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+
 }
