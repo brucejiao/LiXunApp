@@ -459,14 +459,18 @@ public class LXMainFragment extends Fragment {
             for (int i = 0; i < googleAddressComponents.size(); i++) {
                 String county = googleAddressComponents.get(i).getLong_name();//县级市或者区
 
-                if (!CommUtil.isNullOrBlank(county) && county.contains("区")) {
+               /* if (!CommUtil.isNullOrBlank(county) && county.contains("区")) {
                     mLxMainAddressText.setText(county);
                     return;
-                } else if (!CommUtil.isNullOrBlank(county) && county.contains("县")) {
+                } else*/ if (!CommUtil.isNullOrBlank(county) && county.contains("县")) {
                     mLxMainAddressText.setText(county);
+                    String addressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+//                    CommUtil.showAlert("addressId-->" + addressId, getActivity());
                     return;
                 } else if (!CommUtil.isNullOrBlank(county) && county.contains("市")) {
                     mLxMainAddressText.setText(county);
+                    String addressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+//                    CommUtil.showAlert("addressId-->" + addressId, getActivity());
                     return;
                 }
             }

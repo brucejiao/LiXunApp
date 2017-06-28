@@ -148,27 +148,27 @@ public class LXMainAddressActivity extends AppCompatActivity {
      */
     public void hotCityInit() {
         City city;
-        city = new City("上海", "");
+        city = new City("上海市", "");
         allCity_lists.add(city);
-        city = new City("北京", "");
+        city = new City("北京市", "");
         allCity_lists.add(city);
-        city = new City("广州", "");
+        city = new City("广州市", "");
         allCity_lists.add(city);
-        city = new City("深圳", "");
+        city = new City("深圳市", "");
         allCity_lists.add(city);
-        city = new City("武汉", "");
+        city = new City("武汉市", "");
         allCity_lists.add(city);
-        city = new City("天津", "");
+        city = new City("天津市", "");
         allCity_lists.add(city);
-        city = new City("西安", "");
+        city = new City("西安市", "");
         allCity_lists.add(city);
-        city = new City("南京", "");
+        city = new City("杭州市", "");
         allCity_lists.add(city);
-        city = new City("杭州", "");
+        city = new City("重庆市", "");
         allCity_lists.add(city);
-        city = new City("成都", "");
+        city = new City("南京市", "");
         allCity_lists.add(city);
-        city = new City("重庆", "");
+        city = new City("成都市", "");
         allCity_lists.add(city);
         city_lists = getCityList();
         allCity_lists.addAll(city_lists);
@@ -191,8 +191,11 @@ public class LXMainAddressActivity extends AppCompatActivity {
                 String name = mAddressIdArray[index].substring(mAddressIdArray[index].indexOf("|")+1, mAddressIdArray[index].length());
                 String pingYin = cte.getAllFirstLetter(name);
 //                System.out.println("id---"+id+"获取拼音首字母："+ cte.getAllFirstLetter(name));
-                City city = new City(name, pingYin);
-                list.add(city);
+                if(!name.contains("区")){
+                    City city = new City(name, pingYin);
+                    list.add(city);
+                }
+
             }
 
         } catch (Exception e) {
@@ -501,10 +504,10 @@ public class LXMainAddressActivity extends AppCompatActivity {
             for(int i = 0 ;i<googleAddressComponents.size();i++){
                 String county = googleAddressComponents.get(i).getLong_name();//县级市或者区
 
-                if (!CommUtil.isNullOrBlank(county) && county.contains("区") ){
+              /*  if (!CommUtil.isNullOrBlank(county) && county.contains("区") ){
                     lng_city.setText(county);
                     return;
-                }else if(!CommUtil.isNullOrBlank(county) && county.contains("县") ){
+                }else */if(!CommUtil.isNullOrBlank(county) && county.contains("县") ){
                     lng_city.setText(county);
                     return;
                 }else if(!CommUtil.isNullOrBlank(county) && county.contains("市")){
