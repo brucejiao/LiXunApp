@@ -29,6 +29,18 @@ public class Constant {
     public static final int LX_MAIN_ADDRESS_RESULT = 0x1009;
     public static final int LX_MAIN_ADDRESS_REQUEST = 0x1010;
 
+    //我的认领--选择图片
+    public static final int RL_RESULT_FIRST = 0x1011;
+    public static final int RL_RESULT_SECOND = 0x1012;
+    public static final int RL_RESULT_THIRD = 0x1013;
+    public static final int RL_RESULT_FOURTH = 0x1014;
+
+    //我有线索--选择图片
+    public static final int XS_RESULT_FIRST = 0x1015;
+    public static final int XS_RESULT_SECOND = 0x1016;
+    public static final int XS_RESULT_THIRD = 0x1017;
+    public static final int XS_RESULT_FOURTH = 0x1018;
+
     //SharePreferenceUtil1 Constant
     public static final String SHARE_LOGIN_USERID = "lxUserId";//用户ID
     public static final String SHARE_LOGIN_ISLOGIN = "isLogin";//是否登录过

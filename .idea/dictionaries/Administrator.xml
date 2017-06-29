@@ -1,17 +1,26 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Administrator">
     <words>
+      <w>addclaiminfo</w>
+      <w>addcommentpublishinfo</w>
+      <w>addfollowpublishinfo</w>
       <w>addpublishinfo</w>
       <w>addsubmitpublishinfo</w>
       <w>appid</w>
       <w>baidu</w>
+      <w>cancelfollowpublishinfo</w>
       <w>cohr</w>
       <w>filespace</w>
       <w>fiveth</w>
       <w>fragmet</w>
       <w>franmet</w>
       <w>getcategorytwolist</w>
+      <w>getfindpublishcomplexlist</w>
+      <w>getindexpublishcomplexlist</w>
+      <w>getpublishcommentpublishlist</w>
       <w>getpublishdetailcomplex</w>
+      <w>getuserdraftpublishlist</w>
+      <w>isexistsfollowpublishinfo</w>
       <w>ishas</w>
       <w>islogin</w>
       <w>latlng</w>
@@ -20,6 +29,9 @@
       <w>memberuserregiest</w>
       <w>memberuserretrievepassword</w>
       <w>parentid</w>
+      <w>picturelist</w>
+      <w>picturelists</w>
+      <w>publishid</w>
       <w>publist</w>
       <w>secondmenu</w>
       <w>sendsmscode</w>

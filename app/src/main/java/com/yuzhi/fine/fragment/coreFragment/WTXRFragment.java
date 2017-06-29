@@ -306,7 +306,7 @@ public class WTXRFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String publistID = findList.get(position).getPublishID();
-                            UIHelper.showDetails(mContext,publistID,secondmenu);
+                            UIHelper.showDetails(mContext,publistID,secondmenu,0);
                         }
                     });
                     if (progress != null) {

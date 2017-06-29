@@ -27,6 +27,7 @@ import com.yuzhi.fine.model.LXFind.FindListPicList;
 import com.yuzhi.fine.model.LXFindServerBean;
 import com.yuzhi.fine.ui.AddContentDialog;
 import com.yuzhi.fine.ui.FragmentAdapter.ContentItemapter;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
@@ -47,6 +48,7 @@ import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
+
 /**
  * 发布详情界面
  */
@@ -95,26 +97,39 @@ public class DetailsActivity extends AppCompatActivity {
     Button mDetailsTrack;//我有线索
 
     private ProgressDialog progress;
-    SharePreferenceUtil1 share ;
+    SharePreferenceUtil1 share;
     AddContentDialog mDialog;
-    private int isFocusFlag =1;//是否关注的标志位
+    private int isFocusFlag = 1;//是否关注的标志位
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        mContext = this ;
+        mContext = this;
         ButterKnife.bind(this);
         share = new SharePreferenceUtil1(mContext, "lx_data", 0);
         initUI();
         initData();
     }
 
-    private void initUI(){
+    private void initUI() {
         //返回
         mBackBtn.setVisibility(View.VISIBLE);
         //标题
         mTextHeaderTitle.setText("信息详情");
+        int flag = getIntent().getIntExtra("flag", 0);
+        switch (flag) {
+            case 0:
+                //我有线索
+                mDetailsTrack.setText("我有线索");
+                break;
+            case 1:
+                //我要认领
+                mDetailsTrack.setText("我要认领");
+                break;
+            default:
+                break;
+        }
     }
 
     //返回
@@ -123,7 +138,7 @@ public class DetailsActivity extends AppCompatActivity {
         finish();
     }
 
-    private void initData(){
+    private void initData() {
         getDetailsInfos();
         getCommentList();
         focusState();
@@ -153,48 +168,48 @@ public class DetailsActivity extends AppCompatActivity {
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
                     FindListBean findList = JSON.parseObject(data, FindListBean.class);
 
-                        LXFindServerBean lxFindServerBean = new LXFindServerBean();
-                        //接口数据
-                        String publistID = findList.getPublishID();
-                        String title = findList.getTitle();//标题
-                        String content = findList.getContent();//内容
+                    LXFindServerBean lxFindServerBean = new LXFindServerBean();
+                    //接口数据
+                    String publistID = findList.getPublishID();
+                    String title = findList.getTitle();//标题
+                    String content = findList.getContent();//内容
 //                        findList.get(index).getUserID();
 //                        findList.get(index).getPictureID();
 //                        findList.get(index).getCategoryID();
-                        String money = findList.getMoney();//悬赏金
+                    String money = findList.getMoney();//悬赏金
 //                        findList.get(index).getProvince();
 //                        findList.get(index).getCity();
 //                        findList.get(index).getCountry();
-                        String address = findList.getAddress();//地址
-                        String pushType = findList.getPushType();//推广类型（0所有，1推广，2不推广）
+                    String address = findList.getAddress();//地址
+                    String pushType = findList.getPushType();//推广类型（0所有，1推广，2不推广）
 //                        findList.get(index).getPushMoney();
-                        String topType = findList.getTopType();//置顶类型（0所有，1置顶，2不置顶）
+                    String topType = findList.getTopType();//置顶类型（0所有，1置顶，2不置顶）
 //                        findList.get(index).getTopMoney();
-                        String createTime = findList.getCreateTime();
-                        String updateTime = findList.getUpdateTime();
+                    String createTime = findList.getCreateTime();
+                    String updateTime = findList.getUpdateTime();
 //                        findList.get(index).getPublishStatus();
 //                        findList.get(index).getIsDelete();
 //                        findList.get(index).getCheckState();
 //                        findList.get(index).getCheckID();
 //                        findList.get(index).getCheckTime();
 //                        findList.get(index).getCheckRemark();
-                        String followCount = findList.getFollowCount();
-                        String commentCount = findList.getCommentCount();
-                        String visitCount = findList.getVisitCount();
+                    String followCount = findList.getFollowCount();
+                    String commentCount = findList.getCommentCount();
+                    String visitCount = findList.getVisitCount();
 //                        findList.get(index).getClueUserName();
 //                        findList.get(index).getPaymentTypeID();
 //                        findList.get(index).getPaymentTypeName();
 //                        findList.get(index).getPaymentStatus();
 //                        findList.get(index).getDatePayOrder();
 //                        findList.get(index).getMoneyPaid();
-                        String userName = findList.getUserName();
+                    String userName = findList.getUserName();
 //                        findList.get(index).getCheckUserName();
-                        String headerImgPath = findList.getImgFilePath();
-                        String provinceName = findList.getProvinceName();
-                        String cityName = findList.getCityName();
-                        String countryName = findList.getCountryName();
-                        String pictueeList = findList.getPictureList();///////
-                        String picturePath = findList.getPicturePath();
+                    String headerImgPath = findList.getImgFilePath();
+                    String provinceName = findList.getProvinceName();
+                    String cityName = findList.getCityName();
+                    String countryName = findList.getCountryName();
+                    String pictueeList = findList.getPictureList();///////
+                    String picturePath = findList.getPicturePath();
 //                        findList.get(index).getCategoryName();
 //                        findList.get(index).getFollowTime();
 
@@ -215,37 +230,37 @@ public class DetailsActivity extends AppCompatActivity {
 //                        lxFindServerBean.setFocusonNum(commentCount);
 //                        lxFindServerBean.setMessageNum(visitCount);
 
-                        List<FindListPicList> findListPicLists = parseArray(pictueeList, FindListPicList.class);
-                        final int findListPicListsNum = findListPicLists.size();
-                        for(int index =0 ; index <findListPicListsNum ; index++){
-                           String picDetails =  findListPicLists.get(index).getImgFilePath();
-                            ImageView imageView = new ImageView(mContext);
-                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                            LinearLayout.LayoutParams mLayoutParams = new
+                    List<FindListPicList> findListPicLists = parseArray(pictueeList, FindListPicList.class);
+                    final int findListPicListsNum = findListPicLists.size();
+                    for (int index = 0; index < findListPicListsNum; index++) {
+                        String picDetails = findListPicLists.get(index).getImgFilePath();
+                        ImageView imageView = new ImageView(mContext);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        LinearLayout.LayoutParams mLayoutParams = new
                                 LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //                                    LinearLayout.LayoutParams(300,300);
-                            mLayoutParams.topMargin = 10;
-                            mLayoutParams.gravity= Gravity.CENTER;
-                            Picasso.with(mContext).load(picDetails)
-                                    .resize(DeviceUtil.dp2px(mContext,290), DeviceUtil.dp2px(mContext,375))
-                                    .placeholder(R.drawable.default_image).into(imageView);
-                            mDetailsImages.addView(imageView, mLayoutParams);
+                        mLayoutParams.topMargin = 10;
+                        mLayoutParams.gravity = Gravity.CENTER;
+                        Picasso.with(mContext).load(picDetails)
+                                .resize(DeviceUtil.dp2px(mContext, 290), DeviceUtil.dp2px(mContext, 375))
+                                .placeholder(R.drawable.default_image).into(imageView);
+                        mDetailsImages.addView(imageView, mLayoutParams);
 
-                        }
-                        //数据刷新到界面上
-                        //头像
-                        Picasso.with(mContext).load(headerImgPath).resize(DeviceUtil.dp2px(mContext,50), DeviceUtil.dp2px(mContext,50)).placeholder(R.drawable.default_image).into(mDetailsRoundHeader);
-                        mDetailsUserName.setText(userName);
-                        mDetailsPrice.setText("¥"+subMoneyZero(money)+"元");
-                        mDetailsAddress.setText(provinceName + cityName + countryName);
-                        if(!CommUtil.isNullOrBlank(secondMenu)){
-                            mDetailSecondMenu.setText(secondMenu);
-                        }else{
-                            mDetailSecondMenu.setVisibility(View.GONE);
-                        }
-                        mDetailsTitle.setText(title);
-                        mDetailsContent.setText(content);
-                        mDetailsLoseAddress.setText(provinceName + cityName + countryName);
+                    }
+                    //数据刷新到界面上
+                    //头像
+                    Picasso.with(mContext).load(headerImgPath).resize(DeviceUtil.dp2px(mContext, 50), DeviceUtil.dp2px(mContext, 50)).placeholder(R.drawable.default_image).into(mDetailsRoundHeader);
+                    mDetailsUserName.setText(userName);
+                    mDetailsPrice.setText("¥" + subMoneyZero(money) + "元");
+                    mDetailsAddress.setText(provinceName + cityName + countryName);
+                    if (!CommUtil.isNullOrBlank(secondMenu)) {
+                        mDetailSecondMenu.setText(secondMenu);
+                    } else {
+                        mDetailSecondMenu.setVisibility(View.GONE);
+                    }
+                    mDetailsTitle.setText(title);
+                    mDetailsContent.setText(content);
+                    mDetailsLoseAddress.setText(provinceName + cityName + countryName);
 
 
                     if (progress != null) {
@@ -292,34 +307,40 @@ public class DetailsActivity extends AppCompatActivity {
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
                     List<CommentBean> findList = JSON.parseArray(data, CommentBean.class);
                     final int findListNum = findList.size();
-                    mDetailsPeoNum.setText("评论("+findListNum+")");
-                    for(int index =0 ; index < findListNum;index ++){
+                    mDetailsPeoNum.setText("评论(" + findListNum + ")");
+                    for (int index = 0; index < findListNum; index++) {
                         CommentBean commentBean = new CommentBean();
-                        String content =   findList.get(index).getContent();//评论内容
-                        String userName =   findList.get(index).getUserName();//评论人
-                        String createTime =   findList.get(index).getCreateTime();//评论时间
-                        String imgFilePath =   findList.get(index).getImgFilePath();//评论人头像
+                        String content = findList.get(index).getContent();//评论内容
+                        String userName = findList.get(index).getUserName();//评论人
+                        String createTime = findList.get(index).getCreateTime();//评论时间
+                        String imgFilePath = findList.get(index).getImgFilePath();//评论人头像
                         commentBean.setContent(content);
                         commentBean.setUserName(userName);
                         commentBean.setCreateTime(createTime);
                         commentBean.setImgFilePath(imgFilePath);
                         commentBeanList.add(commentBean);
                     }
-                    ContentItemapter contentItemapter = new ContentItemapter(mContext,commentBeanList);
+                    ContentItemapter contentItemapter = new ContentItemapter(mContext, commentBeanList);
                     mDetailsReviewLV.setAdapter(contentItemapter);
-                    CommUtil.setListViewHeightBasedOnChildren(mDetailsReviewLV,contentItemapter);
+                    CommUtil.setListViewHeightBasedOnChildren(mDetailsReviewLV, contentItemapter);
 
-                    if (progress != null) { progress.dismiss(); }
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
                 } else {
                     showToast(message, mContext);
-                    if (progress != null) {progress.dismiss();}
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 showToast("信息详情获取失败", mContext);
-                if (progress != null) { progress.dismiss();}
+                if (progress != null) {
+                    progress.dismiss();
+                }
             }
         });
     }
@@ -347,14 +368,18 @@ public class DetailsActivity extends AppCompatActivity {
                     mDialog.dismiss();
                 } else {
                     showToast(message, mContext);
-                    if (progress != null) {progress.dismiss();}
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 showToast("发表评论失败", mContext);
-                if (progress != null) { progress.dismiss();}
+                if (progress != null) {
+                    progress.dismiss();
+                }
             }
         });
     }
@@ -380,14 +405,18 @@ public class DetailsActivity extends AppCompatActivity {
 //                    showToast(message, mContext);
                 } else {
                     showToast(message, mContext);
-                    if (progress != null) {progress.dismiss();}
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 showToast("添加关注失败", mContext);
-                if (progress != null) { progress.dismiss();}
+                if (progress != null) {
+                    progress.dismiss();
+                }
             }
         });
     }
@@ -412,14 +441,18 @@ public class DetailsActivity extends AppCompatActivity {
 //                    showToast(message, mContext);
                 } else {
                     showToast(message, mContext);
-                    if (progress != null) {progress.dismiss();}
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 showToast("取消关注失败", mContext);
-                if (progress != null) { progress.dismiss();}
+                if (progress != null) {
+                    progress.dismiss();
+                }
             }
         });
     }
@@ -444,81 +477,96 @@ public class DetailsActivity extends AppCompatActivity {
 //                    showToast(message, mContext);
                     isFocusFlag = 2;//能被2整除即可
                     Drawable top = getResources().getDrawable(R.drawable.info_ft_gzed);
-                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                 } else {
                     isFocusFlag = 1;
 //                    showToast(message, mContext);
                     Drawable top = getResources().getDrawable(R.drawable.info_ft_gz);
-                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
-                    if (progress != null) {progress.dismiss();}
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 showToast("获取关注状态失败", mContext);
-                if (progress != null) { progress.dismiss();}
+                if (progress != null) {
+                    progress.dismiss();
+                }
             }
         });
     }
 
     /**
-     *
      * 底部按钮监听
+     *
      * @param view
      */
-    @OnClick({R.id.details_attention,R.id.details_comment,R.id.details_chat,R.id.details_track})
-    public void getBottomClick(View view)
-    {
-        switch (view.getId())
-        {
+    @OnClick({R.id.details_attention, R.id.details_comment, R.id.details_chat, R.id.details_track})
+    public void getBottomClick(View view) {
+        switch (view.getId()) {
             //关注
-            case  R.id.details_attention:
+            case R.id.details_attention:
                 isFocusFlag++;
-                if (isFocusFlag%2 ==0)
-                {
+                if (isFocusFlag % 2 == 0) {
                     addFocus();
                     Drawable top = getResources().getDrawable(R.drawable.info_ft_gzed);
-                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
-                }else{
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                } else {
                     cancleFocus();
                     Drawable top = getResources().getDrawable(R.drawable.info_ft_gz);
-                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                    mDetailsAttention.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                 }
                 break;
             //评论
-            case  R.id.details_comment:
-                mDialog = new AddContentDialog(mContext,R.style.MessageDialog);
-			mDialog.setDialog(R.layout.dialog_add_content);
-			mDialog.txt_Title.setText("发表评论");
-			mDialog.txt_content.setHint("发表评论");
-			mDialog.dialog_button_details.setText("确定");
-			mDialog.dialog_button_cancel.setText("取消");
-			mDialog.dialog_button_details.setOnClickListener(new OnClickListener() {
+            case R.id.details_comment:
+                mDialog = new AddContentDialog(mContext, R.style.MessageDialog);
+                mDialog.setDialog(R.layout.dialog_add_content);
+                mDialog.txt_Title.setText("发表评论");
+                mDialog.txt_content.setHint("发表评论");
+                mDialog.dialog_button_details.setText("确定");
+                mDialog.dialog_button_cancel.setText("取消");
+                mDialog.dialog_button_details.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-                    addCommentItem(mDialog.txt_content.getText().toString());
-				}
-			});
-			mDialog.dialog_button_cancel.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addCommentItem(mDialog.txt_content.getText().toString());
+                    }
+                });
+                mDialog.dialog_button_cancel.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					mDialog.dismiss();
-				}
-			});
-			 mDialog.show();
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                    }
+                });
+                mDialog.show();
                 break;
             //聊一聊
-            case  R.id.details_chat:
-                CommUtil.showToast("333",mContext);
+            case R.id.details_chat:
+                CommUtil.showToast("333", mContext);
                 break;
-            //我有线索
-            case  R.id.details_track:
-                CommUtil.showToast("444",mContext);
+            //我有线索/我要认领
+            case R.id.details_track:
+                String publistID = getIntent().getStringExtra("publistID");//发布ID
+                int flag = getIntent().getIntExtra("flag", 0);
+                switch (flag) {
+                    case 0:
+                        //我有线索
+                        UIHelper.showMineXS(mContext, publistID);
+                        break;
+                    case 1:
+                        //我要认领
+                        UIHelper.showMineRL(mContext, publistID);
+                        break;
+                    default:
+                        break;
+                }
                 break;
-           default:break;
+            default:
+                break;
         }
     }
 

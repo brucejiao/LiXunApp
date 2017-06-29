@@ -11,6 +11,8 @@ import com.yuzhi.fine.activity.MainActivity;
 import com.yuzhi.fine.activity.coreActivity.DetailsActivity;
 import com.yuzhi.fine.activity.coreActivity.IssueActivity;
 import com.yuzhi.fine.activity.coreActivity.LXQZActivity;
+import com.yuzhi.fine.activity.coreActivity.MineRLActivity;
+import com.yuzhi.fine.activity.coreActivity.MineXSActivity;
 import com.yuzhi.fine.activity.coreActivity.WLBGActivity;
 import com.yuzhi.fine.activity.coreActivity.WLQZActivity;
 import com.yuzhi.fine.activity.coreActivity.WTXRActivity;
@@ -194,10 +196,26 @@ public class UIHelper {
     }
 
     //展示发布详情界面
-    public  static void showDetails(Activity context,String publistID,String secondmenu){
+    //flag 0:我有线索  1：我要认领
+    public  static void showDetails(Activity context,String publistID,String secondmenu,int flag){
         Intent intent = new Intent(context,DetailsActivity.class);
         intent.putExtra("publistID",publistID);
         intent.putExtra("secondMenu",secondmenu);
+        intent.putExtra("flag",flag);
+        context.startActivity(intent);
+    }
+
+    //我要认领
+    public  static void showMineRL(Activity context,String publistID){
+        Intent intent = new Intent(context,MineRLActivity.class);
+        intent.putExtra("publistID",publistID);
+        context.startActivity(intent);
+    }
+
+    //我有线索
+    public  static void showMineXS(Activity context,String publistID){
+        Intent intent = new Intent(context,MineXSActivity.class);
+        intent.putExtra("publistID",publistID);
         context.startActivity(intent);
     }
 

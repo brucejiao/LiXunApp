@@ -42,7 +42,6 @@ public class AppContext extends Application {
         activitys = new LinkedList<Activity>();
 
         registerUncaughtExceptionHandler();
-
         //内存泄漏检测
 //        LeakCanary.install(this);
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
@@ -92,5 +91,7 @@ public class AppContext extends Application {
     private void registerUncaughtExceptionHandler() {
         Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
     }
+
+
 
 }

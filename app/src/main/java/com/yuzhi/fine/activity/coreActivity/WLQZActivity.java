@@ -313,7 +313,7 @@ public class WLQZActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String publistID = findList.get(position).getPublishID();
-                            UIHelper.showDetails(mContext,publistID,secondmenu);
+                            UIHelper.showDetails(mContext,publistID,secondmenu,0);
                         }
                     });
 

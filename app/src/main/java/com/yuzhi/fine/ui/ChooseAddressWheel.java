@@ -37,6 +37,7 @@ public class ChooseAddressWheel implements MyOnWheelChangedListener {
     MyWheelView districtWheel;
 
     private Activity context;
+    private int flag;
     private View parentView;
     private PopupWindow popupWindow = null;
     private WindowManager.LayoutParams layoutParams = null;
@@ -46,8 +47,9 @@ public class ChooseAddressWheel implements MyOnWheelChangedListener {
 
     private OnAddressChangeListener onAddressChangeListener = null;
 
-    public ChooseAddressWheel(Activity context) {
+    public ChooseAddressWheel(Activity context,int flag) {
         this.context = context;
+        this.flag = flag;
         init();
     }
 
@@ -60,8 +62,26 @@ public class ChooseAddressWheel implements MyOnWheelChangedListener {
 
     private void initView() {
         parentView = layoutInflater.inflate(R.layout.choose_city_layout, null);
-        ButterKnife.bind(this, parentView);
 
+        ButterKnife.bind(this, parentView);
+        //判断是一级二级或者三级
+        switch (flag){
+            case 1:
+                provinceWheel.setVisibility(View.VISIBLE);
+                cityWheel.setVisibility(View.GONE);
+                districtWheel.setVisibility(View.GONE);
+                break;
+            case 2:
+                provinceWheel.setVisibility(View.VISIBLE);
+                cityWheel.setVisibility(View.VISIBLE);
+                districtWheel.setVisibility(View.GONE);
+                break;
+            case 3:
+                provinceWheel.setVisibility(View.VISIBLE);
+                cityWheel.setVisibility(View.VISIBLE);
+                districtWheel.setVisibility(View.VISIBLE);
+                break;
+        }
         provinceWheel.setVisibleItems(1);
         cityWheel.setVisibleItems(1);
         districtWheel.setVisibleItems(1);

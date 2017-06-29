@@ -1,5 +1,6 @@
 package com.yuzhi.fine.fragment.lxMainFragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,17 +16,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.activity.mainActivity.SearchActivity;
 import com.yuzhi.fine.activity.mainActivity.ShaiXuanActivity;
+import com.yuzhi.fine.http.Caller;
+import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpRequestUtil;
+import com.yuzhi.fine.http.HttpResponseHandler;
+import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
@@ -40,19 +45,28 @@ import com.yuzhi.fine.ui.loopviewpager.AutoLoopViewPager;
 import com.yuzhi.fine.ui.viewpagerindicator.CirclePageIndicator;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.LocationUtils;
+import com.yuzhi.fine.utils.NetUtils;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
+import static com.alibaba.fastjson.JSON.parseArray;
 import static com.alibaba.fastjson.JSON.parseObject;
 import static com.yuzhi.fine.http.Caller.GOOGLE_MAP_LOCATION;
+import static com.yuzhi.fine.utils.CommUtil.showAlert;
+import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_REQUEST;
 import static com.yuzhi.fine.utils.Constant.LX_MAIN_ADDRESS_RESULT;
+import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
 //import com.squareup.leakcanary.RefWatcher;
 
@@ -74,6 +88,8 @@ public class LXMainFragment extends Fragment {
     TextView mSX;
     @Bind(R.id.sx_img)
     ImageView mSXImg;
+    @Bind(R.id.lx_add_point)
+    Button mLXAddPoint;
 
 
     private int[] imageViewIds;
@@ -111,9 +127,10 @@ public class LXMainFragment extends Fragment {
     private List<String> list_title;                                     //tab名称列表
     private LXFindXSFragmet xsFragment;              //悬赏找寻服务fragment
     private LXFindPTFragment ptFragment;            //普通找寻服务fragment
+    private ProgressDialog progress;
+    SharePreferenceUtil1 share ;
 
     private String[] mAddressIdArray;//地区id对照表
-
     public LXMainFragment() {
         // Required empty public constructor
     }
@@ -152,18 +169,20 @@ public class LXMainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView();
-        //初始化定位工具
-        new Thread(networkTask).start();
-        //FIXME Leak
-//        RefWatcher refWatcher = AppContext.getRefWatcher(getActivity());
-//        refWatcher.watch(this);
+        //初始化定位线程
+        if(NetUtils.isConnected(getActivity())){
+            initView();
+            new Thread(networkTask).start();
+        }else{
+            CommUtil.showAlert("当前无网络连接",getActivity());
+        }
     }
 
     /**
      * 初始化组件
      */
     public void initView() {
+        share = new SharePreferenceUtil1(getActivity(), "lx_data", 0);
         //1.轮播图片
         imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
         galleryAdapter = new GalleryPagerAdapter(imageViewIds, imageList, getActivity());
@@ -202,7 +221,7 @@ public class LXMainFragment extends Fragment {
                 } else if (2 == position) {//招领认领
                     UIHelper.showMainZLRL(getActivity());
                 } else if (3 == position) {//招商加盟
-                    CommUtil.showToast("正在开发中...", getActivity());
+                    showToast("正在开发中...", getActivity());
 
                 } else if (4 == position) {//网络曝光
                     UIHelper.showMainWLBG(getActivity());
@@ -212,7 +231,7 @@ public class LXMainFragment extends Fragment {
                 } else if (6 == position) {//立寻圈子
                     UIHelper.showMainLXQZ(getActivity());
                 } else if (7 == position) {//积分商城
-                    CommUtil.showToast("正在开发中...", getActivity());
+                    showToast("正在开发中...", getActivity());
                 } else {
                     return;
 
@@ -452,9 +471,9 @@ public class LXMainFragment extends Fragment {
             String val = data.getString("value");
             // UI界面的更新等相关操作
             GoogleLoc googleLoc = parseObject(val, GoogleLoc.class);
-            List<GoogleResults> googleResults = JSON.parseArray(googleLoc.getResults(), GoogleResults.class);
+            List<GoogleResults> googleResults = parseArray(googleLoc.getResults(), GoogleResults.class);
             String address_components = googleResults.get(0).getAddress_components();
-            List<GoogleAddressComponents> googleAddressComponents = JSON.parseArray(address_components, GoogleAddressComponents.class);
+            List<GoogleAddressComponents> googleAddressComponents = parseArray(address_components, GoogleAddressComponents.class);
 
             for (int i = 0; i < googleAddressComponents.size(); i++) {
                 String county = googleAddressComponents.get(i).getLong_name();//县级市或者区
@@ -478,6 +497,43 @@ public class LXMainFragment extends Fragment {
     };
 
 
+    @OnClick(R.id.lx_add_point)
+    public void setmLXAddPoint(View view){
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userid",userID);//
+
+        HttpClient.get(Caller.USER_ADD_POINT, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+
+                    showAlert(message, getActivity());
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                } else {
+                    showAlert(message, getActivity());
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Request request, Exception e) {
+                if (progress != null) {
+                    progress.dismiss();
+                }
+                showToast("悬赏列表获取失败", getActivity());
+            }
+        });
+    }
+
+
     @Override
     public void onPause() {
         super.onPause();
@@ -490,6 +546,7 @@ public class LXMainFragment extends Fragment {
         super.onStop();
         new Thread(networkTask).interrupt();
     }
+
 }
 
 

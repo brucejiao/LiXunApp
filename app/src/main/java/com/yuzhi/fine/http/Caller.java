@@ -93,5 +93,17 @@ public class Caller  {
     //关注初始化状态
     public static String FOCUS_STATE =HTTP+"publish/publish/isexistsfollowpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
 
+    // 添加认领信息
+    public static String ADD_RL_INFOS =HTTP+"publish/publish/addclaiminfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 添加线索信息
+    public static String ADD_XS_INFOS =HTTP+"publish/publish/addclueinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 用户签到加积分
+    public static String USER_ADD_POINT =HTTP+"user/memberuser/usersignaddpoint.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 判断用户今日是否已签到
+    public static String IS_ADD_POINT =HTTP+"user/memberuser/userissign.html?appid="+APPID ;// +"&sign={SIGN}";
+
 
 }
