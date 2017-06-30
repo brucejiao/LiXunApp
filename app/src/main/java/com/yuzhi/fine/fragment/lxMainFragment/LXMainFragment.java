@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.activity.mainActivity.SearchActivity;
@@ -34,6 +35,7 @@ import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
+import com.yuzhi.fine.model.MainSecondAd;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
@@ -131,6 +133,9 @@ public class LXMainFragment extends Fragment {
     SharePreferenceUtil1 share ;
 
     private String[] mAddressIdArray;//地区id对照表
+
+    private  String mAddressId ;
+
     public LXMainFragment() {
         // Required empty public constructor
     }
@@ -286,11 +291,70 @@ public class LXMainFragment extends Fragment {
      */
     private void initGalleryViewPager() {
 
-        hlva = new HorizontalListViewAdapter(getActivity());
-        hlva.notifyDataSetChanged();
-        mHorLViewImg.setAdapter(hlva);
-
+//        hlva = new HorizontalListViewAdapter(getActivity());
+//        hlva.notifyDataSetChanged();
+//        mHorLViewImg.setAdapter(hlva);
+        getCommentList();
     }
+
+
+    /**
+     * 获取首页推荐广告(第二行)
+     * 2017-06-30 17:24
+     1.首页第二个广告获取
+     地区id不为0 是全国还没判断
+     2.等定位执行完再加载广告接口
+     */
+    private void getCommentList() {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("cityid","0" );
+        HttpClient.get(Caller.GET_MAIN_SECOND_AD, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+                String data = response.getData();
+                ArrayList<MainSecondAd> adBeanList = new ArrayList<MainSecondAd>();
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+                    List<MainSecondAd> findList = JSON.parseArray(data, MainSecondAd.class);
+                    final int findListNum = findList.size();
+                    for (int index = 0; index < findListNum; index++) {
+                        MainSecondAd adBean = new MainSecondAd();
+                        String Title = findList.get(index).getTitle();
+                        String Imgpath = findList.get(index).getImgpath();
+               /*         String Backgroundcolor = findList.get(index).getBackgroundcolor();
+                        String Linktype = findList.get(index).getLinktype();
+                        String Linkurl = findList.get(index).getLinkurl();
+                        String Cityid = findList.get(index).getCityid();*/
+                        adBean.setTitle(Title);
+                        adBean.setImgpath(Imgpath);
+                        adBeanList.add(adBean);
+                    }
+
+                    hlva = new HorizontalListViewAdapter(getActivity(),adBeanList);
+                    hlva.notifyDataSetChanged();
+                    mHorLViewImg.setAdapter(hlva);
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                } else {
+                    showToast(message, getActivity());
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                showToast("图片获取失败", getActivity());
+                if (progress != null) {
+                    progress.dismiss();
+                }
+            }
+        });
+    }
+
 
     /**
      * 悬赏/普通找寻服务
@@ -382,7 +446,7 @@ public class LXMainFragment extends Fragment {
         if (requestCode == LX_MAIN_ADDRESS_REQUEST) {
             if (resultCode == LX_MAIN_ADDRESS_RESULT) {
                 mLxMainAddressText.setText(data.getStringExtra("lngCityName"));
-                String addressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                mAddressId= getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
 //                CommUtil.showAlert("addressId-->" + addressId, getActivity());
             }
         }
@@ -483,12 +547,12 @@ public class LXMainFragment extends Fragment {
                     return;
                 } else*/ if (!CommUtil.isNullOrBlank(county) && county.contains("县")) {
                     mLxMainAddressText.setText(county);
-                    String addressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                    mAddressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
 //                    CommUtil.showAlert("addressId-->" + addressId, getActivity());
                     return;
                 } else if (!CommUtil.isNullOrBlank(county) && county.contains("市")) {
                     mLxMainAddressText.setText(county);
-                    String addressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                    mAddressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
 //                    CommUtil.showAlert("addressId-->" + addressId, getActivity());
                     return;
                 }

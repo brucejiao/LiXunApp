@@ -2,6 +2,10 @@ package com.yuzhi.fine.utils;
 
 /**
  * Created by JiaoJianJun on 2017/6/7.
+ *
+ *   Picasso.with(activity).load(bean.getImgFilePath())
+ .resize(DeviceUtil.dp2px(activity, 25), DeviceUtil.dp2px(activity, 25))
+ .placeholder(R.drawable.default_image).into(holder.lx_header_img);
  */
 
 public class Constant {

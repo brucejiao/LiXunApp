@@ -105,5 +105,8 @@ public class Caller  {
     // 判断用户今日是否已签到
     public static String IS_ADD_POINT =HTTP+"user/memberuser/userissign.html?appid="+APPID ;// +"&sign={SIGN}";
 
+    // 获取首页推荐广告
+    public static String GET_MAIN_SECOND_AD =HTTP+"common/advert/getindexrecommendadvertlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
 
 }

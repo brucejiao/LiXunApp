@@ -292,7 +292,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void getCommentList() {
         String publistID = getIntent().getStringExtra("publistID");//发布ID
         final String secondMenu = getIntent().getStringExtra("secondMenu");//二级菜单
-        HashMap<String, String> params = new HashMap<>();
+        HashMap<String, String> params = new HashMap<String, String>();
         params.put("publishid", publistID);
 //        params.put("pagesize", publistID);//每页显示条数（默认10条）
 //        params.put("lastnumber", publistID);//最后一条记录的ID
