@@ -1,6 +1,7 @@
 package com.yuzhi.fine.fragment.mineFragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,13 +16,26 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.http.Caller;
+import com.yuzhi.fine.http.HttpClient;
+import com.yuzhi.fine.http.HttpResponseHandler;
+import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.ui.GridImageAdapter;
 import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
+
+import static com.yuzhi.fine.utils.CommUtil.showAlert;
+import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
 public class MineFragment extends Fragment {
 
@@ -59,7 +73,8 @@ public class MineFragment extends Fragment {
     @Bind(R.id.mine_complaints)
     LinearLayout mMineComplaints;
 
-
+    private ProgressDialog progress;
+    private SharePreferenceUtil1 share ;
 
 
     //GridView
@@ -90,7 +105,7 @@ public class MineFragment extends Fragment {
 
     void initView() {
         mHeader.setText("我的");
-
+        share = new SharePreferenceUtil1(getActivity(), "lx_data", 0);
         //添加元素给gridview
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName,true);
         mMineGridView.setAdapter(adapter);
@@ -119,7 +134,7 @@ public class MineFragment extends Fragment {
 
                 } else if (4 == position) {//网络社交
 
-                    CommUtil.showToast("网络社交",mContext);
+                    showToast("网络社交",mContext);
 
                 } else if (5 == position) {//我的关注
 
@@ -150,4 +165,49 @@ public class MineFragment extends Fragment {
     {
         UIHelper.showMineAccount(mContext);
     }
+
+    /**
+     * 修改用户个性签名
+     * @param view
+     */
+    @OnClick(R.id.mine_user_style_text)
+    public void editUserInfos(View view)
+    {
+        mUserStyleText.setEnabled(true);
+        showAlert("11111", getActivity());
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userid",userID);//
+        params.put("motto",mUserStyleText.getText().toString().trim());//
+
+        HttpClient.get(Caller.MODIFY_USER_MOTOO, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+
+                    showAlert(message, getActivity());
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                } else {
+                    showAlert(message, getActivity());
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Request request, Exception e) {
+                if (progress != null) {
+                    progress.dismiss();
+                }
+                showToast("修改用户签名失败", getActivity());
+            }
+        });
+    }
+
 }

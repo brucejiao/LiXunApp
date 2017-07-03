@@ -120,7 +120,12 @@
         <activity
             android:name=".activity.coreActivity.LXQZActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.coreActivity.DetailsActivity"
+        <activity
+            android:name=".activity.coreActivity.DetailsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.coreActivity.MineRLActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.coreActivity.MineXSActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

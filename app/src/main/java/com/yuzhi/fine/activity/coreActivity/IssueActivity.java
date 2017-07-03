@@ -228,7 +228,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      * 初始化地区选择滚轮
      */
     private void initWheel() {
-        chooseAddressWheel = new ChooseAddressWheel(this);
+        chooseAddressWheel = new ChooseAddressWheel(this,2);
         chooseAddressWheel.setOnAddressChangeListener(this);
 
         String address = readAssert(this, "address.txt");
@@ -673,6 +673,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      * 上传图片
      */
     private  void uploadImage(final int Flag){
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         mPicturelists = new ArrayList<Picturelist>();
         //保存图片id集合
@@ -687,7 +688,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
             String file1Name =generateFileName(".jpg");
             String boundary = "---androidxiaowangzi----";
             MultipartBody mBody = new MultipartBody.Builder(boundary).setType(MultipartBody.FORM)
-                    .addFormDataPart("userid" , "5516")
+                    .addFormDataPart("userid" ,userID)
                     .addFormDataPart("filedata" , file1Name , fileBody)
                     .build();
 

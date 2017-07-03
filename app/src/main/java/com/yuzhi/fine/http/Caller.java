@@ -93,5 +93,87 @@ public class Caller  {
     //关注初始化状态
     public static String FOCUS_STATE =HTTP+"publish/publish/isexistsfollowpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
 
+    // 添加认领信息
+    public static String ADD_RL_INFOS =HTTP+"publish/publish/addclaiminfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 添加线索信息
+    public static String ADD_XS_INFOS =HTTP+"publish/publish/addclueinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 用户签到加积分
+    public static String USER_ADD_POINT =HTTP+"user/memberuser/usersignaddpoint.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 判断用户今日是否已签到
+    public static String IS_ADD_POINT =HTTP+"user/memberuser/userissign.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 获取首页推荐广告
+    public static String GET_MAIN_SECOND_AD =HTTP+"common/advert/getindexrecommendadvertlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 获取首页广告幻灯片
+    public static String GET_MAIN_FIRST_AD =HTTP+"common/advert/getindexadvertlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取欢迎界面广告
+    public static String GET_WELCOME_AD =HTTP+"common/advert/getwelcomeadvert.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取首次运行广告列表
+    public static String GET_FIRST_RUN_AD =HTTP+"common/advert/getfirstrunadvertlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    // 获取用户手机号
+    public static String GET_USER_MOBILE =HTTP+"user/memberuser/getmemberusermobile.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取用户信息
+    public static String GET_USER_INFO =HTTP+"user/memberuser/getmemberuserinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //修改用户密码
+    public static String MODIFY_USER_PASSWORD =HTTP+"user/memberuser/modifyuserpassword.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //修改用户头像
+    public static String MODIFY_USER_HEADER =HTTP+"user/memberuser/modifyuserheadportrait.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //修改用户签名
+    public static String MODIFY_USER_MOTOO =HTTP+"user/memberuser/modifyusermotto.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //修改用户信息
+    public static String MODIFY_USER_INFO =HTTP+"user/memberuser/modifyuserinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //用户提交认证
+    public static String EDIT_USER_CERTIFICATE =HTTP+"user/memberuser/editmemberusercertificate.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //提交投诉建议
+    public static String SUBMIT_ADD_ADVICE =HTTP+"user/memberuser/addadvice.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //余额充值
+    public static String USER_BALANCE_CHARGE =HTTP+"user/memberuser/userbalancerecharge.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //余额提现
+    public static String USER_BALANCE_RECASH =HTTP+"user/memberuser/userbalancerecash.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取用户收支明细
+    public static String GET_USER_MONEY_LIST =HTTP+"user/memberuser/getusermoneylist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取用户提现记录
+    public static String GET_USER_BALANCE_RECASH_LIST =HTTP+"user/memberuser/getuserbalancerecashlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取热门关键词列表
+    public static String GET_HOT_KEYWORD_LIST =HTTP+"publish/publish/gethotkeywordslist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //修改发布信息（草稿箱）
+    public static String MODIFY_PUBLISH_INFO =HTTP+"publish/publish/modifypublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //修改发布信息（现在发布）
+    public static String MODIFY_SUBMIT_PUBLISH_INFO =HTTP+"publish/publish/modifysubmitpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //删除发布信息
+    public static String DELETE_PUBLISH_INFO =HTTP+"publish/publish/deletepublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //结束发布信息
+    public static String END_PUBLISH_INFO =HTTP+"publish/publish/endpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //完成发布信息
+    public static String FINISH_PUBLISH_INFO =HTTP+"publish/publish/finishpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+    //获取发布列表（我的网络社交）
+    public static String GET_USRE_ =HTTP+"publish/publish/getusersocialpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+
 
 }

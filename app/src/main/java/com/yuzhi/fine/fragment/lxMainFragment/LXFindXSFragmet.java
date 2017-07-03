@@ -265,7 +265,7 @@ public class LXFindXSFragmet extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String publistID = findList.get(position).getPublishID();
-                            UIHelper.showDetails(getActivity(),publistID,"");
+                            UIHelper.showDetails(getActivity(),publistID,"",0);
                         }
                     });
 
