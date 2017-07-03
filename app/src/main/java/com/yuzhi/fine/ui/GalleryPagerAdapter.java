@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.ImageGalleryActivity;
 
 import java.util.ArrayList;
@@ -19,20 +21,21 @@ import java.util.List;
 
 public class GalleryPagerAdapter extends PagerAdapter {
     private Context context;
-    private int[] imageViewIds;
+//    private int[] imageViewIds;
+    private List<String> imageMainList;
     private List<String> imageList;
 
 
-    public GalleryPagerAdapter(int[] imageViewIds ,List<String> imageList,Context context){
+    public GalleryPagerAdapter(List<String> imageMainList/*int[] imageViewIds*/ ,List<String> imageList,Context context){
         super();
         this.context = context;
-        this.imageViewIds = imageViewIds ;
+        this.imageMainList = imageMainList ;
         this.imageList = imageList ;
     }
 
     @Override
     public int getCount() {
-        return imageViewIds.length;
+        return imageMainList.size();
     }
 
     @Override
@@ -43,7 +46,10 @@ public class GalleryPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView item = new ImageView(context);
-        item.setImageResource(imageViewIds[position]);
+//        item.setImageResource(imageViewIds[position]);
+        Picasso.with(context).load(imageMainList.get(position))
+//                .resize(DeviceUtil.dp2px(context,73), DeviceUtil.dp2px(context,73))
+                .placeholder(R.drawable.default_image).into(item);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
         item.setLayoutParams(params);
         item.setScaleType(ImageView.ScaleType.FIT_XY);

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.model.MainSecondAd;
+import com.yuzhi.fine.model.MainAd;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
 
@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 public class HorizontalListViewAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<MainSecondAd> adBeanList;
-    public HorizontalListViewAdapter(Context con,ArrayList<MainSecondAd> adBeanList){
+    private ArrayList<MainAd> adBeanList;
+    public HorizontalListViewAdapter(Context con,ArrayList<MainAd> adBeanList){
         this.context = con ;
         this.adBeanList = adBeanList;
         mInflater= LayoutInflater.from(con);

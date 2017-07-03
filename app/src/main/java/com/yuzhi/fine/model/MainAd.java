@@ -2,10 +2,10 @@ package com.yuzhi.fine.model;
 
 /**
  * Created by JiaoJianJun on 2017/6/30.
- * 首页第二行广告
+ * 首页广告
  */
 
-public class MainSecondAd {
+public class MainAd {
     private String title;
     private String imgpath;
     private String backgroundcolor;

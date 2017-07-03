@@ -35,7 +35,7 @@ import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
 import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
-import com.yuzhi.fine.model.MainSecondAd;
+import com.yuzhi.fine.model.MainAd;
 import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
 import com.yuzhi.fine.ui.GalleryPagerAdapter;
@@ -51,7 +51,6 @@ import com.yuzhi.fine.utils.NetUtils;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -95,10 +94,10 @@ public class LXMainFragment extends Fragment {
 
 
     private int[] imageViewIds;
-    private List<String> imageList = new ArrayList<String>(Arrays.asList(
-            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
-            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
-            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg"));
+//    private List<String> imageList = new ArrayList<String>(Arrays.asList(
+//            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
+//            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
+//            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg"));
     private GalleryPagerAdapter galleryAdapter;
 
 
@@ -134,7 +133,6 @@ public class LXMainFragment extends Fragment {
 
     private String[] mAddressIdArray;//地区id对照表
 
-    private  String mAddressId ;
 
     public LXMainFragment() {
         // Required empty public constructor
@@ -189,11 +187,12 @@ public class LXMainFragment extends Fragment {
     public void initView() {
         share = new SharePreferenceUtil1(getActivity(), "lx_data", 0);
         //1.轮播图片
-        imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
-        galleryAdapter = new GalleryPagerAdapter(imageViewIds, imageList, getActivity());
-        pager.setAdapter(galleryAdapter);
-        indicator.setViewPager(pager);
-        indicator.setPadding(5, 5, 10, 5);
+//        imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
+//        galleryAdapter = new GalleryPagerAdapter(imageViewIds, imageList, getActivity());
+//        pager.setAdapter(galleryAdapter);
+//        indicator.setViewPager(pager);
+//        indicator.setPadding(5, 5, 10, 5);
+        getFristAd();
 
         //2. 添加元素给gridview
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName, false);
@@ -202,10 +201,14 @@ public class LXMainFragment extends Fragment {
         gridViewOnItemClick();
 
         //3.图片切换
-        initGalleryViewPager();
+//        initGalleryViewPager();
+        //Line 670
 
         //4.悬赏/普通找寻服务
         findServersViewPager();
+
+        //5.判断是否签到
+        isLXAddPoint();
 
 
     }
@@ -294,32 +297,81 @@ public class LXMainFragment extends Fragment {
 //        hlva = new HorizontalListViewAdapter(getActivity());
 //        hlva.notifyDataSetChanged();
 //        mHorLViewImg.setAdapter(hlva);
-        getCommentList();
+//        getCommentList();
+    }
+
+    /**
+     * 获取首页推荐广告(第一行)
+     */
+    private void getFristAd() {
+
+        HttpClient.get(Caller.GET_MAIN_FIRST_AD, null, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+                String data = response.getData();
+                List<String> imageList = new ArrayList<String>();
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+                    List<MainAd> findList = JSON.parseArray(data, MainAd.class);
+                    final int findListNum = findList.size();
+                    for (int index = 0; index < findListNum; index++) {
+                        String Imgpath = findList.get(index).getImgpath();
+                        imageList.add(Imgpath);
+                    }
+
+                    imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
+                    galleryAdapter = new GalleryPagerAdapter(imageList, imageList, getActivity());
+                    pager.setAdapter(galleryAdapter);
+                    indicator.setViewPager(pager);
+                    indicator.setPadding(5, 5, 10, 5);
+
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                } else {
+                    showToast(message, getActivity());
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                showToast("图片获取失败", getActivity());
+                if (progress != null) {
+                    progress.dismiss();
+                }
+            }
+        });
     }
 
 
     /**
      * 获取首页推荐广告(第二行)
-     * 2017-06-30 17:24
-     1.首页第二个广告获取
-     地区id不为0 是全国还没判断
-     2.等定位执行完再加载广告接口
      */
-    private void getCommentList() {
+    private void getSecondAd(String addressID) {
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("cityid","0" );
+
+        if (!CommUtil.isNullOrBlank(addressID)){
+            params.put("cityid",addressID);
+        }else{
+            params.put("cityid","0");
+        }
+
         HttpClient.get(Caller.GET_MAIN_SECOND_AD, params, new HttpResponseHandler() {
             @Override
             public void onSuccess(RestApiResponse response) {
                 String result = response.getResult();
                 String message = response.getMessage();
                 String data = response.getData();
-                ArrayList<MainSecondAd> adBeanList = new ArrayList<MainSecondAd>();
+                ArrayList<MainAd> adBeanList = new ArrayList<MainAd>();
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    List<MainSecondAd> findList = JSON.parseArray(data, MainSecondAd.class);
+                    List<MainAd> findList = JSON.parseArray(data, MainAd.class);
                     final int findListNum = findList.size();
                     for (int index = 0; index < findListNum; index++) {
-                        MainSecondAd adBean = new MainSecondAd();
+                        MainAd adBean = new MainAd();
                         String Title = findList.get(index).getTitle();
                         String Imgpath = findList.get(index).getImgpath();
                /*         String Backgroundcolor = findList.get(index).getBackgroundcolor();
@@ -446,7 +498,13 @@ public class LXMainFragment extends Fragment {
         if (requestCode == LX_MAIN_ADDRESS_REQUEST) {
             if (resultCode == LX_MAIN_ADDRESS_RESULT) {
                 mLxMainAddressText.setText(data.getStringExtra("lngCityName"));
-                mAddressId= getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                String  mAddressId= getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                Message msg1 = new Message();
+                Bundle data1 = new Bundle();
+                data1.putString("addressID", mAddressId);
+                msg1.setData(data1);
+                msg1.what = 10001;
+                addressIDHandler.sendMessage(msg1);
 //                CommUtil.showAlert("addressId-->" + addressId, getActivity());
             }
         }
@@ -547,12 +605,24 @@ public class LXMainFragment extends Fragment {
                     return;
                 } else*/ if (!CommUtil.isNullOrBlank(county) && county.contains("县")) {
                     mLxMainAddressText.setText(county);
-                    mAddressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                    String  mAddressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                    Message msg2 = new Message();
+                    Bundle data2 = new Bundle();
+                    data2.putString("addressID", mAddressId);
+                    msg2.setData(data2);
+                    msg2.what = 10002;
+                    addressIDHandler.sendMessage(msg2);
 //                    CommUtil.showAlert("addressId-->" + addressId, getActivity());
                     return;
                 } else if (!CommUtil.isNullOrBlank(county) && county.contains("市")) {
                     mLxMainAddressText.setText(county);
-                    mAddressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                    String  mAddressId = getAddressId(mAddressIdArray, mLxMainAddressText.getText().toString());
+                    Message msg3 = new Message();
+                    Bundle data3 = new Bundle();
+                    data3.putString("addressID", mAddressId);
+                    msg3.setData(data3);
+                    msg3.what = 10003;
+                    addressIDHandler.sendMessage(msg3);
 //                    CommUtil.showAlert("addressId-->" + addressId, getActivity());
                     return;
                 }
@@ -560,7 +630,49 @@ public class LXMainFragment extends Fragment {
         }
     };
 
+    /**
+     * 判断用户是否已签到
+     */
+    private void isLXAddPoint(){
+        String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userid",userID);//
 
+        HttpClient.get(Caller.IS_ADD_POINT, params, new HttpResponseHandler() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                String result = response.getResult();
+                String message = response.getMessage();
+
+                if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+
+//                    showAlert(message, getActivity());
+                    mLXAddPoint.setText("已签到");
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                } else {
+                    showAlert(message, getActivity());
+                    if (progress != null) {
+                        progress.dismiss();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Request request, Exception e) {
+                if (progress != null) {
+                    progress.dismiss();
+                }
+                showToast("查询是否已签到失败", getActivity());
+            }
+        });
+    }
+
+    /**
+     * 签到
+     * @param view
+     */
     @OnClick(R.id.lx_add_point)
     public void setmLXAddPoint(View view){
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
@@ -596,6 +708,37 @@ public class LXMainFragment extends Fragment {
             }
         });
     }
+
+    /**
+     *获取地区ID
+     * 加载首页图片
+     */
+    Handler addressIDHandler = new Handler(){
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+         switch (msg.what){
+             case 10001:
+                 Bundle data = msg.getData();
+                 String addressID = data.getString("addressID");
+                 getSecondAd(addressID);
+                 break;
+             case 10002:
+                 Bundle data2 = msg.getData();
+                 String addressID2 = data2.getString("addressID");
+                 getSecondAd(addressID2);
+                 break;
+             case 10003:
+                 Bundle data3 = msg.getData();
+                 String addressID3 = data3.getString("addressID");
+                 getSecondAd(addressID3);
+                 break;
+             default:break;
+         }
+
+        }
+    };
 
 
     @Override
