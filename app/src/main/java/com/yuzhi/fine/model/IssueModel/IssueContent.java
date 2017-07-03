@@ -17,10 +17,10 @@ public class IssueContent {
     private String Province;
     private String City;
     private String Address;
-    private String PushType;
-    private String PushMoney;
-    private String TopType;
-    private String TopMoney;
+//    private String PushType;
+//    private String PushMoney;
+//    private String TopType;
+//    private String TopMoney;
     @JSONField(name  = "Title")
     public String getTitle() {
         return Title;
@@ -77,36 +77,36 @@ public class IssueContent {
     public void setAddress(String address) {
         Address = address;
     }
-    @JSONField(name  = "PushType")
-    public String getPushType() {
-        return PushType;
-    }
-
-    public void setPushType(String pushType) {
-        PushType = pushType;
-    }
-    @JSONField(name  = "PushMoney")
-    public String getPushMoney() {
-        return PushMoney;
-    }
-
-    public void setPushMoney(String pushMoney) {
-        PushMoney = pushMoney;
-    }
-    @JSONField(name  = "TopType")
-    public String getTopType() {
-        return TopType;
-    }
-
-    public void setTopType(String topType) {
-        TopType = topType;
-    }
-    @JSONField(name  = "TopMoney")
-    public String getTopMoney() {
-        return TopMoney;
-    }
-
-    public void setTopMoney(String topMoney) {
-        TopMoney = topMoney;
-    }
+//    @JSONField(name  = "PushType")
+//    public String getPushType() {
+//        return PushType;
+//    }
+//
+//    public void setPushType(String pushType) {
+//        PushType = pushType;
+//    }
+//    @JSONField(name  = "PushMoney")
+//    public String getPushMoney() {
+//        return PushMoney;
+//    }
+//
+//    public void setPushMoney(String pushMoney) {
+//        PushMoney = pushMoney;
+//    }
+//    @JSONField(name  = "TopType")
+//    public String getTopType() {
+//        return TopType;
+//    }
+//
+//    public void setTopType(String topType) {
+//        TopType = topType;
+//    }
+//    @JSONField(name  = "TopMoney")
+//    public String getTopMoney() {
+//        return TopMoney;
+//    }
+//
+//    public void setTopMoney(String topMoney) {
+//        TopMoney = topMoney;
+//    }
 }

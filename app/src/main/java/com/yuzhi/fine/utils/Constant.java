@@ -39,6 +39,9 @@ public class Constant {
     public static final int RL_RESULT_THIRD = 0x1013;
     public static final int RL_RESULT_FOURTH = 0x1014;
 
+    //我的--修改用户头像
+    public static final int MINE_MODIFY_USER_HEADER = 0x1015;
+
     //我有线索--选择图片
     public static final int XS_RESULT_FIRST = 0x1015;
     public static final int XS_RESULT_SECOND = 0x1016;

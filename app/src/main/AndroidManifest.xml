@@ -123,9 +123,13 @@
         <activity
             android:name=".activity.coreActivity.DetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.coreActivity.MineRLActivity"
+        <activity
+            android:name=".activity.coreActivity.MineRLActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.coreActivity.MineXSActivity"
+        <activity
+            android:name=".activity.coreActivity.MineXSActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.mineActivity.MineUserCompletedActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
