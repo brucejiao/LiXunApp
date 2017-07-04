@@ -23,32 +23,35 @@ public class FindListBean {
     private String TopMoney;
     private String CreateTime;
     private String UpdateTime;// 更新时间
-    private String PublishStatus;
+    private String PublishStatus;// 发布状态（1.待发布，2.已发布，3.已结束，4.已完成）
     private String IsDelete;// 删除状态1:已删除
-    private String CheckState;
-    private String CheckID;
-    private String CheckTime;
-    private String CheckRemark;
-    private String FollowCount;//关注
-    private String CommentCount;//评论
-    private String VisitCount;//
-    private String ClueUserID;
-    private String ClueUserName;
-    private String PaymentTypeID;
-    private String PaymentTypeName;
-    private String PaymentStatus;
-    private String DatePayOrder;
-    private String MoneyPaid;
-    private String UserName;
-    private String CheckUserName;
+    private String CheckState;// 审核状态(1.待审核，2.审核通过，3.审核不通过)
+    private String CheckID;// 审核人ID
+    private String CheckTime;// 审核时间
+    private String CheckRemark;// 审核备注
+    private String FollowCount;// 关注人数
+    private String CommentCount;// 评论人数
+    private String VisitCount;//// 浏览次数
+    private String ClueUserID;// 提供线索用户ID
+    private String ClueUserName;// 提供线索用户名
+    private String PaymentTypeID;// 支付方式
+    private String PaymentTypeName;// 支付名称
+    private String PaymentStatus;// 付款状态---1未支付 、 2支付定金、3支付完成
+    private String DatePayOrder;// 付款时间
+    private String MoneyPaid;// 实付金额
+    private String UserName;// 用户名
+    private String CheckUserName;// 审核人用户名
     private String ImgFilePath;
     private String ProvinceName;
     private String CityName;
     private String CountryName;
     private String PictureList;
     private String PicturePath;
-    private String CategoryName;
-    private String FollowTime;
+    private String CategoryName;///12
+    private String FollowTime;// 关注（收藏）、浏览时间——查询收藏、浏览发布信息时使用
+    private String PublishAddress;
+    private String ParentCategoryID;
+    private String ParentCategoryName;
 
     public String getPublishID() {
         return PublishID;
@@ -392,5 +395,29 @@ public class FindListBean {
 
     public void setFollowTime(String followTime) {
         FollowTime = followTime;
+    }
+
+    public String getPublishAddress() {
+        return PublishAddress;
+    }
+
+    public void setPublishAddress(String publishAddress) {
+        PublishAddress = publishAddress;
+    }
+
+    public String getParentCategoryID() {
+        return ParentCategoryID;
+    }
+
+    public void setParentCategoryID(String parentCategoryID) {
+        ParentCategoryID = parentCategoryID;
+    }
+
+    public String getParentCategoryName() {
+        return ParentCategoryName;
+    }
+
+    public void setParentCategoryName(String parentCategoryName) {
+        ParentCategoryName = parentCategoryName;
     }
 }

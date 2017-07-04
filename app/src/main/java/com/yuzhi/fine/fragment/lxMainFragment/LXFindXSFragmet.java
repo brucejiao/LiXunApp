@@ -228,9 +228,9 @@ public class LXFindXSFragmet extends Fragment {
 
                         String distanceTime = daysBetween2(createTime,currentDate());
                         lxFindServerBean.setTime(distanceTime);
-                        lxFindServerBean.setLookerNum(followCount);
-                        lxFindServerBean.setFocusonNum(commentCount);
-                        lxFindServerBean.setMessageNum(visitCount);
+                        lxFindServerBean.setLookerNum(visitCount);
+                        lxFindServerBean.setFocusonNum(followCount);
+                        lxFindServerBean.setMessageNum(commentCount);
 
                         List<FindListPicList> findListPicLists = parseArray(pictueeList, FindListPicList.class);
                         final int findPicNum = findListPicLists.size();

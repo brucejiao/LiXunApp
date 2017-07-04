@@ -14,6 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,8 +30,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.common.AppContext;
+import com.yuzhi.fine.http.Caller;
+import com.yuzhi.fine.http.HttpClient;
+import com.yuzhi.fine.http.HttpResponseHandler;
+import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.CateGoryID;
 import com.yuzhi.fine.ui.AddContentDialog;
 
 import java.io.BufferedReader;
@@ -39,11 +47,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+
+import okhttp3.Request;
+
+import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 
 /**
  * @author 工具类，封装常用的操作方法
@@ -683,5 +697,70 @@ public class CommUtil {
 		mDialog.show();
 	}
 
+	/**
+	 *查询所有一二级菜单的id和名称
+	 * @return
+	 */
+	static List<HashMap<String, String>> mapArrayList = new ArrayList<HashMap<String, String>>();
+	private static void   getCategoryIdNameList() {
+		mapArrayList.clear();
+		HttpClient.get(Caller.GET_FRIST_SECOND_MENU, null, new HttpResponseHandler() {
+			@Override
+			public void onSuccess(RestApiResponse response) {
+				String result = response.getResult();
+				String message = response.getMessage();
+				String data = response.getData();
+				if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+
+					final List<CateGoryID> CateGoryIDList = JSON.parseArray(data, CateGoryID.class);
+					final int findListNum = CateGoryIDList.size();
+					for (int index = 0; index < findListNum; index++) {
+						HashMap<String,String> map = new HashMap<String, String>();
+						String categoryID = CateGoryIDList.get(index).getCategoryID();
+						String categoryTitle = CateGoryIDList.get(index).getCategoryTitle();
+						map.put(categoryID,categoryTitle);
+						mapArrayList.add(map);
+						if (mapArrayList.size() == CateGoryIDList.size()){
+							Message message1 = new Message();
+							message1.what = 100100;
+							categoryID2NameHandler.sendMessage(message1);
+
+						}
+					}
+
+				}
+			}
+
+			@Override
+			public void onFailure(Request request, Exception e) {
+
+			}
+		});
+	}
+
+	/**
+	 * 根据菜单的id查询菜单的名称
+	 * @param categoryID
+	 * @return
+	 */
+	public static  String getCategoryId2Name(final String categoryID){
+		String categoryName ="";
+		List<HashMap<String, String>> list =mapArrayList;
+		for (int index = 0 ; index <list.size(); index ++){
+			categoryName = list.get(index).get(categoryID);
+		}
+		return categoryName;
+	}
+
+
+	public static Handler categoryID2NameHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if(msg.what == 100100){
+				getCategoryId2Name("83");
+			}
+		}
+	};
 }
 

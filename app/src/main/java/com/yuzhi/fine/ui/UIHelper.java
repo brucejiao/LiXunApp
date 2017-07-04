@@ -200,7 +200,7 @@ public class UIHelper {
     }
 
     //展示发布详情界面
-    //flag 0:我有线索  1：我要认领
+    //flag 0:我有线索  1：我要认领  2:查看线索
     public  static void showDetails(Activity context,String publistID,String secondmenu,int flag){
         Intent intent = new Intent(context,DetailsActivity.class);
         intent.putExtra("publistID",publistID);

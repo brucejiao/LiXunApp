@@ -15,7 +15,6 @@ import com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineFindAllFragment
 import com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineWTZRFragment;
 import com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineWTZWFragment;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
-import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,13 +118,13 @@ public class MineFindActivity extends AppCompatActivity {
 
                 switch (position){
                     case 0:
-                        CommUtil.showToast("全部",mContext);
+//                        CommUtil.showToast("全部",mContext);
                         break;
                     case 1:
-                        CommUtil.showToast("找人",mContext);
+//                        CommUtil.showToast("找人",mContext);
                         break;
                     case 2:
-                        CommUtil.showToast("找物",mContext);
+//                        CommUtil.showToast("找物",mContext);
                         break;
                     default: break;
                 }
