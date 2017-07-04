@@ -48,6 +48,11 @@ public class Constant {
     public static final int XS_RESULT_THIRD = 0x1017;
     public static final int XS_RESULT_FOURTH = 0x1018;
 
+    //我的
+    public static final int MINE_REQUEST_REFRESH = 0x1019;
+    public static final int MINE_RESULT_REFRESH = 0x1020;
+
+
     //SharePreferenceUtil1 Constant
     public static final String SHARE_LOGIN_USERID = "lxUserId";//用户ID
     public static final String SHARE_LOGIN_ISLOGIN = "isLogin";//是否登录过

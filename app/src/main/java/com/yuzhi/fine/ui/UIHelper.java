@@ -29,6 +29,8 @@ import com.yuzhi.fine.activity.mineActivity.MineUserCompletedActivity;
 import com.yuzhi.fine.activity.mineActivity.MineZLRLActivity;
 import com.yuzhi.fine.fragment.mineFragment.MineFragment;
 
+import static com.yuzhi.fine.utils.Constant.MINE_REQUEST_REFRESH;
+
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
  */
@@ -221,10 +223,28 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
-    //我的---完善用户信息
-    public  static void showCompleteUserInfos(Activity context,String userHeader){
+    /**
+     * 我的---完善用户信息
+     * @param context
+     * @param fragment
+     * @param userHeader 头像网络路径
+     * @param mMySummary 兴趣爱好
+     * @param mProvince
+     * @param mCity
+     * @param mArea
+     * @param mAddress 详细地址
+     */
+    public  static void showCompleteUserInfos(Activity context, MineFragment fragment,String userHeader,
+                                              String mMySummary, String mProvince, String mCity,
+                                              String mArea, String mAddress){
+
         Intent intent = new Intent(context,MineUserCompletedActivity.class);
         intent.putExtra("userHeader",userHeader);
-        context.startActivity(intent);
+        intent.putExtra("mySummary",mMySummary);
+        intent.putExtra("province",mProvince);
+        intent.putExtra("city",mCity);
+        intent.putExtra("area",mArea);
+        intent.putExtra("address",mAddress);
+        fragment.startActivityForResult(intent, MINE_REQUEST_REFRESH);
     }
 }

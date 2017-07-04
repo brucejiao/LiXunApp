@@ -2,6 +2,7 @@ package com.yuzhi.fine.fragment.mineFragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ import okhttp3.Request;
 import static com.alibaba.fastjson.JSON.parseObject;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.Constant.MINE_REQUEST_REFRESH;
+import static com.yuzhi.fine.utils.Constant.MINE_RESULT_REFRESH;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
@@ -90,6 +93,11 @@ public class MineFragment extends Fragment {
     private ProgressDialog progress;
     private SharePreferenceUtil1 share ;
     private String mUserImageHeader;//用户头像
+    private String mMySummary;//兴趣爱好
+    private String mProvince;//所属区域
+    private String mCity;//所属区域
+    private String mArea;//所属区域
+    private String mAddress;//详细地址
 
 
     //GridView
@@ -236,6 +244,12 @@ public class MineFragment extends Fragment {
                        default:break;
                     }
 
+                    mMySummary  =  userInfo.getMySummary();//兴趣爱好
+                    mProvince = userInfo.getProvinceName();
+                    mCity = userInfo.getCityName();
+                    mArea = userInfo.getCountryName();
+                    mAddress = userInfo.getAddress();//详细地址
+
                     if (progress != null) {
                         progress.dismiss();
                     }
@@ -316,10 +330,12 @@ public class MineFragment extends Fragment {
 
     /**
      *  个人完善信息
+     *  mMySummary  兴趣爱好
+     *  mAddress   详细地址
      */
     @OnClick(R.id.mine_complete_layout)
     public void userCompletedInfos(View view){
-        UIHelper.showCompleteUserInfos(getActivity() , mUserImageHeader);
+        UIHelper.showCompleteUserInfos(getActivity() ,this, mUserImageHeader,mMySummary,mProvince,mCity,mArea,mAddress);
     }
 
     @Override
@@ -332,5 +348,21 @@ public class MineFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        getUserInfos();
+    }
+
+    /**
+     * 刷新界面
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MINE_REQUEST_REFRESH){
+            if(resultCode == MINE_RESULT_REFRESH){
+                getUserInfos();
+            }
+        }
     }
 }
