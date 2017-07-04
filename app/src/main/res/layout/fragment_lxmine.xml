@@ -10,6 +10,7 @@
     android:orientation="vertical">
     <!--标题栏-->
     <include layout="@layout/layout_main_header" />
+    <!--标题栏-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,6 +26,7 @@
 
             <!--个人资料-->
             <LinearLayout
+                android:id="@+id/mine_header_infos_layout"
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
                 android:background="@color/yellow"
@@ -40,7 +42,7 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_headimg"
                     app:riv_border_color="@color/green"
-                    app:riv_border_width="1dp"
+                    app:riv_border_width="0dp"
                     app:riv_oval="true" />
 
                 <LinearLayout
@@ -59,7 +61,7 @@
                         android:ellipsize="end"
                         android:maxEms="15"
                         android:singleLine="true"
-                        android:text="熊大大大da da "
+                        android:text="立寻"
                         android:textSize="@dimen/text_size_10" />
 
                     <EditText
@@ -70,7 +72,7 @@
                         android:background="@color/yellow"
                         android:drawableRight="@drawable/edit"
                         android:ellipsize="end"
-                        android:enabled="false"
+                        android:enabled="true"
                         android:maxEms="30"
                         android:singleLine="false"
                         android:text="我是狗娃，是一个从大山里走出来的孩子"
@@ -86,36 +88,43 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_9" />
                 </LinearLayout>
-                <!--完善度-->
-                <TextView
-                    android:id="@+id/mine_complete"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="@dimen/space_9"
-                    android:layout_weight="2"
-                    android:background="@drawable/editsharp_white_all"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxEms="9"
-                    android:singleLine="true"
-                    android:text="完善度100%"
-                    android:textColor="@color/xs_short_gary2"
-                    android:textSize="@dimen/space_10" />
 
-                <ImageView
+                <LinearLayout
+                    android:id="@+id/mine_complete_layout"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_15"
-                    android:layout_weight="1"
-                    android:src="@drawable/arrow_right" />
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_height="50dp">
+                    <!--完善度-->
+                    <TextView
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="@dimen/space_9"
+                        android:background="@drawable/editsharp_white_all"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxEms="9"
+                        android:singleLine="true"
+                        android:text="完善信息"
+                        android:textColor="@color/xs_short_gary2"
+                        android:textSize="@dimen/space_10" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_15"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/arrow_right" />
+                </LinearLayout>
+
 
             </LinearLayout>
 
 
             <!--账户/悬赏/积分-->
             <LinearLayout
-                android:id="@+id/mine_account"
+                android:id="@+id/mine_account_layout"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:orientation="horizontal">
@@ -127,6 +136,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/mine_account_text"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -177,6 +187,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/mine_account_xuanshang"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -228,6 +239,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/mine_account_jifen"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -386,6 +398,8 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <include layout="@layout/layout_main_header" />
 
     <include layout="@layout/layout_main_header" />
 

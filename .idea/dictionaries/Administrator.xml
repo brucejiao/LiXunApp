@@ -17,6 +17,8 @@
       <w>getcategorytwolist</w>
       <w>getfindpublishcomplexlist</w>
       <w>getindexpublishcomplexlist</w>
+      <w>getmemberuserinfo</w>
+      <w>getmemberusermobile</w>
       <w>getpublishcommentpublishlist</w>
       <w>getpublishdetailcomplex</w>
       <w>getuserdraftpublishlist</w>

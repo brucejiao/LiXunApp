@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,14 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.UserInfos.UserInfo;
 import com.yuzhi.fine.ui.GridImageAdapter;
 import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.DeviceUtil;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.util.HashMap;
@@ -32,6 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
 
+import static com.alibaba.fastjson.JSON.parseObject;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
@@ -41,31 +46,40 @@ public class MineFragment extends Fragment {
 
     private Activity mContext;
 
-
+    //我的头部信息
+    @Bind(R.id.mine_header_infos_layout)
+    LinearLayout mMineHeaferInfosLayout;
     //标题
     @Bind(R.id.textHeadTitle)
     TextView mHeader;
     //圆形头像
     @Bind(R.id.mine_round_header)
     RoundedImageView mRoundHeader;
-    //圆形头像
+    //昵称
     @Bind(R.id.mine_username)
     TextView mUserName;
     //个性签名
     @Bind(R.id.mine_user_style_text)
     EditText mUserStyleText;
     //个人完善度
-    @Bind(R.id.mine_complete)
-    TextView mComplete;
+    @Bind(R.id.mine_complete_layout)
+    LinearLayout mComplete;
     //是否认证
     @Bind(R.id.mine_certification_text)
     TextView mMineCertifi;
     //个人账户
-    @Bind(R.id.mine_account)
-    LinearLayout mMineAccount;
+    @Bind(R.id.mine_account_layout)
+    LinearLayout mMineAccountLayout;
+    @Bind(R.id.mine_account_text)
+    TextView mAccountText;
+    @Bind(R.id.mine_account_xuanshang)
+    TextView mAccountXuanShang;
+    @Bind(R.id.mine_account_jifen)
+    TextView mAccountJiFen;
     //个人认证
     @Bind(R.id.mine_user_verifi)
     LinearLayout mMineUserVerifi;
+
     //设置
     @Bind(R.id.mine_setting)
     LinearLayout mMineSetting;
@@ -75,6 +89,7 @@ public class MineFragment extends Fragment {
 
     private ProgressDialog progress;
     private SharePreferenceUtil1 share ;
+    private String mUserImageHeader;//用户头像
 
 
     //GridView
@@ -110,10 +125,12 @@ public class MineFragment extends Fragment {
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName,true);
         mMineGridView.setAdapter(adapter);
         CommUtil.calGridViewWidthAndHeigh(3, mMineGridView);
-
+        getUserInfos();
+        editUserMotoo();
     }
 
     private void initData() {
+
         mMineGridView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
@@ -160,36 +177,65 @@ public class MineFragment extends Fragment {
 
     }
 
-    @OnClick(R.id.mine_account)
+    @OnClick(R.id.mine_account_layout)
     public void goAccountInfos(View view)
     {
         UIHelper.showMineAccount(mContext);
     }
 
     /**
-     * 修改用户个性签名
-     * @param view
+     * 获取用户信息
      */
-    @OnClick(R.id.mine_user_style_text)
-    public void editUserInfos(View view)
-    {
-        mUserStyleText.setEnabled(true);
-        showAlert("11111", getActivity());
+    private void getUserInfos(){
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
         progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("userid",userID);//
-        params.put("motto",mUserStyleText.getText().toString().trim());//
 
-        HttpClient.get(Caller.MODIFY_USER_MOTOO, params, new HttpResponseHandler() {
+        HttpClient.get(Caller.GET_USER_INFO, params, new HttpResponseHandler() {
             @Override
             public void onSuccess(RestApiResponse response) {
                 String result = response.getResult();
                 String message = response.getMessage();
+                String data = response.getData();
+                UserInfo userInfo = parseObject(data,UserInfo.class);
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
 
-                    showAlert(message, getActivity());
+                    //1.头像
+                    if (!CommUtil.isNullOrBlank(userInfo.getImgFilePath())){
+                        mUserImageHeader = userInfo.getImgFilePath();
+                        Picasso.with(mContext).load(userInfo.getImgFilePath())
+                            .resize(DeviceUtil.dp2px(mContext,65), DeviceUtil.dp2px(mContext,65))
+                            .placeholder(R.drawable.default_image).into(mRoundHeader);
+                    }
+                    //2.名称
+                    mUserName.setText(userInfo.getUserName());
+                    //3.签名
+                    mUserStyleText.setText(userInfo.getMotto());
+                    //4.账户余额
+                    mAccountText.setText(userInfo.getBalance());
+                    //5.悬赏金额
+                    mAccountXuanShang.setText(userInfo.getBalanceNoCash());
+                    //6.我的积分
+                    mAccountJiFen.setText(userInfo.getPoints());
+                    //7.是否认证 认证状态  1未认证 2等待认证  3认证没通过 4认证通过
+                    switch (userInfo.getApproveState()){
+                        case "1":
+                            mMineCertifi.setText("未认证");
+                            break;
+                        case "2":
+                            mMineCertifi.setText("等待认证");
+                            break;
+                        case "3":
+                            mMineCertifi.setText("认证没通过");
+                            break;
+                        case "4":
+                            mMineCertifi.setText("认证通过");
+                            break;
+                       default:break;
+                    }
+
                     if (progress != null) {
                         progress.dismiss();
                     }
@@ -210,4 +256,81 @@ public class MineFragment extends Fragment {
         });
     }
 
+
+    /**
+     * 修改用户个性签名
+     */
+    private void editUserMotoo(){
+        mUserStyleText.setOnFocusChangeListener(new android.view.View. OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                    mUserStyleText.setEnabled(true);
+                }
+            }
+        });
+        //点击EditText控件的父布局提交数据
+        mMineHeaferInfosLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                mMineHeaferInfosLayout.setFocusable(true);
+                mMineHeaferInfosLayout.setFocusableInTouchMode(true);
+                mMineHeaferInfosLayout.requestFocus();
+                // 此处为失去焦点时的处理内容
+                String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+                HashMap<String, String> params = new HashMap<>();
+                params.put("userid",userID);//
+                params.put("motto",mUserStyleText.getText().toString().trim());//
+
+                HttpClient.get(Caller.MODIFY_USER_MOTOO, params, new HttpResponseHandler() {
+                    @Override
+                    public void onSuccess(RestApiResponse response) {
+                        String result = response.getResult();
+                        String message = response.getMessage();
+
+                        if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+//                            showAlert(message, getActivity());
+                            if (progress != null) {
+                                progress.dismiss();
+                            }
+                        } else {
+                            showAlert(message, getActivity());
+                            if (progress != null) {
+                                progress.dismiss();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onFailure(Request request, Exception e) {
+                        if (progress != null) {
+                            progress.dismiss();
+                        }
+                        showToast("修改用户签名失败", getActivity());
+                    }
+                });
+                return false;
+            }
+        });
+    }
+
+    /**
+     *  个人完善信息
+     */
+    @OnClick(R.id.mine_complete_layout)
+    public void userCompletedInfos(View view){
+        UIHelper.showCompleteUserInfos(getActivity() , mUserImageHeader);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getUserInfos();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        getUserInfos();
+    }
 }

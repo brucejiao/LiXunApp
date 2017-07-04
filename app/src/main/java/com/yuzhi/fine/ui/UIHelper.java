@@ -25,7 +25,9 @@ import com.yuzhi.fine.activity.mineActivity.AccountInfosActivity;
 import com.yuzhi.fine.activity.mineActivity.MineDraftActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
 import com.yuzhi.fine.activity.mineActivity.MinePromoteActivity;
+import com.yuzhi.fine.activity.mineActivity.MineUserCompletedActivity;
 import com.yuzhi.fine.activity.mineActivity.MineZLRLActivity;
+import com.yuzhi.fine.fragment.mineFragment.MineFragment;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -219,4 +221,10 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
+    //我的---完善用户信息
+    public  static void showCompleteUserInfos(Activity context,String userHeader){
+        Intent intent = new Intent(context,MineUserCompletedActivity.class);
+        intent.putExtra("userHeader",userHeader);
+        context.startActivity(intent);
+    }
 }

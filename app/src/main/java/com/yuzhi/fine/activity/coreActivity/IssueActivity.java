@@ -238,8 +238,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
             if (data == null) return;
             mIssueCity.setText(data.Province + " " + data.City /*+ " " + data.Area*/);
 
-             provinceId = getAddressId(mAddressIdArray,data.Province);
-             cityId     = getAddressId(mAddressIdArray,data.City);
+            provinceId = getAddressId(mAddressIdArray,data.Province);
+            cityId     = getAddressId(mAddressIdArray,data.City);
 //             showAlert(provinceId+"---"+cityId,mContext);
 
             if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
@@ -750,9 +750,6 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 }
             });
         }
-
-
-
     }
 
     /**
@@ -768,10 +765,10 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         issueContent.setProvince(provinceId);//省ID
         issueContent.setCity(cityId);//市ID
         issueContent.setAddress(showEditString(mIssueDetailAddress));//详细地址
-        issueContent.setPushType(mPushType);//推送地区 0 选择地区 1 全国
-        issueContent.setPushMoney(CommUtil.isNullOrBlank(showEditString(mIssuePushPrice))?"0":showEditString(mIssuePushPrice));//推送价格
-        issueContent.setTopType(mTopType);//地区置顶 0不需要 1 需要
-        issueContent.setTopMoney(CommUtil.isNullOrBlank(showEditString(mIssueAreaTopPrice))?"0":showEditString(mIssueAreaTopPrice));//置顶价格
+//        issueContent.setPushType(mPushType);//推送地区 0 选择地区 1 全国
+//        issueContent.setPushMoney(CommUtil.isNullOrBlank(showEditString(mIssuePushPrice))?"0":showEditString(mIssuePushPrice));//推送价格
+//        issueContent.setTopType(mTopType);//地区置顶 0不需要 1 需要
+//        issueContent.setTopMoney(CommUtil.isNullOrBlank(showEditString(mIssueAreaTopPrice))?"0":showEditString(mIssueAreaTopPrice));//置顶价格
 
         String publishinfo = JSON.toJSONString(issueContent);
 
