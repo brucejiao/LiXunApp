@@ -88,10 +88,11 @@
             android:layout_marginLeft="@dimen/space_10"
             android:text="所在区域"/>
 
-        <EditText
+        <TextView
             android:id="@+id/mine_complete_city"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center|left"
             android:layout_marginLeft="@dimen/space_20"
             android:layout_marginRight="@dimen/space_10"
             android:background="@null"

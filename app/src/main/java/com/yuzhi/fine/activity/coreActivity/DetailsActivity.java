@@ -126,6 +126,9 @@ public class DetailsActivity extends AppCompatActivity {
             case 1:
                 //我要认领
                 mDetailsTrack.setText("我要认领");
+            case 2:
+                //我要认领
+                mDetailsTrack.setText("查看线索");
                 break;
             default:
                 break;
@@ -559,6 +562,10 @@ public class DetailsActivity extends AppCompatActivity {
                         break;
                     case 1:
                         //我要认领
+                        UIHelper.showMineRL(mContext, publistID);
+                        break;
+                    case 2:
+                        //查看线索
                         UIHelper.showMineRL(mContext, publistID);
                         break;
                     default:

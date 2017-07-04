@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.fragment.mineFragment.MineFragment;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
@@ -23,7 +24,6 @@ import com.yuzhi.fine.model.AddressModel;
 import com.yuzhi.fine.model.UploadImg.Picturelist;
 import com.yuzhi.fine.model.UploadImg.UploadImg;
 import com.yuzhi.fine.ui.ChooseAddressWheel;
-import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.ui.wheelview.listener.OnAddressChangeListener;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.Constant;
@@ -48,6 +48,7 @@ import static com.yuzhi.fine.utils.CommUtil.generateFileName;
 import static com.yuzhi.fine.utils.CommUtil.readAssert;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.Constant.MINE_RESULT_REFRESH;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
@@ -69,21 +70,18 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
 
-    @Bind(R.id.mine_complete_city)
-    EditText mCompleteCity;//标题
-
     @Bind(R.id.mine_user_infos_header)
     RoundedImageView mMineUserInfosHeader;//头像
 
     @Bind(R.id.mine_xqah)
     EditText mMineXQAH;//兴趣爱好
+    @Bind(R.id.mine_complete_city)
+    TextView mCompleteCity;//所属区域
     @Bind(R.id.mine_xxdz)
     EditText mMineXXDZ;//详细地址
 
     @Bind(R.id.mine_sub_modify_userinfos)
-    Button mMineSub;//详细地址
-
-
+    Button mMineSub;//完成
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +96,7 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
         onClickListener();
     }
 
+
     /**
      * 初始化界面
      */
@@ -108,9 +107,16 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
         mTextHeaderTitle.setText("发布信息");
 
         String userHeader = getIntent().getStringExtra("userHeader");
+        String mineMySummary = getIntent().getStringExtra("mySummary");//兴趣爱好
+
+        String mineAddress = getIntent().getStringExtra("address");//详细地址
 
         Picasso.with(mContext).load(userHeader)
                 .resize(DeviceUtil.dp2px(mContext,85), DeviceUtil.dp2px(mContext,85)).placeholder(R.drawable.default_image).into(mMineUserInfosHeader);
+
+        mMineXQAH.setText(mineMySummary);
+
+        mMineXXDZ.setText(mineAddress);
 
         initWheel();
 
@@ -134,18 +140,40 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
         if (model != null) {
             AddressDtailsEntity data = model.Result;
             if (data == null) return;
-            mCompleteCity.setText(data.Province + " " + data.City + " " + data.Area);
 
-            provinceId = getAddressId(mAddressIdArray,data.Province);
-            cityId     = getAddressId(mAddressIdArray,data.City);
-            areaId     = getAddressId(mAddressIdArray,data.Area);
-//             showAlert(provinceId+"---"+cityId+"---"+areaId,mContext);
+            String Province = getIntent().getStringExtra("province");//省
+            String City = getIntent().getStringExtra("city");//市
+            String Area = getIntent().getStringExtra("area");//区/县
 
-            if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
+            if(!CommUtil.isNullOrBlank(Province) && !CommUtil.isNullOrBlank(City) && !CommUtil.isNullOrBlank(Area)){
 
-                chooseAddressWheel.setProvince(data.ProvinceItems.Province);
-                chooseAddressWheel.defaultValue(data.Province, data.City, data.Area);
+                mCompleteCity.setText(Province + " " + City + " " + Area);
+                provinceId = getAddressId(mAddressIdArray,Province);
+                cityId     = getAddressId(mAddressIdArray,City);
+                areaId     = getAddressId(mAddressIdArray,Area);
+//                showAlert(provinceId+"---"+cityId+"---"+areaId,mContext);
+
+                if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
+
+                    chooseAddressWheel.setProvince(data.ProvinceItems.Province);
+                    chooseAddressWheel.defaultValue(Province, City, Area);
+                }
+            }else{
+                mCompleteCity.setText(data.Province + " " + data.City + " " + data.Area);
+
+                provinceId = getAddressId(mAddressIdArray,data.Province);
+                cityId     = getAddressId(mAddressIdArray,data.City);
+                areaId     = getAddressId(mAddressIdArray,data.Area);
+//                showAlert(provinceId+"---"+cityId+"---"+areaId,mContext);
+
+                if (data.ProvinceItems != null && data.ProvinceItems.Province != null) {
+
+                    chooseAddressWheel.setProvince(data.ProvinceItems.Province);
+                    chooseAddressWheel.defaultValue(data.Province, data.City, data.Area);
+                }
             }
+
+
         }
     }
 
@@ -183,6 +211,8 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(mContext, MineFragment.class);
+                setResult(MINE_RESULT_REFRESH,intent);
                finish();
             }
         });
@@ -264,7 +294,7 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
                     String path =  uploadImg.getFilepath();
                     Picturelist picture = new Picturelist();
                     picture.setPictureID(id);
-                    showToast("图片上传成功",mContext);
+                    showToast(message,mContext);
                     Picasso.with(mContext).load(path)
                             .resize(DeviceUtil.dp2px(mContext,85), DeviceUtil.dp2px(mContext,85))
                             .placeholder(R.drawable.default_image).into(mMineUserInfosHeader);
@@ -322,6 +352,8 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
                     showAlert(message, mContext, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(mContext, MineFragment.class);
+                            setResult(MINE_RESULT_REFRESH,intent);
                             finish();
                         }
                     });
@@ -357,4 +389,6 @@ public class MineUserCompletedActivity extends AppCompatActivity implements OnAd
         }
         return "";
     }
+
+
 }

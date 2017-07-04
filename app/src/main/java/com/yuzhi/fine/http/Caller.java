@@ -171,9 +171,44 @@ public class Caller  {
     //完成发布信息
     public static String FINISH_PUBLISH_INFO =HTTP+"publish/publish/finishpublishinfo.html?appid="+APPID ;// +"&sign={SIGN}";
 
-    //获取发布列表（我的网络社交）
-    public static String GET_USRE_ =HTTP+"publish/publish/getusersocialpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
+  //获取发布列表（我的寻找）
+  public static String GET_MINE_FIND_LIST =HTTP+"publish/publish/getusersearchpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
 
+  //获取发布列表（我的招领）
+  public static String GET_MINE_ZL =HTTP+"publish/publish/getuserrecruitpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取认领列表（我的认领）
+  public static String GET_MINE_RL =HTTP+"publish/publish/getuserclaimlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取认领列表（某条发布信息的认领）
+  public static String GET_MINE_RL_LIST =HTTP+"publish/publish/getpublishclaimlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取认领信息详情（包含图片列表）
+  public static String GET_MINE_RL_DETAIL =HTTP+"publish/publish/getclaimdetailcomplex.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取发布列表（我的推广）
+  public static String GET_MINE_PUBLISH =HTTP+"publish/publish/getuserpushpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取发布列表（我的网络社交）
+  public static String GET_MINE_NETCHAT =HTTP+"publish/publish/getusersocialpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //添加线索信息
+  public static String GET_MINE_ADD_CLUE_INFO=HTTP+"publish/publish/addclueinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //采纳线索/认领信息
+  public static String GET_MINE_ADO_CLUE_INFO=HTTP+"publish/publish/adoptclueinfo.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取线索列表（我提供线索）
+  public static String GET_MINE_CLUE_LIST=HTTP+"publish/publish/getusercluelist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取线索列表（某条发布信息的线索）
+  public static String GET_MINE_PUBLIST_CLUE_LIST=HTTP+"publish/publish/getpublishcluelist.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取线索信息详情（包含图片列表）
+  public static String GET_MINE_CLUE_DETAIL=HTTP+"publish/publish/getcluedetailcomplex.html?appid="+APPID ;// +"&sign={SIGN}";
+
+  //获取发布类别列表（一二级）
+  public static String GET_FRIST_SECOND_MENU=HTTP+"publish/publish/getcategoryiteratelist.html?appid="+APPID ;// +"&sign={SIGN}";
 
 
 }

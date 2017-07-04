@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.model.MineFindBean;
+import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.ArrayList;
 
@@ -99,17 +101,19 @@ public class MineFindItemapter extends BaseAdapter {
 		}
 		MineFindBean bean = getItem(position);
 
-//		holder.lx_header_img.setBackgroundResource(R.drawable.default_headimg);
-		holder.mine_find_header_img.setImageResource(R.drawable.default_headimg);
-		holder.mine_account_img1.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
-		holder.mine_account_img2.setBackgroundResource(R.drawable.house_background);  //.setImageResource(R.drawable.house_background);
-		holder.mine_account_img3.setBackgroundResource(R.drawable.house_background);
-		holder.mine_account_img4.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
-		holder.mine_account_img5.setBackgroundResource(R.drawable.house_background);  //.setImageResource(R.drawable.house_background);
-		holder.mine_account_img6.setBackgroundResource(R.drawable.house_background);
-		holder.mine_account_img7.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
+
+//		holder.mine_account_img1.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
+//		holder.mine_account_img2.setBackgroundResource(R.drawable.house_background);  //.setImageResource(R.drawable.house_background);
+//		holder.mine_account_img3.setBackgroundResource(R.drawable.house_background);
+//		holder.mine_account_img4.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
+//		holder.mine_account_img5.setBackgroundResource(R.drawable.house_background);  //.setImageResource(R.drawable.house_background);
+//		holder.mine_account_img6.setBackgroundResource(R.drawable.house_background);
+//		holder.mine_account_img7.setBackgroundResource(R.drawable.house_background);  //ImageResource(R.drawable.house_background);
 
 
+		Picasso.with(activity).load(bean.getMineFindHeaderImg())
+				.resize(DeviceUtil.dp2px(activity,50), DeviceUtil.dp2px(activity,50))
+				.placeholder(R.drawable.default_image).into(holder.mine_find_header_img);
 
 		holder.mine_find_time.setText(bean.getMineFindTime());
 		holder.mine_find_looker.setText(bean.getMineFindLooker());

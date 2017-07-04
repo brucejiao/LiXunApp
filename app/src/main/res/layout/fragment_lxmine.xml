@@ -14,7 +14,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="0dp"
         android:background="@color/white"
         android:fadingEdge="none"
         android:scrollbars="none">
@@ -29,7 +29,7 @@
                 android:id="@+id/mine_header_infos_layout"
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
-                android:background="@color/yellow"
+                android:background="@drawable/minebj"
                 android:orientation="horizontal">
 
                 <com.makeramen.roundedimageview.RoundedImageView
@@ -69,13 +69,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
-                        android:background="@color/yellow"
+                        android:background="@null"
                         android:drawableRight="@drawable/edit"
                         android:ellipsize="end"
                         android:enabled="true"
                         android:maxEms="30"
                         android:singleLine="false"
-                        android:text="我是狗娃，是一个从大山里走出来的孩子"
+                        android:text=""
+                        android:textColor="@color/xs_short_gary2"
                         android:textSize="@dimen/text_size_10" />
 
                     <TextView
@@ -113,8 +114,8 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_15"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="@dimen/space_14"
+                        android:layout_marginLeft="12dp"
                         android:src="@drawable/arrow_right" />
                 </LinearLayout>
 
@@ -304,6 +305,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:layout_marginTop="@dimen/space_15"
                 android:orientation="horizontal">
                 <!--个人认证-->
                 <LinearLayout

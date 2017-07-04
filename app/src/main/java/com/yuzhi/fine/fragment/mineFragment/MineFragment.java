@@ -2,6 +2,7 @@ package com.yuzhi.fine.fragment.mineFragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ import okhttp3.Request;
 import static com.alibaba.fastjson.JSON.parseObject;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.Constant.MINE_REQUEST_REFRESH;
+import static com.yuzhi.fine.utils.Constant.MINE_RESULT_REFRESH;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
@@ -88,8 +91,13 @@ public class MineFragment extends Fragment {
     LinearLayout mMineComplaints;
 
     private ProgressDialog progress;
-    private SharePreferenceUtil1 share ;
+    private SharePreferenceUtil1 share;
     private String mUserImageHeader;//用户头像
+    private String mMySummary;//兴趣爱好
+    private String mProvince;//所属区域
+    private String mCity;//所属区域
+    private String mArea;//所属区域
+    private String mAddress;//详细地址
 
 
     //GridView
@@ -97,9 +105,8 @@ public class MineFragment extends Fragment {
     GridView mMineGridView;
     private Integer[] icon = {R.drawable.my_find, R.drawable.zlrl,
             R.drawable.my_tg, R.drawable.draftbox, R.drawable.networking,
-            R.drawable.myguanzhu, R.drawable.yaoqing, R.drawable.xiansuo,R.color.white};
-    private String[] iconName = {"我的寻找", "招领认领", "我的推广", "草稿箱", "网络社交", "我的关注", "提供线索", "好友邀请",""};
-
+            R.drawable.myguanzhu, R.drawable.yaoqing, R.drawable.xiansuo, R.color.white};
+    private String[] iconName = {"我的寻找", "招领认领", "我的推广", "草稿箱", "网络社交", "我的关注", "提供线索", "好友邀请", ""};
 
 
     @Override
@@ -122,7 +129,7 @@ public class MineFragment extends Fragment {
         mHeader.setText("我的");
         share = new SharePreferenceUtil1(getActivity(), "lx_data", 0);
         //添加元素给gridview
-        GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName,true);
+        GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName, true);
         mMineGridView.setAdapter(adapter);
         CommUtil.calGridViewWidthAndHeigh(3, mMineGridView);
         getUserInfos();
@@ -137,10 +144,10 @@ public class MineFragment extends Fragment {
                                     int position, long id) {
 
                 if (0 == position) {//我的寻找
-                UIHelper.showMineFind(getActivity());
+                    UIHelper.showMineFind(getActivity());
                 } else if (1 == position) {//招领认领
 
-                     UIHelper.showMinZLRL(getActivity());
+                    UIHelper.showMinZLRL(getActivity());
 
                 } else if (2 == position) {//我的推广
                     UIHelper.showMinPromote(getActivity());
@@ -151,10 +158,9 @@ public class MineFragment extends Fragment {
 
                 } else if (4 == position) {//网络社交
 
-                    showToast("网络社交",mContext);
+                    showToast("网络社交", mContext);
 
                 } else if (5 == position) {//我的关注
-
 
 
                 } else if (6 == position) {//提供线索
@@ -162,9 +168,8 @@ public class MineFragment extends Fragment {
                 } else if (7 == position) {//好友邀请
 
 
-                }
-                else {
-                        return;
+                } else {
+                    return;
 
                 }
 
@@ -173,24 +178,23 @@ public class MineFragment extends Fragment {
         });
     }
 
-    private void initOnClickLinstener(){
+    private void initOnClickLinstener() {
 
     }
 
     @OnClick(R.id.mine_account_layout)
-    public void goAccountInfos(View view)
-    {
+    public void goAccountInfos(View view) {
         UIHelper.showMineAccount(mContext);
     }
 
     /**
      * 获取用户信息
      */
-    private void getUserInfos(){
+    private void getUserInfos() {
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
         progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
-        params.put("userid",userID);//
+        params.put("userid", userID);//
 
         HttpClient.get(Caller.GET_USER_INFO, params, new HttpResponseHandler() {
             @Override
@@ -198,16 +202,16 @@ public class MineFragment extends Fragment {
                 String result = response.getResult();
                 String message = response.getMessage();
                 String data = response.getData();
-                UserInfo userInfo = parseObject(data,UserInfo.class);
+                UserInfo userInfo = parseObject(data, UserInfo.class);
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
 
                     //1.头像
-                    if (!CommUtil.isNullOrBlank(userInfo.getImgFilePath())){
+                    if (!CommUtil.isNullOrBlank(userInfo.getImgFilePath())) {
                         mUserImageHeader = userInfo.getImgFilePath();
                         Picasso.with(mContext).load(userInfo.getImgFilePath())
-                            .resize(DeviceUtil.dp2px(mContext,65), DeviceUtil.dp2px(mContext,65))
-                            .placeholder(R.drawable.default_image).into(mRoundHeader);
+                                .resize(DeviceUtil.dp2px(mContext, 65), DeviceUtil.dp2px(mContext, 65))
+                                .placeholder(R.drawable.default_image).into(mRoundHeader);
                     }
                     //2.名称
                     mUserName.setText(userInfo.getUserName());
@@ -220,7 +224,7 @@ public class MineFragment extends Fragment {
                     //6.我的积分
                     mAccountJiFen.setText(userInfo.getPoints());
                     //7.是否认证 认证状态  1未认证 2等待认证  3认证没通过 4认证通过
-                    switch (userInfo.getApproveState()){
+                    switch (userInfo.getApproveState()) {
                         case "1":
                             mMineCertifi.setText("未认证");
                             break;
@@ -233,8 +237,15 @@ public class MineFragment extends Fragment {
                         case "4":
                             mMineCertifi.setText("认证通过");
                             break;
-                       default:break;
+                        default:
+                            break;
                     }
+
+                    mMySummary = userInfo.getMySummary();//兴趣爱好
+                    mProvince = userInfo.getProvinceName();
+                    mCity = userInfo.getCityName();
+                    mArea = userInfo.getCountryName();
+                    mAddress = userInfo.getAddress();//详细地址
 
                     if (progress != null) {
                         progress.dismiss();
@@ -246,6 +257,7 @@ public class MineFragment extends Fragment {
                     }
                 }
             }
+
             @Override
             public void onFailure(Request request, Exception e) {
                 if (progress != null) {
@@ -260,8 +272,8 @@ public class MineFragment extends Fragment {
     /**
      * 修改用户个性签名
      */
-    private void editUserMotoo(){
-        mUserStyleText.setOnFocusChangeListener(new android.view.View. OnFocusChangeListener() {
+    private void editUserMotoo() {
+        mUserStyleText.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -280,8 +292,8 @@ public class MineFragment extends Fragment {
                 // 此处为失去焦点时的处理内容
                 String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
                 HashMap<String, String> params = new HashMap<>();
-                params.put("userid",userID);//
-                params.put("motto",mUserStyleText.getText().toString().trim());//
+                params.put("userid", userID);//
+                params.put("motto", mUserStyleText.getText().toString().trim());//
 
                 HttpClient.get(Caller.MODIFY_USER_MOTOO, params, new HttpResponseHandler() {
                     @Override
@@ -301,6 +313,7 @@ public class MineFragment extends Fragment {
                             }
                         }
                     }
+
                     @Override
                     public void onFailure(Request request, Exception e) {
                         if (progress != null) {
@@ -315,11 +328,13 @@ public class MineFragment extends Fragment {
     }
 
     /**
-     *  个人完善信息
+     * 个人完善信息
+     * mMySummary  兴趣爱好
+     * mAddress   详细地址
      */
     @OnClick(R.id.mine_complete_layout)
-    public void userCompletedInfos(View view){
-        UIHelper.showCompleteUserInfos(getActivity() , mUserImageHeader);
+    public void userCompletedInfos(View view) {
+        UIHelper.showCompleteUserInfos(getActivity(), this, mUserImageHeader, mMySummary, mProvince, mCity, mArea, mAddress);
     }
 
     @Override
@@ -332,5 +347,22 @@ public class MineFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        getUserInfos();
+    }
+
+    /**
+     * 刷新界面
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MINE_REQUEST_REFRESH) {
+            if (resultCode == MINE_RESULT_REFRESH) {
+                getUserInfos();
+            }
+        }
     }
 }

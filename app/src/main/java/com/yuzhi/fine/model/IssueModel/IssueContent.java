@@ -21,6 +21,9 @@ public class IssueContent {
 //    private String PushMoney;
 //    private String TopType;
 //    private String TopMoney;
+    private String PublishAddress;//发布详细地址
+
+
     @JSONField(name  = "Title")
     public String getTitle() {
         return Title;
@@ -109,4 +112,12 @@ public class IssueContent {
 //    public void setTopMoney(String topMoney) {
 //        TopMoney = topMoney;
 //    }
+    @JSONField(name  = "PublishAddress")
+    public String getPublishAddress() {
+        return PublishAddress;
+    }
+
+        public void setPublishAddress(String publishAddress) {
+            PublishAddress = publishAddress;
+        }
 }

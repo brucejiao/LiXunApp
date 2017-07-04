@@ -118,36 +118,10 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/default_headimg"
                 app:riv_border_color="@color/green"
-                app:riv_border_width="1dp"
+                app:riv_border_width="0dp"
                 app:riv_oval="false" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/editsharp_gary_all"
-                    android:text="认领金"
-                    android:textColor="@color/xs_short_gary2"
-                    android:textSize="@dimen/text_size_8" />
-
-                <TextView
-                    android:id="@+id/mine_find_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginLeft="3dp"
-                    android:text="1500元"
-                    android:maxEms="5"
-                    android:singleLine="true"
-                    android:textColor="@color/xs_red"
-                    android:textSize="@dimen/text_size_8" />
-
-            </LinearLayout>
 
 
         </LinearLayout>
@@ -170,7 +144,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="寻找我的宠物狗法克"
+                    android:text=""
                     android:textColor="@color/xs_short_black"
                     android:textSize="@dimen/text_size_12" />
 
@@ -196,19 +170,19 @@
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。鹅鹅鹅，曲向想提昂个ad阿萨德阿萨德啊实打实大asdwqqweqwe"
-                android:textColor="@color/xs_short_black"
+                android:text=""
+                android:textColor="@color/xs_short_gary2"
                 android:textSize="@dimen/text_size_11" />
         </LinearLayout>
 
 
     </LinearLayout>
 <!--分割线-->
-    <View
+<!--    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/space_1"
         android:layout_marginTop="2dp"
-        android:background="@color/xs_short_gary"/>
+        android:background="@color/xs_short_gary"/>-->
     <!--2-->
     <!--图片-->
     <LinearLayout
@@ -218,6 +192,7 @@
         android:layout_marginLeft="@dimen/space_10"
         android:layout_marginRight="@dimen/space_10"
         android:layout_marginBottom="3dp"
+        android:visibility="gone"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="0dp"
@@ -320,7 +295,36 @@
 
 
     </LinearLayout>
+    <!--认领金-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginBottom="@dimen/space_5"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/editsharp_gary_all"
+            android:text="认领金"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/text_size_8" />
+
+        <TextView
+            android:id="@+id/mine_find_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="5dp"
+            android:text="1500元"
+            android:maxEms="5"
+            android:singleLine="true"
+            android:textColor="@color/xs_red"
+            android:textSize="@dimen/text_size_8" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -769,7 +769,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 //        issueContent.setPushMoney(CommUtil.isNullOrBlank(showEditString(mIssuePushPrice))?"0":showEditString(mIssuePushPrice));//推送价格
 //        issueContent.setTopType(mTopType);//地区置顶 0不需要 1 需要
 //        issueContent.setTopMoney(CommUtil.isNullOrBlank(showEditString(mIssueAreaTopPrice))?"0":showEditString(mIssueAreaTopPrice));//置顶价格
-
+        issueContent.setPublishAddress(showEditString(mIssueDetailAddress));
         String publishinfo = JSON.toJSONString(issueContent);
 
 //        showAlert(publishinfo,mContext);
