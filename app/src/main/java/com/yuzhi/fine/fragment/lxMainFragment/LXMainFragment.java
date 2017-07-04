@@ -653,7 +653,7 @@ public class LXMainFragment extends Fragment {
                         progress.dismiss();
                     }
                 } else {
-                    showAlert(message, getActivity());
+//                    showAlert(message, getActivity());
                     if (progress != null) {
                         progress.dismiss();
                     }
@@ -689,6 +689,7 @@ public class LXMainFragment extends Fragment {
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
 
                     showAlert(message, getActivity());
+                    isLXAddPoint();
                     if (progress != null) {
                         progress.dismiss();
                     }

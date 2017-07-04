@@ -255,7 +255,7 @@ public class DetailsActivity extends AppCompatActivity {
                     Picasso.with(mContext).load(headerImgPath).resize(DeviceUtil.dp2px(mContext, 50), DeviceUtil.dp2px(mContext, 50)).placeholder(R.drawable.default_image).into(mDetailsRoundHeader);
                     mDetailsUserName.setText(userName);
                     mDetailsPrice.setText("¥" + subMoneyZero(money) + "元");
-                    mDetailsAddress.setText(provinceName + cityName + countryName);
+                    mDetailsAddress.setText(address);
                     if (!CommUtil.isNullOrBlank(secondMenu)) {
                         mDetailSecondMenu.setText(secondMenu);
                     } else {
@@ -263,7 +263,7 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                     mDetailsTitle.setText(title);
                     mDetailsContent.setText(content);
-                    mDetailsLoseAddress.setText(provinceName + cityName + countryName);
+                    mDetailsLoseAddress.setText(address);
 
 
                     if (progress != null) {

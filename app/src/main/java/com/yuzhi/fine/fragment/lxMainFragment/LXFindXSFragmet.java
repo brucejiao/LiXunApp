@@ -17,6 +17,7 @@ import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.CateGoryID2Name;
 import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.model.LXFind.FindListPicList;
 import com.yuzhi.fine.model.LXFindServerBean;
@@ -24,6 +25,7 @@ import com.yuzhi.fine.ui.CustomViewpager;
 import com.yuzhi.fine.ui.FragmentAdapter.FindServerItemapter;
 import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ import okhttp3.Request;
 import static com.alibaba.fastjson.JSON.parseArray;
 import static com.yuzhi.fine.utils.CommUtil.currentDate;
 import static com.yuzhi.fine.utils.CommUtil.daysBetween2;
+import static com.yuzhi.fine.utils.CommUtil.getCategoryId2Name;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
@@ -61,6 +64,7 @@ public class LXFindXSFragmet extends Fragment {
 
     public CustomViewpager customViewpager;
     private ProgressDialog progress;
+    private SharePreferenceUtil1 share;
 
     public LXFindXSFragmet() {
         super();
@@ -107,6 +111,7 @@ public class LXFindXSFragmet extends Fragment {
      * 初始化
      */
     public void init() {
+        share = new SharePreferenceUtil1(getActivity(), "lx_data", 0);
         lxFindOnClick();
 
        /* ArrayList<LXFindServerBean> arrayBean = new ArrayList<LXFindServerBean>();
@@ -148,6 +153,7 @@ public class LXFindXSFragmet extends Fragment {
      * moneytype : 1
      */
     private void getWTXRData(String toptype) {
+        final   List<CateGoryID2Name> cateIDList =  share.getModels("categoryIDListKey", CateGoryID2Name.class);
         progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
@@ -265,7 +271,8 @@ public class LXFindXSFragmet extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String publistID = findList.get(position).getPublishID();
-                            UIHelper.showDetails(getActivity(),publistID,"",0);
+                            String mCategoryName = getCategoryId2Name(findList.get(position).getCategoryID(),cateIDList);
+                            UIHelper.showDetails(getActivity(),publistID,mCategoryName,0);
                         }
                     });
 

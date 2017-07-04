@@ -3,6 +3,7 @@ package com.yuzhi.fine.common;
 import android.app.Activity;
 import android.app.Application;
 
+import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.LocationUtils;
 import com.yuzhi.fine.utils.LogUtil;
 
@@ -50,6 +51,10 @@ public class AppContext extends Application {
 //            return;
 //        }
 //        refWatcher = LeakCanary.install(this);
+
+
+        //调用接口保存所有的菜单ID
+        CommUtil.getCategoryIdNameList(this);
 
 
 }

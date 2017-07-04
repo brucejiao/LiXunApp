@@ -17,6 +17,7 @@ import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.CateGoryID2Name;
 import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.model.MineFindBean;
 import com.yuzhi.fine.ui.FragmentAdapter.MineFindItemapter;
@@ -32,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Request;
 
+import static com.yuzhi.fine.utils.CommUtil.getCategoryId2Name;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
@@ -45,7 +47,6 @@ public class MineFindAllFragment extends Fragment {
     private MineFindAllFragment mContext;
     private ProgressDialog progress;
     private SharePreferenceUtil1 share;
-    private String mCategoryName ;
     @Bind(R.id.mine_find_all)
     ListView mMineFindAllListView;
     private MineFindItemapter mMineFindItemAdapter;
@@ -97,7 +98,10 @@ public class MineFindAllFragment extends Fragment {
      */
     private void getMineFindList() {
         final ArrayList<MineFindBean> arrayBean = new ArrayList<MineFindBean>();
+        //获取的所有菜单的id
+        final   List<CateGoryID2Name> cateIDList =  share.getModels("categoryIDListKey", CateGoryID2Name.class);
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+
         progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("userid", userID);//
@@ -116,7 +120,7 @@ public class MineFindAllFragment extends Fragment {
                     for(int index = 0;index < findListNum ;index ++){
                         MineFindBean bean = new MineFindBean();
                         //1.头像
-                        String headerImg = findList.get(index).getImgFilePath();
+                        String headerImg = findList.get(index).getPicturePath();
                         String createTime = findList.get(index).getCreateTime();
                         String visitCount = findList.get(index).getVisitCount();
                         String followCount = findList.get(index).getFollowCount();// 关注人数
@@ -124,8 +128,11 @@ public class MineFindAllFragment extends Fragment {
                         String title = findList.get(index).getTitle();
                         String content = findList.get(index).getContent();
                         String checkState = findList.get(index).getCheckState();// 审核状态(1.待审核，2.审核通过，3.审核不通过)
+                        String publishStatus = findList.get(index).getPublishStatus();// 发布状态（1.待发布，2.已发布，3.已结束，4.已完成）
                         String moneyPaid = findList.get(index).getMoneyPaid();
                         String categoryID = findList.get(index).getCategoryID();
+
+
 
                         bean.setMineFindHeaderImg(headerImg);
                         bean.setMineFindTime("发布时间:"+createTime);
@@ -135,15 +142,18 @@ public class MineFindAllFragment extends Fragment {
                         bean.setMineFindPrice(subMoneyZero(moneyPaid) + "元");
                         bean.setMineFindTitle(title);
                         bean.setMineFindContent(content);
-                        switch (checkState){
+                        switch (publishStatus){
                             case "1":
-                                bean.setMineFindIng("待审核");
+                                bean.setMineFindIng("待发布");
                                 break;
                             case "2":
-                                bean.setMineFindIng("审核通过");
+                                bean.setMineFindIng("已发布");
                                 break;
                             case "3":
-                                bean.setMineFindIng("审核不通过");
+                                bean.setMineFindIng("已结束");
+                                break;
+                            case "4":
+                                bean.setMineFindIng("已完成");
                                 break;
                             default:break;
 
@@ -156,6 +166,7 @@ public class MineFindAllFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String publistID = findList.get(position).getPublishID();
+                            String mCategoryName = getCategoryId2Name(findList.get(position).getCategoryID(),cateIDList);
                             UIHelper.showDetails(getActivity(),publistID,mCategoryName,2);
                         }
                     });

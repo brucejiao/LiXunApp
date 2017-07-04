@@ -138,7 +138,7 @@ public class MineWTZWFragment extends Fragment {
                     for(int index = 0;index < findListNum ;index ++){
                         MineFindBean bean = new MineFindBean();
                         //1.头像
-                        String headerImg = findList.get(index).getImgFilePath();
+                        String headerImg = findList.get(index).getPicturePath();
                         String createTime = findList.get(index).getCreateTime();
                         String visitCount = findList.get(index).getVisitCount();
                         String followCount = findList.get(index).getFollowCount();// 关注人数
@@ -146,6 +146,7 @@ public class MineWTZWFragment extends Fragment {
                         String title = findList.get(index).getTitle();
                         String content = findList.get(index).getContent();
                         String checkState = findList.get(index).getCheckState();// 审核状态(1.待审核，2.审核通过，3.审核不通过)
+                        String publishStatus = findList.get(index).getPublishStatus();// 发布状态（1.待发布，2.已发布，3.已结束，4.已完成）
                         String moneyPaid = findList.get(index).getMoneyPaid();
 
                         bean.setMineFindHeaderImg(headerImg);
@@ -156,15 +157,18 @@ public class MineWTZWFragment extends Fragment {
                         bean.setMineFindPrice(subMoneyZero(moneyPaid) + "元");
                         bean.setMineFindTitle(title);
                         bean.setMineFindContent(content);
-                        switch (checkState){
+                        switch (publishStatus){
                             case "1":
-                                bean.setMineFindIng("待审核");
+                                bean.setMineFindIng("待发布");
                                 break;
                             case "2":
-                                bean.setMineFindIng("审核通过");
+                                bean.setMineFindIng("已发布");
                                 break;
                             case "3":
-                                bean.setMineFindIng("审核不通过");
+                                bean.setMineFindIng("已结束");
+                                break;
+                            case "4":
+                                bean.setMineFindIng("已完成");
                                 break;
                             default:break;
 

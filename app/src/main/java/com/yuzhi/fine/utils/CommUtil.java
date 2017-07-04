@@ -14,8 +14,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,6 +36,7 @@ import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.CateGoryID;
+import com.yuzhi.fine.model.CateGoryID2Name;
 import com.yuzhi.fine.ui.AddContentDialog;
 
 import java.io.BufferedReader;
@@ -50,7 +49,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -64,6 +62,7 @@ import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
  */
 public class CommUtil {
 	private static Boolean isExit = false;
+	private static SharePreferenceUtil1 share;
 
 	/**
 	 * Alert提示框
@@ -701,9 +700,9 @@ public class CommUtil {
 	 *查询所有一二级菜单的id和名称
 	 * @return
 	 */
-	static List<HashMap<String, String>> mapArrayList = new ArrayList<HashMap<String, String>>();
-	private static void   getCategoryIdNameList() {
-		mapArrayList.clear();
+	public static void   getCategoryIdNameList(Context context) {
+		share = new SharePreferenceUtil1(context, "lx_data", 0);
+		final List<CateGoryID2Name> mapArrayList = new ArrayList<CateGoryID2Name>();
 		HttpClient.get(Caller.GET_FRIST_SECOND_MENU, null, new HttpResponseHandler() {
 			@Override
 			public void onSuccess(RestApiResponse response) {
@@ -715,18 +714,15 @@ public class CommUtil {
 					final List<CateGoryID> CateGoryIDList = JSON.parseArray(data, CateGoryID.class);
 					final int findListNum = CateGoryIDList.size();
 					for (int index = 0; index < findListNum; index++) {
-						HashMap<String,String> map = new HashMap<String, String>();
+						CateGoryID2Name cateGoryID2Name = new CateGoryID2Name();
 						String categoryID = CateGoryIDList.get(index).getCategoryID();
 						String categoryTitle = CateGoryIDList.get(index).getCategoryTitle();
-						map.put(categoryID,categoryTitle);
-						mapArrayList.add(map);
-						if (mapArrayList.size() == CateGoryIDList.size()){
-							Message message1 = new Message();
-							message1.what = 100100;
-							categoryID2NameHandler.sendMessage(message1);
+						cateGoryID2Name.setCategoryID(categoryID);
+						cateGoryID2Name.setCategoryTitle(categoryTitle);
+						mapArrayList.add(cateGoryID2Name);
 
-						}
 					}
+					share.putModels("categoryIDListKey",mapArrayList);
 
 				}
 			}
@@ -743,24 +739,17 @@ public class CommUtil {
 	 * @param categoryID
 	 * @return
 	 */
-	public static  String getCategoryId2Name(final String categoryID){
+	public static  String getCategoryId2Name(String categoryID,List<CateGoryID2Name> cateIDList){
 		String categoryName ="";
-		List<HashMap<String, String>> list =mapArrayList;
-		for (int index = 0 ; index <list.size(); index ++){
-			categoryName = list.get(index).get(categoryID);
+		for (int index = 0 ; index <cateIDList.size(); index ++){
+			if (categoryID.equals(cateIDList.get(index).getCategoryID())){
+				categoryName = cateIDList.get(index).getCategoryTitle();
+				return categoryName;
+
+			}
 		}
 		return categoryName;
 	}
 
-
-	public static Handler categoryID2NameHandler = new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			if(msg.what == 100100){
-				getCategoryId2Name("83");
-			}
-		}
-	};
 }
 
