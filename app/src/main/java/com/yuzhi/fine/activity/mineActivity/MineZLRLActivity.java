@@ -14,7 +14,6 @@ import com.yuzhi.fine.R;
 import com.yuzhi.fine.fragment.mineFragment.mineZLRLFragment.MineRLFragment;
 import com.yuzhi.fine.fragment.mineFragment.mineZLRLFragment.MineZLFragment;
 import com.yuzhi.fine.ui.Find_tab_Adapter;
-import com.yuzhi.fine.utils.CommUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,10 +113,10 @@ public class MineZLRLActivity extends AppCompatActivity {
 
                 switch (position){
                     case 0:
-                        CommUtil.showToast("我发出的招领",mContext);
+//                        CommUtil.showToast("我发出的招领",mContext);
                         break;
                     case 1:
-                        CommUtil.showToast("我的认领",mContext);
+//                        CommUtil.showToast("我的认领",mContext);
                         break;
 
                     default: break;

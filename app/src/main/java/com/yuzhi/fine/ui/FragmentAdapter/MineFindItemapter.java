@@ -11,6 +11,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.model.MineFindBean;
+import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class MineFindItemapter extends BaseAdapter {
 		public TextView mine_find__ing;// 进行中
 		public TextView mine_find__content;// 内容
 		public TextView mine_find_people_num;// 线索
+		public TextView details_text_type;// 线索
 
 		public RoundedImageView mine_account_img1;//
 		public RoundedImageView mine_account_img2;//
@@ -87,6 +89,7 @@ public class MineFindItemapter extends BaseAdapter {
 			holder.mine_find__ing = (TextView) view.findViewById(R.id.mine_find__ing);
 			holder.mine_find__content = (TextView) view.findViewById(R.id.mine_find__content);
 			holder.mine_find_people_num = (TextView) view.findViewById(R.id.mine_find_people_num);
+			holder.details_text_type = (TextView) view.findViewById(R.id.details_text_type);
 			holder.mine_account_img1 = (RoundedImageView) view.findViewById(R.id.mine_account_img1);
 			holder.mine_account_img2 = (RoundedImageView) view.findViewById(R.id.mine_account_img2);
 			holder.mine_account_img3 = (RoundedImageView) view.findViewById(R.id.mine_account_img3);
@@ -123,7 +126,9 @@ public class MineFindItemapter extends BaseAdapter {
 		holder.mine_find__title.setText(bean.getMineFindTitle());
 		holder.mine_find__ing.setText(bean.getMineFindIng());
 		holder.mine_find__content.setText(bean.getMineFindContent());
-
+		if(!CommUtil.isNullOrBlank(bean.getMineFindType())){
+			holder.details_text_type.setText(bean.getMineFindType());
+		}
 
 		return view;
 	}

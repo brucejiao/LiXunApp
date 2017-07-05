@@ -129,7 +129,14 @@
         <activity
             android:name=".activity.coreActivity.MineXSActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.mineActivity.MineUserCompletedActivity"
+        <activity
+            android:name=".activity.mineActivity.MineUserCompletedActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activity.mineActivity.MineClueActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activity.mineActivity.ClueDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

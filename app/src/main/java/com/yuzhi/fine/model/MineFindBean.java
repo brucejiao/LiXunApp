@@ -16,6 +16,7 @@ public class MineFindBean {
     private String mineFindIng;// 进行中
     private String mineFindContent;//内容
     private String mineFindPeopleNum;//提供线索人数
+    private String mineFindType;
     private String mineFindAccountImg1;//
     private String mineFindAccountImg2;//
     private String mineFindAccountImg3;//
@@ -24,6 +25,14 @@ public class MineFindBean {
     private String mineFindAccountImg6;//
     private String mineFindAccountImg7;//
 
+
+    public String getMineFindType() {
+        return mineFindType;
+    }
+
+    public void setMineFindType(String mineFindType) {
+        this.mineFindType = mineFindType;
+    }
 
     public String getMineFindPeopleNum() {
         return mineFindPeopleNum;

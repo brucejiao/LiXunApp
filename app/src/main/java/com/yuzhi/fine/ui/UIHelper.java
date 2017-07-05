@@ -22,6 +22,8 @@ import com.yuzhi.fine.activity.loginActivity.ForgetPassActivity;
 import com.yuzhi.fine.activity.loginActivity.LXLoginActivity;
 import com.yuzhi.fine.activity.loginActivity.RegisteActivity;
 import com.yuzhi.fine.activity.mineActivity.AccountInfosActivity;
+import com.yuzhi.fine.activity.mineActivity.ClueDetailsActivity;
+import com.yuzhi.fine.activity.mineActivity.MineClueActivity;
 import com.yuzhi.fine.activity.mineActivity.MineDraftActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
 import com.yuzhi.fine.activity.mineActivity.MinePromoteActivity;
@@ -246,5 +248,21 @@ public class UIHelper {
         intent.putExtra("area",mArea);
         intent.putExtra("address",mAddress);
         fragment.startActivityForResult(intent, MINE_REQUEST_REFRESH);
+    }
+
+    //某条发布信息的线索列表
+    public  static void showClueList(Activity context,String publistID){
+        Intent intent = new Intent(context,MineClueActivity.class);
+        intent.putExtra("publistID",publistID);
+        context.startActivity(intent);
+    }
+
+    //线索列表详情界面
+    //flag 0 线索  1 招领  2 认领
+    public  static void showClueDetails(Activity context,String claimID,String flag){
+        Intent intent = new Intent(context,ClueDetailsActivity.class);
+        intent.putExtra("claimID",claimID);
+        intent.putExtra("flag",flag);
+        context.startActivity(intent);
     }
 }

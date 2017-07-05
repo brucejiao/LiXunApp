@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yuzhi.fine.activity.mineActivity.MineClueActivity">
+    <include layout="@layout/layout_main_header" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_5"
+        android:background="@color/xs_short_gary"/>
+    <ListView
+        android:id="@+id/mine_clue_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:dividerHeight="@dimen/space_10"
+        android:divider="@color/xs_short_gary"
+        />
+</LinearLayout>

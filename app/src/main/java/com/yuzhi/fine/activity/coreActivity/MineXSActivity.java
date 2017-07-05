@@ -107,7 +107,7 @@ public class MineXSActivity extends AppCompatActivity implements OnAddressChange
         //返回
         mBackBtn.setVisibility(View.VISIBLE);
         //标题
-        mTextHeaderTitle.setText("信息详情");
+        mTextHeaderTitle.setText("我有线索");
 //        mRlContentNumber.addTextChangedListener(new MaxLengthWatcher(11,mRlContentNumber));
         hideImgView();
         initWheel();

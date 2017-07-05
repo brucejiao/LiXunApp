@@ -17,6 +17,7 @@ import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.CateGoryID2Name;
 import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.model.MineFindBean;
 import com.yuzhi.fine.ui.FragmentAdapter.MineFindItemapter;
@@ -32,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Request;
 
+import static com.yuzhi.fine.utils.CommUtil.getCategoryId2Name;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
@@ -119,6 +121,8 @@ public class MineWTZWFragment extends Fragment {
     private void getMineFindList() {
         final ArrayList<MineFindBean> arrayBean = new ArrayList<MineFindBean>();
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+        //获取的所有菜单的id
+        final   List<CateGoryID2Name> cateIDList =  share.getModels("categoryIDListKey", CateGoryID2Name.class);
         progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("userid", userID);//
@@ -182,7 +186,8 @@ public class MineWTZWFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String publistID = findList.get(position).getPublishID();
-                            UIHelper.showDetails(getActivity(),publistID,"",2);
+                            String mCategoryName = getCategoryId2Name(findList.get(position).getCategoryID(),cateIDList);
+                            UIHelper.showDetails(getActivity(),publistID,mCategoryName,2);
                         }
                     });
                     if (progress != null) {

@@ -54,7 +54,7 @@ import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
  */
 public class DetailsActivity extends AppCompatActivity {
     private DetailsActivity mContext;
-    @Bind(btnBack)
+    @Bind(R.id.btnBack)
     Button mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
@@ -126,9 +126,14 @@ public class DetailsActivity extends AppCompatActivity {
             case 1:
                 //我要认领
                 mDetailsTrack.setText("我要认领");
+                break;
             case 2:
                 //我要认领
                 mDetailsTrack.setText("查看线索");
+                break;
+            case 3:
+                //我要认领
+                mDetailsTrack.setText("我有线索");
                 break;
             default:
                 break;
@@ -566,7 +571,14 @@ public class DetailsActivity extends AppCompatActivity {
                         break;
                     case 2:
                         //查看线索
-                        UIHelper.showMineRL(mContext, publistID);
+                        String publistId = getIntent().getStringExtra("publistID");//发布ID
+//                        CommUtil.showToast("publistId--->"+publistId,mContext);
+                        UIHelper.showClueList(mContext, publistId);
+                        break;
+                    case 3:
+                        //我有线索
+                        String publistId1 = getIntent().getStringExtra("publistID");//发布ID
+                        UIHelper.showMineXS(mContext, publistId1);
                         break;
                     default:
                         break;
