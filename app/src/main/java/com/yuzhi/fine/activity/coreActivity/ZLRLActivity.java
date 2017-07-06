@@ -44,7 +44,7 @@ import static com.yuzhi.fine.utils.Constant.PARENTID_ZLRL;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 
 /**
- * 招领认领  
+ * 招领认领
  */
 public class ZLRLActivity extends AppCompatActivity {
 
