@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
-import com.yuzhi.fine.model.MineDraftListBean;
+import com.yuzhi.fine.model.LXFind.FindListBean;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.ArrayList;
@@ -21,9 +22,9 @@ import java.util.ArrayList;
  */
 public class MineDraftItemapter extends BaseAdapter {
 	private Context activity;
-	private ArrayList<MineDraftListBean> arrayBean;
+	private ArrayList<FindListBean> arrayBean;
 
-	public MineDraftItemapter(Context activity, ArrayList<MineDraftListBean> arrayBean) {
+	public MineDraftItemapter(Context activity, ArrayList<FindListBean> arrayBean) {
 		super();
 		this.activity = activity;
 		this.arrayBean = arrayBean;
@@ -47,7 +48,7 @@ public class MineDraftItemapter extends BaseAdapter {
 	}
 
 	@Override
-	public MineDraftListBean getItem(int position) {
+	public FindListBean getItem(int position) {
 
 		return arrayBean.get(position);
 	}
@@ -59,7 +60,7 @@ public class MineDraftItemapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = convertView;
 		ViewHolder holder;
 		if (convertView == null) {
@@ -78,18 +79,29 @@ public class MineDraftItemapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag(); // 把数据取出来
 		}
-		MineDraftListBean bean = getItem(position);
+		final FindListBean bean = getItem(position);
 
-		Picasso.with(activity).load(bean.getDraftHeaderImg())
+		Picasso.with(activity).load(bean.getPicturePath())
 				.resize(DeviceUtil.dp2px(activity, 50), DeviceUtil.dp2px(activity, 50))
 				.placeholder(R.drawable.default_image).into(holder.mine_draft_header_img);
 
-		holder.mine_draft_time.setText(bean.getDraftTime());
+		holder.mine_draft_time.setText(bean.getCreateTime());
 //		holder.mine_draft_header_img.setImageResource(R.drawable.default_headimg);
-		holder.mine_draft__title.setText(bean.getDraftTitle());
-		holder.mine_draft__content.setText(bean.getDraftContent());
-		holder.mine_draft_price.setText(bean.getDraftPrice());
-		holder.mine_draft_edit_btn.setText(bean.getDraftEditBtn());
+		holder.mine_draft__title.setText(bean.getTitle());
+		holder.mine_draft__content.setText(bean.getContent());
+		holder.mine_draft_price.setText(bean.getMoneyPaid());
+		holder.mine_draft_edit_btn.setText("编辑");
+
+        holder.mine_draft_edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+				String parentId = bean.getParentCategoryID();
+
+//                CommUtil.showToast("position"+position+"--categoryID-->"+bean.getParentCategoryID(),activity);
+				UIHelper.showEditDraft(activity,parentId,bean);
+
+            }
+        });
 
 		return view;
 	}

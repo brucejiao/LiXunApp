@@ -14,7 +14,6 @@ import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.LXFind.FindListBean;
-import com.yuzhi.fine.model.MineDraftListBean;
 import com.yuzhi.fine.ui.FragmentAdapter.MineDraftItemapter;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
@@ -106,7 +105,7 @@ public class MineDraftActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
 //        params.put("parentid", PARENTID_WLQZI);//发布类别父级ID
         params.put("userid", userID);//
-        final    ArrayList<MineDraftListBean> arrayBean = new ArrayList<MineDraftListBean>();
+        final    ArrayList<FindListBean> arrayBean = new ArrayList<FindListBean>();
         HttpClient.get(Caller.MINE_DRAFT_INFOS, params, new HttpResponseHandler() {
             @Override
             public void onSuccess(RestApiResponse response) {
@@ -118,65 +117,54 @@ public class MineDraftActivity extends AppCompatActivity {
                     List<FindListBean> findList =  parseArray(data, FindListBean.class);
                     final int findListNum = findList.size();
                     for (int index  = 0 ; index < findListNum ; index ++){
-                        MineDraftListBean bean = new MineDraftListBean();
+                        FindListBean bean = new FindListBean();
                         //接口数据
-//                        findList.get(index).getPublishID();
-                        String title     = findList.get(index).getTitle();//标题
-                        String content   = findList.get(index).getContent();//内容
-//                        findList.get(index).getUserID();
-//                        findList.get(index).getPictureID();
-//                        findList.get(index).getCategoryID();
-                        String money     = findList.get(index).getMoney();//悬赏金
-//                        findList.get(index).getProvince();
-//                        findList.get(index).getCity();
-//                        findList.get(index).getCountry();
-                        String address     = findList.get(index).getAddress();//地址
-                        String  pushType   = findList.get(index).getPushType();//推广类型（0所有，1推广，2不推广）
-//                        findList.get(index).getPushMoney();
-                        String topType     = findList.get(index).getTopType();//置顶类型（0所有，1置顶，2不置顶）
-//                        findList.get(index).getTopMoney();
-                        String createTime  = findList.get(index).getCreateTime();
-                        String updateTime  = findList.get(index).getUpdateTime();
-//                        findList.get(index).getPublishStatus();
-//                        findList.get(index).getIsDelete();
-//                        findList.get(index).getCheckState();
-//                        findList.get(index).getCheckID();
-//                        findList.get(index).getCheckTime();
-//                        findList.get(index).getCheckRemark();
-                        String followCount   =  findList.get(index).getFollowCount();
-                        String commentCount  =  findList.get(index).getCommentCount();
-                        String visitCount    = findList.get(index).getVisitCount();
-//                        findList.get(index).getClueUserName();
-//                        findList.get(index).getPaymentTypeID();
-//                        findList.get(index).getPaymentTypeName();
-//                        findList.get(index).getPaymentStatus();
-//                        findList.get(index).getDatePayOrder();
-//                        findList.get(index).getMoneyPaid();
-                        String userName      = findList.get(index).getUserName();
-//                        findList.get(index).getCheckUserName();
-                        String headerImgPath = findList.get(index).getImgFilePath();
-                        String provinceName  = findList.get(index).getProvinceName();
-                        String cityName      = findList.get(index).getCityName();
-                        String countryName   = findList.get(index).getCountryName();
-                        String pictueeList   = findList.get(index).getPictureList();///////
-                        String picturePath   = findList.get(index).getPicturePath();
-//                        findList.get(index).getCategoryName();
-//                        findList.get(index).getFollowTime();
-
-
-                        bean.setDraftTime("发布时间 ："+createTime);
-                        bean.setDraftHeaderImg(picturePath);
-                        bean.setDraftTitle(title);
-                        bean.setDraftContent(content);
-                        bean.setDraftPrice(money);
-                        bean.setDraftEditBtn("编辑");
-
-
+                        bean.setPublishID(findList.get(index).getPublishID());
+                        bean.setTitle(findList.get(index).getTitle());//标题
+                        bean.setContent(findList.get(index).getContent());//内容
+                        bean.setUserID(findList.get(index).getUserID());
+                        bean.setPictureID(findList.get(index).getPictureID());
+                        bean.setParentCategoryID(findList.get(index).getParentCategoryID());
+                        bean.setMoney(findList.get(index).getMoney());//悬赏金
+                        bean.setProvince(findList.get(index).getProvince());
+                        bean.setCity(findList.get(index).getCity());
+                        bean.setCountry(findList.get(index).getCountry());
+                        bean.setAddress(findList.get(index).getAddress());//地址
+                        bean.setPushType(findList.get(index).getPushType());//推广类型（0所有，1推广，2不推广）
+                        bean.setPushMoney(findList.get(index).getPushMoney());
+                        bean.setTopType(findList.get(index).getTopType());//置顶类型（0所有，1置顶，2不置顶）
+                        bean.setTopMoney(findList.get(index).getTopMoney());
+                        bean.setCreateTime(findList.get(index).getCreateTime());
+                        bean.setUpdateTime(findList.get(index).getUpdateTime());
+                        bean.setPublishStatus(findList.get(index).getPublishStatus());
+                        bean.setIsDelete(findList.get(index).getIsDelete());
+                        bean.setCheckState(findList.get(index).getCheckState());
+                        bean.setCheckID( findList.get(index).getCheckID());
+                        bean.setCheckTime(findList.get(index).getCheckTime());
+                        bean.setCheckRemark(findList.get(index).getCheckRemark());
+                        bean.setFollowCount(findList.get(index).getFollowCount());
+                        bean.setCommentCount(findList.get(index).getCommentCount());
+                        bean.setVisitCount(findList.get(index).getVisitCount());
+                        bean.setClueUserName(findList.get(index).getClueUserName());
+                        bean.setPaymentTypeID(findList.get(index).getPaymentTypeID());
+                        bean.setPaymentTypeName(findList.get(index).getPaymentTypeName());
+                        bean.setPaymentStatus(findList.get(index).getPaymentStatus());
+                        bean.setDatePayOrder(findList.get(index).getDatePayOrder());
+                        bean.setMoneyPaid(findList.get(index).getMoneyPaid());
+                        bean.setUserName(findList.get(index).getUserName());
+                        bean.setCheckUserName(findList.get(index).getCheckUserName());
+                        bean.setImgFilePath(findList.get(index).getImgFilePath());
+                        bean.setProvinceName(findList.get(index).getProvinceName());
+                        bean.setCityName(findList.get(index).getCityName());
+                        bean.setCountryName(findList.get(index).getCountryName());
+                        bean.setPictureList(findList.get(index).getPictureList());
+                        bean.setPicturePath(findList.get(index).getPicturePath());
+                        bean.setCategoryName(findList.get(index).getCategoryName());
+                        bean.setFollowTime(findList.get(index).getFollowTime());
                         arrayBean.add(bean);
                     }
                     mMineDraftAdapter = new MineDraftItemapter(mContext, arrayBean);
                     mMineDraftListView .setAdapter(mMineDraftAdapter);
-
 
                     if (progress != null) {
                         progress.dismiss();

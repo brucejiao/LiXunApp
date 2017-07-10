@@ -157,11 +157,11 @@ public class MineFragment extends Fragment {
 
 
                 } else if (4 == position) {//网络社交
+                    UIHelper.mineWLSJ(getActivity());
 
-                    showToast("网络社交", mContext);
 
                 } else if (5 == position) {//我的关注
-
+                    UIHelper.showMineFocus(getActivity());
 
                 } else if (6 == position) {//提供线索
 

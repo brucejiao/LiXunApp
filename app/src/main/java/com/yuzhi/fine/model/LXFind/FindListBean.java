@@ -1,11 +1,14 @@
 package com.yuzhi.fine.model.LXFind;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/6/21.
  * 发现--列表
  */
 
-public class FindListBean {
+public class FindListBean implements Serializable{
+    private static final long serialVersionUID = -2198029437922018553L;
     private String PublishID;//发布ID
     private String Title;// 标题
     private String Content;// 内容

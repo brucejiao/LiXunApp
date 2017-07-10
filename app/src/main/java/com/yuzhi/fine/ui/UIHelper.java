@@ -3,12 +3,14 @@ package com.yuzhi.fine.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.yuzhi.fine.activity.HouseDetailActivity;
 import com.yuzhi.fine.activity.LoginActivity;
 import com.yuzhi.fine.activity.MainActivity;
 import com.yuzhi.fine.activity.coreActivity.DetailsActivity;
+import com.yuzhi.fine.activity.coreActivity.EditDraftActivity;
 import com.yuzhi.fine.activity.coreActivity.IssueActivity;
 import com.yuzhi.fine.activity.coreActivity.LXQZActivity;
 import com.yuzhi.fine.activity.coreActivity.MineRLActivity;
@@ -26,10 +28,14 @@ import com.yuzhi.fine.activity.mineActivity.ClueDetailsActivity;
 import com.yuzhi.fine.activity.mineActivity.MineClueActivity;
 import com.yuzhi.fine.activity.mineActivity.MineDraftActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
+import com.yuzhi.fine.activity.mineActivity.MineFocusActivity;
 import com.yuzhi.fine.activity.mineActivity.MinePromoteActivity;
 import com.yuzhi.fine.activity.mineActivity.MineUserCompletedActivity;
+import com.yuzhi.fine.activity.mineActivity.MineWLSJActivity;
 import com.yuzhi.fine.activity.mineActivity.MineZLRLActivity;
+import com.yuzhi.fine.activity.mineActivity.WLSJDetailsActivity;
 import com.yuzhi.fine.fragment.mineFragment.MineFragment;
+import com.yuzhi.fine.model.LXFind.FindListBean;
 
 import static com.yuzhi.fine.utils.Constant.MINE_REQUEST_REFRESH;
 
@@ -263,6 +269,79 @@ public class UIHelper {
         Intent intent = new Intent(context,ClueDetailsActivity.class);
         intent.putExtra("claimID",claimID);
         intent.putExtra("flag",flag);
+        context.startActivity(intent);
+    }
+
+    //显示修改草稿箱界面
+    public static void showEditDraft(Context context, String categoryID,FindListBean bean) {
+        Intent intent = new Intent(context, EditDraftActivity.class);
+        Bundle bundle;
+        switch (categoryID) {
+            case "80"://曝光
+                bundle = new Bundle();
+                bundle.putString("parentid", "80");
+                bundle.putSerializable("bean", bean);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                break;
+            case "81"://求助
+                bundle = new Bundle();
+                bundle.putString("parentid", "81");
+                bundle.putSerializable("bean", bean);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                break;
+            case "549"://圈子
+                bundle = new Bundle();
+                bundle.putString("parentid", "549");
+                bundle.putSerializable("bean", bean);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                break;
+            case "83": //寻人
+                bundle = new Bundle();
+                bundle.putString("parentid", "83");
+                bundle.putSerializable("bean", bean);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                break;
+            case "82": //寻物
+                bundle = new Bundle();
+                bundle.putString("parentid", "82");
+                bundle.putSerializable("bean", bean);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                break;
+            case "394":  //招领认领
+                bundle = new Bundle();
+                bundle.putString("parentid", "394");
+                bundle.putSerializable("bean", bean);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    //我的---网络社交
+    public  static void mineWLSJ(Activity context){
+        Intent intent = new Intent(context,MineWLSJActivity.class);
+        context.startActivity(intent);
+    }
+
+    //网络社交详情界面
+    public  static void showWLSJDetails(Activity context,String publishID){
+        Intent intent = new Intent(context, WLSJDetailsActivity.class);
+        intent.putExtra("publishID",publishID);
+        context.startActivity(intent);
+    }
+
+    //我的关注列表界面
+    public  static void showMineFocus(Activity context/*,String publishID*/){
+        Intent intent = new Intent(context, MineFocusActivity.class);
+//        intent.putExtra("publishID",publishID);
         context.startActivity(intent);
     }
 }

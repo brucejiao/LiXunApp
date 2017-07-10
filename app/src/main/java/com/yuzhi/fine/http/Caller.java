@@ -210,5 +210,8 @@ public class Caller  {
   //获取发布类别列表（一二级）
   public static String GET_FRIST_SECOND_MENU=HTTP+"publish/publish/getcategoryiteratelist.html?appid="+APPID ;// +"&sign={SIGN}";
 
+  //获取关注发布信息列表（我的关注）
+  public static String GET_MINE_FOCUS_LIST=HTTP+"publish/publish/getuserfollowpublishlist.html?appid="+APPID ;// +"&sign={SIGN}";
+
 
 }

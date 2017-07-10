@@ -117,7 +117,7 @@ public class LXMainFragment extends Fragment {
     private Integer[] icon = {R.drawable.menu_xr, R.drawable.menu_xw,
             R.drawable.menu_zlrl, R.drawable.menu_zsjm, R.drawable.menu_wlbg,
             R.drawable.menu_wlqz, R.drawable.menu_quanzi, R.drawable.menu_shop};
-    private String[] iconName = {"委托寻人", "委托寻物", "招领认领", "招商加盟", "网络曝光", "网络求助", "立寻圈子", "公用平台"};
+    private String[] iconName = {"委托寻人", "委托寻物", "招领认领", "人脸识别", "网络曝光", "网络求助", "立寻圈子", "公用平台"};
 
 
     //TabLayout
