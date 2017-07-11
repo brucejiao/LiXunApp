@@ -153,8 +153,10 @@
         <activity
             android:name=".activity.mineActivity.MineProvideClueActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.mineActivity.MinePeoVrifiActivity"
+        <activity
+            android:name=".activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
     </application>
 
 </manifest>

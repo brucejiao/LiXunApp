@@ -166,7 +166,7 @@ public class MineFragment extends Fragment {
                 } else if (6 == position) {//提供线索
                     UIHelper.showMineProvideClue(getActivity());
                 } else if (7 == position) {//好友邀请
-                CommUtil.showToast("正在开发中,,,",mContext);
+                CommUtil.showToast("正在开发中...",mContext);
 
                 } else {
                     return;
@@ -182,10 +182,42 @@ public class MineFragment extends Fragment {
 
     }
 
+    /**
+     * 跳转余额明细
+     * @param view
+     */
     @OnClick(R.id.mine_account_layout)
     public void goAccountInfos(View view) {
         UIHelper.showMineAccount(mContext);
     }
+
+
+    /**
+     * 个人认证
+     * 设置
+     * 投诉建议
+     * @param view
+     */
+    @OnClick({R.id.mine_user_verifi,R.id.mine_setting,R.id.mine_complaints})
+    public void goSecondPage(View view) {
+        switch (view.getId()){
+            //个人认证
+            case R.id.mine_user_verifi:
+                UIHelper.showPeoVrifi(mContext);
+                break;
+            //设置
+            case R.id.mine_setting:
+
+                break;
+            //投诉建议
+            case R.id.mine_complaints:
+
+                break;
+            default:break;
+        }
+
+    }
+
 
     /**
      * 获取用户信息
