@@ -29,6 +29,7 @@ import com.yuzhi.fine.activity.mineActivity.MineClueActivity;
 import com.yuzhi.fine.activity.mineActivity.MineDraftActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFocusActivity;
+import com.yuzhi.fine.activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiActivity;
 import com.yuzhi.fine.activity.mineActivity.MinePromoteActivity;
 import com.yuzhi.fine.activity.mineActivity.MineProvideClueActivity;
 import com.yuzhi.fine.activity.mineActivity.MineUserCompletedActivity;
@@ -349,6 +350,12 @@ public class UIHelper {
     //我的关注列表界面
     public  static void showMineProvideClue(Activity context){
         Intent intent = new Intent(context, MineProvideClueActivity.class);
+        context.startActivity(intent);
+    }
+
+    //我的--个人认证
+    public  static void showPeoVrifi(Activity context){
+        Intent intent = new Intent(context, MinePeoVrifiActivity.class);
         context.startActivity(intent);
     }
 
