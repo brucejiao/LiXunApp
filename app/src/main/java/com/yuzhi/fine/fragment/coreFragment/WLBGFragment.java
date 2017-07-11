@@ -306,7 +306,7 @@ private Activity mContext ;
                         lxFindServerBean.setIsFind("招领" + index);
                         lxFindServerBean.setIsGenerailze(pushType.trim().equals("1")?"全国推广":"");
                         lxFindServerBean.setAddress(provinceName + cityName + countryName);
-                        lxFindServerBean.setPrice(subMoneyZero(money)+"元");
+                        lxFindServerBean.setPrice(subMoneyZero(money,1)+"元");
                         lxFindServerBean.setContent(content);
 
                         String distanceTime = daysBetween2(createTime,currentDate());

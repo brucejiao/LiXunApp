@@ -259,7 +259,7 @@ public class DetailsActivity extends AppCompatActivity {
                     //头像
                     Picasso.with(mContext).load(headerImgPath).resize(DeviceUtil.dp2px(mContext, 50), DeviceUtil.dp2px(mContext, 50)).placeholder(R.drawable.default_image).into(mDetailsRoundHeader);
                     mDetailsUserName.setText(userName);
-                    mDetailsPrice.setText("¥" + subMoneyZero(money) + "元");
+                    mDetailsPrice.setText("¥" + subMoneyZero(money,1) + "元");
                     mDetailsAddress.setText(address);
                     if (!CommUtil.isNullOrBlank(secondMenu)) {
                         mDetailSecondMenu.setText(secondMenu);

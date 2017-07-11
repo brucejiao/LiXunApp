@@ -139,7 +139,7 @@ public class MineFindAllFragment extends Fragment {
                         bean.setMineFindLooker(visitCount);
                         bean.setMineFindFocuson(followCount);
                         bean.setMineFindMessage(commentCount);
-                        bean.setMineFindPrice(subMoneyZero(moneyPaid) + "元");
+                        bean.setMineFindPrice(subMoneyZero(moneyPaid,2) + "元");
                         bean.setMineFindTitle(title);
                         bean.setMineFindContent(content);
                         switch (publishStatus){

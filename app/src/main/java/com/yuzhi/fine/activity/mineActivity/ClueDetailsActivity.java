@@ -65,6 +65,10 @@ public class ClueDetailsActivity extends AppCompatActivity {
     TextView mClueDetailsPrice;//价格
     @Bind(R.id.clue_details_message)
     TextView mClueDetailsMessage;//留言
+     @Bind(R.id.clue_details_message_title)
+    TextView mClueDetailsMessageTitle;//留言标题
+     @Bind(R.id.clue_details_pic_title)
+    TextView mClueDetailsPicTitle;//照片标题
     @Bind(R.id.clue_details_pic_layout)
     LinearLayout mClueDetailsPicLayout;//上传的图片
 
@@ -100,6 +104,12 @@ public class ClueDetailsActivity extends AppCompatActivity {
             case "2":
                 mTextHeaderTitle.setText("我的认领");
                 getClueDetailsInfos(Caller.GET_MINE_RL_DETAIL);
+                break;
+            case "3":
+                mTextHeaderTitle.setText("线索详情");
+                getClueDetailsInfos(Caller.GET_MINE_CLUE_DETAIL);
+                mClueDetailsMessageTitle.setText("我的留言");
+                mClueDetailsPicTitle.setText("我上传的照片");
                 break;
             default:break;
 
@@ -166,7 +176,7 @@ public class ClueDetailsActivity extends AppCompatActivity {
                             .placeholder(R.drawable.default_image).into(mClueDetailsPic);
                     mClueDetailsTitle.setText(publishTtile);
                     mClueDetailsContent.setText(publishContent);
-                    mClueDetailsPrice.setText(publishMoney+"元");
+                    mClueDetailsPrice.setText(CommUtil.subMoneyZero(publishMoney,1)+"元");
                     mClueDetailsMessage.setText(content);
 
                     ////////////////////图片列表///////////////////

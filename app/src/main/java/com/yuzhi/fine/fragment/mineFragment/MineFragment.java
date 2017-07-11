@@ -164,9 +164,9 @@ public class MineFragment extends Fragment {
                     UIHelper.showMineFocus(getActivity());
 
                 } else if (6 == position) {//提供线索
-
+                    UIHelper.showMineProvideClue(getActivity());
                 } else if (7 == position) {//好友邀请
-
+                CommUtil.showToast("正在开发中,,,",mContext);
 
                 } else {
                     return;
@@ -218,11 +218,11 @@ public class MineFragment extends Fragment {
                     //3.签名
                     mUserStyleText.setText(userInfo.getMotto());
                     //4.账户余额
-                    mAccountText.setText(userInfo.getBalance());
+                    mAccountText.setText(CommUtil.subMoneyZero(userInfo.getBalance(),2));
                     //5.悬赏金额
-                    mAccountXuanShang.setText(userInfo.getBalanceNoCash());
+                    mAccountXuanShang.setText(CommUtil.subMoneyZero(userInfo.getBalanceNoCash(),2));
                     //6.我的积分
-                    mAccountJiFen.setText(userInfo.getPoints());
+                    mAccountJiFen.setText(CommUtil.subMoneyZero(userInfo.getPoints(),2));
                     //7.是否认证 认证状态  1未认证 2等待认证  3认证没通过 4认证通过
                     switch (userInfo.getApproveState()) {
                         case "1":

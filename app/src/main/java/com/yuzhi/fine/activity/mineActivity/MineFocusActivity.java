@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,8 +14,10 @@ import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
+import com.yuzhi.fine.model.CateGoryID2Name;
 import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.ui.FragmentAdapter.MineFocusItemapter;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
@@ -28,6 +31,7 @@ import butterknife.OnClick;
 import okhttp3.Request;
 
 import static com.alibaba.fastjson.JSON.parseArray;
+import static com.yuzhi.fine.utils.CommUtil.getCategoryId2Name;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
@@ -35,7 +39,7 @@ import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 /**
  * 我的---我的关注
  */
-public class MineFocusActivity extends AppCompatActivity {
+public class MineFocusActivity extends AppCompatActivity implements MineFocusItemapter.IRefresh {
     private MineFocusActivity mContext;
     @Bind(R.id.btnBack)
     Button mBtnBack;
@@ -72,13 +76,14 @@ public class MineFocusActivity extends AppCompatActivity {
      * 初始化
      */
     public void initData(){
-        getWTXRData();
+        getMineFocusData();
     }
 
     /**
-     * 获取草稿箱列表
+     * 我的关注列表
      */
-    private void getWTXRData() {
+    private void getMineFocusData() {
+        final   List<CateGoryID2Name> cateIDList =  share.getModels("categoryIDListKey", CateGoryID2Name.class);
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
         HashMap<String, String> params = new HashMap<>();
@@ -93,7 +98,7 @@ public class MineFocusActivity extends AppCompatActivity {
                 String data = response.getData();
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    List<FindListBean> findList =  parseArray(data, FindListBean.class);
+                    final List<FindListBean> findList =  parseArray(data, FindListBean.class);
                     final int findListNum = findList.size();
                     for (int index  = 0 ; index < findListNum ; index ++){
                         FindListBean bean = new FindListBean();
@@ -144,6 +149,14 @@ public class MineFocusActivity extends AppCompatActivity {
                     }
                     mMineFocusAdapter = new MineFocusItemapter(mContext, arrayBean);
                     mMineFocusListView .setAdapter(mMineFocusAdapter);
+                    mMineFocusListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String publistID = findList.get(position).getPublishID();
+                            String mCategoryName = getCategoryId2Name(findList.get(position).getCategoryID(),cateIDList);
+                            UIHelper.showDetails(mContext,publistID,mCategoryName,0);
+                        }
+                    });
 
                     if (progress != null) {
                         progress.dismiss();
@@ -162,10 +175,17 @@ public class MineFocusActivity extends AppCompatActivity {
                 if (progress != null) {
                     progress.dismiss();
                 }
-                showToast("发现列表获取失败", mContext);
+                showToast("我的关注列表获取失败", mContext);
             }
         });
 
     }
 
+    @Override
+    public void onRefresh(boolean refresh) {
+        if (refresh){
+            getMineFocusData();
+        }
+
+    }
 }

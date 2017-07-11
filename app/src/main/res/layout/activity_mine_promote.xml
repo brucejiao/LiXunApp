@@ -6,9 +6,10 @@
     tools:context="com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineFindAllFragment">
     <!--标题栏-->
     <include layout="@layout/layout_main_header" />
+
     <ListView
         android:id="@+id/mine_promote_list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent" />
 
 </LinearLayout>

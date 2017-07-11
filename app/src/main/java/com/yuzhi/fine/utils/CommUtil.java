@@ -661,18 +661,35 @@ public class CommUtil {
 	/**
 	 *截取价格小数点后的0
 	 */
-	public static String subMoneyZero(String params){
+	public static String subMoneyZero(String params,int flag){
 		if(params.contains(".")){
 			String subMoney =  params.substring(params.indexOf(".")+1,params.length());
-			if(subMoney.equals("0")){
-				String money =  params.substring(0,params.indexOf("."));
-				return money;
-			}else{
-				return params;
+			switch (flag){
+				case 1:
+					if(subMoney.equals("0")){
+						String money =  params.substring(0,params.indexOf("."));
+						return money;
+					}
+					break;
+				case 2:
+					if(subMoney.equals("00")){
+						String money =  params.substring(0,params.indexOf("."));
+						return money;
+					}
+					break;
+				case 3:
+					if(subMoney.equals("000")){
+						String money =  params.substring(0,params.indexOf("."));
+						return money;
+					}
+					break;
+				default:break;
 			}
+
 		}else{
 			return params;
 		}
+		return params;
 	}
 
 	/**

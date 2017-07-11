@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yuzhi.fine.activity.mineActivity.MinePeoVrifiActivity">
+
+    <!--标题栏-->
+    <include layout="@layout/layout_main_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/green"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <!--头像-->
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/mine_user_infos_header"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_10"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_headimg"
+            app:riv_border_color="@color/green"
+            app:riv_border_width="1dp"
+            app:riv_oval="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/space_10"
+            android:textColor="@color/white"
+            android:text="15312312312"/>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/arc"/>
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_26"
+        android:background="@drawable/warning"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/space_15"
+        android:layout_marginTop="@dimen/space_15"
+        android:text="未认证"/>
+    
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:text="去认证"
+        android:textColor="@color/xs_red"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_hollow_red_md"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_10"
+        android:gravity="center"
+        android:textColor="@color/xs_short_gary2"
+        android:text="认证通过后即可开启寻找发现之旅"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:text="以后再说"
+        android:textColor="@color/xs_short_gary2"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_hollow_blue_md"/>
+
+</LinearLayout>

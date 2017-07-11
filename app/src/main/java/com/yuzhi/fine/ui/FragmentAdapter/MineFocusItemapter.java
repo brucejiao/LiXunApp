@@ -11,23 +11,42 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.activity.mineActivity.MineFocusActivity;
+import com.yuzhi.fine.http.Caller;
+import com.yuzhi.fine.http.HttpClient;
+import com.yuzhi.fine.http.HttpResponseHandler;
+import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.LXFind.FindListBean;
+import com.yuzhi.fine.ui.AddContentDialog;
 import com.yuzhi.fine.ui.UIHelper;
+import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
+import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.Request;
+
+import static com.yuzhi.fine.utils.CommUtil.showToast;
+import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
 /**
  * 我的---我的关注
  */
 public class MineFocusItemapter extends BaseAdapter {
-	private Context activity;
+	private MineFocusActivity activity;
 	private ArrayList<FindListBean> arrayBean;
+	SharePreferenceUtil1 share;
+	private IRefresh mIRefresh = null;
 
-	public MineFocusItemapter(Context activity, ArrayList<FindListBean> arrayBean) {
+	public MineFocusItemapter(MineFocusActivity activity, ArrayList<FindListBean> arrayBean) {
 		super();
 		this.activity = activity;
 		this.arrayBean = arrayBean;
+		share = new SharePreferenceUtil1(activity, "lx_data", 0);
+		mIRefresh = activity;
 	}
 
 	private class ViewHolder {
@@ -89,20 +108,72 @@ public class MineFocusItemapter extends BaseAdapter {
 //		holder.mine_draft_header_img.setImageResource(R.drawable.default_headimg);
 		holder.mine_draft__title.setText(bean.getTitle());
 		holder.mine_draft__content.setText(bean.getContent());
-		holder.mine_draft_price.setText(bean.getMoneyPaid());
+		holder.mine_draft_price.setText(CommUtil.subMoneyZero(bean.getMoneyPaid(),2)+"元");
 		holder.mine_draft_edit_btn.setText("取消关注");
-
+		mIRefresh.onRefresh(false);
         holder.mine_draft_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-				String parentId = bean.getParentCategoryID();
+				final  AddContentDialog	mDialog = new AddContentDialog(activity, R.style.MessageDialog);
+				mDialog.setDialog(R.layout.dialog_add_content);
+				mDialog.txt_Title.setText("提示");
+				mDialog.txt_content.setText("确定取消关注吗？");
+				mDialog.txt_content.setEnabled(false);
+				mDialog.txt_content.setHeight(20);
+				mDialog.dialog_button_details.setText("确定");
+				mDialog.dialog_button_cancel.setText("取消");
+				mDialog.dialog_button_details.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						String publistID =bean.getPublishID();//发布ID
+						String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+						HashMap<String, String> params = new HashMap<>();
+						params.put("publishid", publistID);
+						params.put("userid", userID);
 
-//                CommUtil.showToast("position"+position+"--categoryID-->"+bean.getParentCategoryID(),activity);
-				UIHelper.showEditDraft(activity,parentId,bean);
+						HttpClient.get(Caller.CANCLE_FOCUS, params, new HttpResponseHandler() {
+							@Override
+							public void onSuccess(RestApiResponse response) {
+								String result = response.getResult();
+								String message = response.getMessage();
+
+								if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
+                  			 		 showToast(message, activity);
+									mIRefresh.onRefresh(true);
+									mDialog.dismiss();
+								} else {
+									showToast(message, activity);
+									mIRefresh.onRefresh(false);
+									mDialog.dismiss();
+								}
+							}
+
+							@Override
+							public void onFailure(Request request, Exception e) {
+								showToast("取消关注失败", activity);
+								mIRefresh.onRefresh(false);
+								mDialog.dismiss();
+							}
+						});
+					}
+				});
+				mDialog.dialog_button_cancel.setOnClickListener(new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						mDialog.dismiss();
+					}
+				});
+				mDialog.show();
+
 
             }
         });
 
 		return view;
+	}
+
+	public interface IRefresh {
+		public void onRefresh(boolean refresh);
 	}
 }

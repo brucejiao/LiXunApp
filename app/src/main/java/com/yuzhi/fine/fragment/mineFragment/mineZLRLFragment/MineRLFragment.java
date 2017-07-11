@@ -151,7 +151,7 @@ public class MineRLFragment extends Fragment {
                         bean.setZlrl_pic(picturePath);
                         bean.setZlrl_title(publishTitle);
                         bean.setZlrl_content(content);
-                        bean.setZlrl_price(publishMoney+"元");
+                        bean.setZlrl_price(CommUtil.subMoneyZero(publishMoney,1)+"元");
 
                         switch (checkState){
                             case "1":

@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.ui.UIHelper;
+import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class MineDraftItemapter extends BaseAdapter {
 //		holder.mine_draft_header_img.setImageResource(R.drawable.default_headimg);
 		holder.mine_draft__title.setText(bean.getTitle());
 		holder.mine_draft__content.setText(bean.getContent());
-		holder.mine_draft_price.setText(bean.getMoneyPaid());
+		holder.mine_draft_price.setText(CommUtil.subMoneyZero(bean.getMoneyPaid(),2)+"元");
 		holder.mine_draft_edit_btn.setText("编辑");
 
         holder.mine_draft_edit_btn.setOnClickListener(new View.OnClickListener() {

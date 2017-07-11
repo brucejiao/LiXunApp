@@ -151,7 +151,7 @@ public class MinePromoteActivity extends AppCompatActivity {
                         bean.setMineFindLooker(visitCount);
                         bean.setMineFindFocuson(followCount);
                         bean.setMineFindMessage(commentCount);
-                        bean.setMineFindPrice(subMoneyZero(pushMoney) + "元/天");
+                        bean.setMineFindPrice(subMoneyZero(pushMoney,1) + "元/天");
                         bean.setMineFindTitle(title);
                         bean.setMineFindContent(content);
                         bean.setMineFindType(pushType.equals("1")?"全国":"");

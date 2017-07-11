@@ -167,6 +167,7 @@
         android:background="@color/xs_short_gary"/>
 
     <TextView
+        android:id="@+id/clue_details_message_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/space_10"
@@ -187,6 +188,7 @@
         android:textSize="@dimen/space_12" />
 
     <TextView
+        android:id="@+id/clue_details_pic_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/space_10"
