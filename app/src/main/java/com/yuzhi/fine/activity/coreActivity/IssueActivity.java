@@ -80,7 +80,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
 
     private IssueActivity mContext = this;
     @Bind(R.id.btnBack)
-    Button mBackBtn;//返回
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     @Bind(R.id.issue_userheader)

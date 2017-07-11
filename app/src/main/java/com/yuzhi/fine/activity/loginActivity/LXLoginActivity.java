@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -33,7 +34,7 @@ public class LXLoginActivity extends AppCompatActivity {
     private LXLoginActivity mContext = this;
 
     @Bind(R.id.btnBack)
-    Button mBackBtn;//返回
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     @Bind(R.id.phone)

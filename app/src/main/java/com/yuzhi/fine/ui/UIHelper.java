@@ -30,6 +30,7 @@ import com.yuzhi.fine.activity.mineActivity.MineDraftActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFocusActivity;
 import com.yuzhi.fine.activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiActivity;
+import com.yuzhi.fine.activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiPage2Activity;
 import com.yuzhi.fine.activity.mineActivity.MinePromoteActivity;
 import com.yuzhi.fine.activity.mineActivity.MineProvideClueActivity;
 import com.yuzhi.fine.activity.mineActivity.MineUserCompletedActivity;
@@ -258,6 +259,17 @@ public class UIHelper {
         fragment.startActivityForResult(intent, MINE_REQUEST_REFRESH);
     }
 
+    /**
+     * 我的---完善用户信息
+     * @param context
+
+     */
+    public  static void showCompleteUserInfos(Activity context){
+
+        Intent intent = new Intent(context,MineUserCompletedActivity.class);
+        context.startActivity(intent);
+    }
+
     //某条发布信息的线索列表
     public  static void showClueList(Activity context,String publistID){
         Intent intent = new Intent(context,MineClueActivity.class);
@@ -359,5 +371,10 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
+    //我的--个人认证2
+    public  static void showPeoVrifi2(Activity context){
+        Intent intent = new Intent(context, MinePeoVrifiPage2Activity.class);
+        context.startActivity(intent);
+    }
 
 }

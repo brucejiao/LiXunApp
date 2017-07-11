@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
@@ -35,6 +36,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,6 +44,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+
 import static com.alibaba.fastjson.JSON.parseObject;
 import static com.alibaba.fastjson.JSON.toJSONString;
 import static com.yuzhi.fine.utils.CommUtil.generateFileName;
@@ -58,7 +61,7 @@ import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 public class MineXSActivity extends AppCompatActivity implements OnAddressChangeListener {
 
     @Bind(R.id.btnBack)
-    Button mBackBtn;//返回
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     @Bind(R.id.xs_content)

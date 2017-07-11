@@ -50,8 +50,8 @@ public class ZLRLActivity extends AppCompatActivity {
 
 
     private ZLRLActivity mContext;
-    @Bind(btnBack)
-    Button mBackBtn;//返回
+    @Bind(R.id.btnBack)
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     //

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
@@ -30,7 +30,7 @@ public class MineFindActivity extends AppCompatActivity {
     private MineFindActivity mContext ;
 
     @Bind(R.id.btnBack)
-    Button mBtnBack;
+    LinearLayout mBtnBack;
     @Bind(R.id.textHeadTitle)
     TextView mTextHeadTitle;
 

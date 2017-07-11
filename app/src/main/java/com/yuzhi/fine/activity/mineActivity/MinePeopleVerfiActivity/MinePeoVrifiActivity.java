@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -18,6 +19,7 @@ import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.UserInfos.UserInfo;
+import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
@@ -43,7 +45,7 @@ public class MinePeoVrifiActivity extends AppCompatActivity {
     private ProgressDialog progress;
     private SharePreferenceUtil1 share ;
     @Bind(R.id.btnBack)
-    Button mBackBtn;//返回
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
 
@@ -60,6 +62,7 @@ public class MinePeoVrifiActivity extends AppCompatActivity {
     @Bind(R.id.mine_user_next)
     Button mMineUserNext;//以后再说
 
+    private int mUserStateFlag = 0;//是否认证
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +85,6 @@ public class MinePeoVrifiActivity extends AppCompatActivity {
         mBackBtn.setVisibility(View.VISIBLE);
         //标题
         mTextHeaderTitle.setText("个人认证");
-
 
     }
 
@@ -107,7 +109,24 @@ public class MinePeoVrifiActivity extends AppCompatActivity {
      */
     @OnClick(R.id.mine_user_go_vrifi)
     public void isVerifi(View view){
-        CommUtil.showToast("去认证",mContext);
+        mUserStateFlag =0;
+       switch (mUserStateFlag){
+           case 0://未认证
+               UIHelper.showPeoVrifi2(mContext);
+               break;
+           case 1://等待认证
+               CommUtil.showAlert("正在审核中，请耐心等待...",mContext);
+               break;
+           case 2://认证没通过
+               UIHelper.showPeoVrifi2(mContext);
+               break;
+           case 3://认证通过
+               CommUtil.showAlert("已经认证通过",mContext);
+               break;
+           default:
+               break;
+       }
+
 
     }
 
@@ -154,15 +173,19 @@ public class MinePeoVrifiActivity extends AppCompatActivity {
                     //是否认证 认证状态  1未认证 2等待认证  3认证没通过 4认证通过
                     switch (userInfo.getApproveState()) {
                         case "1":
+                            mUserStateFlag = 0;
                             mMineUserState.setText("未认证");
                             break;
                         case "2":
+                            mUserStateFlag = 1;
                             mMineUserState.setText("等待认证");
                             break;
                         case "3":
+                            mUserStateFlag = 2;
                             mMineUserState.setText("认证没通过");
                             break;
                         case "4":
+                            mUserStateFlag = 3;
                             mMineUserState.setText("认证通过");
                             break;
                         default:

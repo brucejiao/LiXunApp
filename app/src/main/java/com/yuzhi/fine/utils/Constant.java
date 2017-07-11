@@ -52,11 +52,16 @@ public class Constant {
     public static final int MINE_REQUEST_REFRESH = 0x1019;
     public static final int MINE_RESULT_REFRESH = 0x1020;
 
+    //我的--上传身份证
+    public static final int UPLOAD_IDCARD_A= 0x1020;
+    public static final int UPLOAD_IDCARD_B = 0x1021;
+
 
     //SharePreferenceUtil1 Constant
     public static final String SHARE_LOGIN_USERID = "lxUserId";//用户ID
     public static final String SHARE_LOGIN_ISLOGIN = "isLogin";//是否登录过
     public static final String SHARE_REGISTER_CODE = "codeId";//注册码ID
+
 
 
     //Parentid

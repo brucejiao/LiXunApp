@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,7 +42,7 @@ import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 public class MineFocusActivity extends AppCompatActivity implements MineFocusItemapter.IRefresh {
     private MineFocusActivity mContext;
     @Bind(R.id.btnBack)
-    Button mBtnBack;
+    LinearLayout mBtnBack;
     @Bind(R.id.textHeadTitle)
     TextView mTextHeadTitle;
     @Bind(R.id.mine_focus_list)

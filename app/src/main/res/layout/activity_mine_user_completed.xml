@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="请简洁的描述你的主营业务"
-            android:textSize="@dimen/space_10"
+            android:textSize="@dimen/space_14"
             android:layout_marginRight="@dimen/space_10"
             android:layout_marginLeft="@dimen/space_20"
             android:background="@null"/>
@@ -97,7 +97,7 @@
             android:layout_marginRight="@dimen/space_10"
             android:background="@null"
             android:hint="请选择店铺所在城市"
-            android:textSize="@dimen/space_10" />
+            android:textSize="@dimen/space_14" />
 
     </LinearLayout>
     <!--详细地址-->
@@ -124,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="请填写店铺详细地址"
-            android:textSize="@dimen/space_10"
+            android:textSize="@dimen/space_14"
             android:layout_marginRight="@dimen/space_10"
             android:layout_marginLeft="@dimen/space_20"
             android:background="@null"/>

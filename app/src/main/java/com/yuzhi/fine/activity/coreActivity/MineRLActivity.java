@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
@@ -58,7 +59,7 @@ public class MineRLActivity extends AppCompatActivity {
     private List<Picturelist> mPicturelists ;
     private final int mRLFlag = 1001;
     @Bind(R.id.btnBack)
-    Button mBackBtn;//返回
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题3
     @Bind(R.id.rl_content)

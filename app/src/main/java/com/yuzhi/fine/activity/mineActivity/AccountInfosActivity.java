@@ -3,7 +3,7 @@ package com.yuzhi.fine.activity.mineActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
@@ -17,7 +17,7 @@ import butterknife.OnClick;
  */
 public class AccountInfosActivity extends AppCompatActivity {
     @Bind(R.id.btnBack)
-    Button mBtnBack;
+    LinearLayout mBtnBack;
     @Bind(R.id.textHeadTitle)
     TextView mTextHeadTitle;
     //账户余额

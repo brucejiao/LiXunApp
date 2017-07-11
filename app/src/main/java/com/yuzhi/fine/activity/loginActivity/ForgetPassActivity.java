@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
@@ -27,7 +28,7 @@ import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 public class ForgetPassActivity extends AppCompatActivity {
     private ForgetPassActivity mContext = this;
     @Bind(R.id.btnBack)
-    Button mBackBtn;//返回
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     @Bind(R.id.phone)

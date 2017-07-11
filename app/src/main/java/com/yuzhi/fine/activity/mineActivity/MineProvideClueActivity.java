@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,9 +17,7 @@ import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.CateGoryID2Name;
 import com.yuzhi.fine.model.ClueBean;
-import com.yuzhi.fine.model.LXFind.FindListBean;
 import com.yuzhi.fine.model.MineFindBean;
-import com.yuzhi.fine.ui.FragmentAdapter.MineFindItemapter;
 import com.yuzhi.fine.ui.FragmentAdapter.MineProvideClueItemapter;
 import com.yuzhi.fine.ui.UIHelper;
 import com.yuzhi.fine.utils.CommUtil;
@@ -34,10 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
 
-import static com.yuzhi.fine.utils.CommUtil.getCategoryId2Name;
 import static com.yuzhi.fine.utils.CommUtil.showAlert;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
-import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
@@ -49,7 +45,7 @@ public class MineProvideClueActivity extends AppCompatActivity {
     @Bind(R.id.mine_provide_list)
     ListView mMineProvideList;
     @Bind(R.id.btnBack)
-    Button mBtnBack;
+    LinearLayout mBtnBack;
     @Bind(R.id.textHeadTitle)
     TextView mTextHeadTitle;
     private ProgressDialog progress;

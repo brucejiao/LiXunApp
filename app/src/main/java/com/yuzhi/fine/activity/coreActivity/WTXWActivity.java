@@ -48,8 +48,8 @@ import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
  */
 public class WTXWActivity extends AppCompatActivity {
     private WTXWActivity mContext;
-    @Bind(btnBack)
-    Button mBackBtn;//返回
+    @Bind(R.id.btnBack)
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     //

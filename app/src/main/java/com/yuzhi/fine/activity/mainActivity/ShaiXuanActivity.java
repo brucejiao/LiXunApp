@@ -3,7 +3,7 @@ package com.yuzhi.fine.activity.mainActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,7 +31,7 @@ public class ShaiXuanActivity extends AppCompatActivity {
     private  ShaiXuanActivity mContext;
 
     @Bind(R.id.btnBack)
-    Button mBtnBack;//返回
+    LinearLayout mBtnBack;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     @Bind(R.id.sx_wtxr)

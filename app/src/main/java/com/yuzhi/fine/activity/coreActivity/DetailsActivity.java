@@ -55,7 +55,7 @@ import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 public class DetailsActivity extends AppCompatActivity {
     private DetailsActivity mContext;
     @Bind(R.id.btnBack)
-    Button mBackBtn;//返回
+    LinearLayout mBackBtn;//返回
     @Bind(R.id.textHeadTitle)
     TextView mTextHeaderTitle;//标题
     @Bind(R.id.details_round_header)
