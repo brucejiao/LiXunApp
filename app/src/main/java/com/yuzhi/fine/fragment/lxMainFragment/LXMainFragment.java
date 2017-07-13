@@ -2,6 +2,7 @@ package com.yuzhi.fine.fragment.lxMainFragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -635,7 +636,6 @@ public class LXMainFragment extends Fragment {
      */
     private void isLXAddPoint(){
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
-        progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("userid",userID);//
 
@@ -649,21 +649,14 @@ public class LXMainFragment extends Fragment {
 
 //                    showAlert(message, getActivity());
                     mLXAddPoint.setText("已签到");
-                    if (progress != null) {
-                        progress.dismiss();
-                    }
+
                 } else {
 //                    showAlert(message, getActivity());
-                    if (progress != null) {
-                        progress.dismiss();
-                    }
+
                 }
             }
             @Override
             public void onFailure(Request request, Exception e) {
-                if (progress != null) {
-                    progress.dismiss();
-                }
                 showToast("查询是否已签到失败", getActivity());
             }
         });
@@ -688,11 +681,15 @@ public class LXMainFragment extends Fragment {
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
 
-                    showAlert(message, getActivity());
+                    showAlert(message, getActivity(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (progress != null) {
+                                progress.dismiss();
+                            }
+                        }
+                    });
                     isLXAddPoint();
-                    if (progress != null) {
-                        progress.dismiss();
-                    }
                 } else {
                     showAlert(message, getActivity());
                     if (progress != null) {

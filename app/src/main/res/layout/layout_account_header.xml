@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_header"
+    android:layout_width="match_parent"
+    android:layout_height="48dip"
+    android:layout_gravity="top"
+    android:orientation="horizontal"
+    android:background="@color/main_header_bg">
+
+    <!-- 返回按钮 -->
+
+<LinearLayout
+    android:id="@+id/btnBack"
+    android:layout_weight="1"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:visibility="invisible"
+
+    >
+    <ImageView
+        android:layout_width="11dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginLeft="@dimen/space_10"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_color_gray"
+        android:background="@drawable/btn_back"
+        />
+</LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textHeadTitle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:clickable="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:maxWidth="180dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/text_color_white"
+        android:textSize="@dimen/text_size_15" />
+
+
+    <LinearLayout
+        android:id="@+id/addPrice"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="充值"
+            android:textColor="@color/text_color_white"
+            android:textSize="@dimen/text_size_15" />
+    </LinearLayout>
+
+</LinearLayout>

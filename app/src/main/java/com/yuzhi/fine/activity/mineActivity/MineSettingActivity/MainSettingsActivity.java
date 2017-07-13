@@ -9,10 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.ui.UIHelper;
+import com.yuzhi.fine.utils.ClearSpData;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 设置
@@ -65,6 +68,16 @@ public class MainSettingsActivity extends AppCompatActivity {
     }
 
     private void initData(){
+
+
     }
+
+    @OnClick(R.id.setting_exit)
+    public void exitCurrentLogin(View view){
+        ClearSpData.clearSharePreference(mContext);
+        finish();
+        UIHelper.showLXLogin(mContext);
+    }
+
 
 }

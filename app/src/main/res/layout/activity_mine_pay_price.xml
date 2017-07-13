@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yuzhi.fine.activity.mineActivity.MinePayActivity.MinePayPriceActivity">
+    <!--标题栏-->
+    <include layout="@layout/layout_main_header" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/xs_short_gary"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:paddingLeft="18dp"
+        android:gravity="center|left"
+        android:paddingRight="18dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="充值金额"
+            android:textColor="#202020"
+            android:textSize="13sp"/>
+        <EditText
+            android:id="@+id/czje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:hint="请输入充值金额"
+            android:textColor="#202020"
+            android:textSize="13sp"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:gravity="bottom"
+        android:textSize="11sp"
+        android:background="@color/xs_short_gary"
+        android:text="支付方式"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:orientation="vertical"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp">
+
+        <CheckedTextView
+            android:id="@+id/pay_type_alipay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:checkMark="@drawable/checkbox_style_1"
+            android:drawableLeft="@drawable/zfblogo"
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:minHeight="60dp"
+            android:text="支付宝支付"
+            android:textColor="#2e2e2e"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/xs_short_gary"/>
+
+        <CheckedTextView
+            android:id="@+id/pay_type_wechat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkMark="@drawable/checkbox_style_1"
+            android:drawableLeft="@drawable/weixinlogo"
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:minHeight="60dp"
+            android:text="微信支付"
+            android:textColor="#2e2e2e"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/pay_money_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_10"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:layout_marginTop="@dimen/space_10"
+        android:background="@drawable/selector_button_red_click"
+        android:text="立即支付"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_12" />
+</LinearLayout>

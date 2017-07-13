@@ -159,10 +159,30 @@
         <activity
             android:name=".activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiPage2Activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.mineActivity.MineSettingActivity.MainSettingsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".activity.mineActivity.MineComplainActivity.MainComplainsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.mineActivity.MineSettingActivity.MainSettingsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activity.mineActivity.MineComplainActivity.MainComplainsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.mineActivity.MinePayActivity.MinePayPriceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
+
+        <!--支付宝支付界面-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
+        </activity>
     </application>
 
 </manifest>

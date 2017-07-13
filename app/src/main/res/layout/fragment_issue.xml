@@ -266,11 +266,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="23dp"
                     android:background="@drawable/editsharp_issue_edit_bg"
+                    android:ellipsize="end"
                     android:gravity="center"
                     android:hint="请选择走失地详细地址"
                     android:maxLength="15"
                     android:singleLine="true"
-                    android:ellipsize="end"
                     android:textColor="@color/xs_short_black2"
                     android:textSize="@dimen/text_size_12" />
 
@@ -424,8 +424,8 @@
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_marginRight="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -450,8 +450,8 @@
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_marginRight="@dimen/space_10"
                 android:layout_marginTop="15dp"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="65dp"
@@ -527,8 +527,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_marginRight="@dimen/space_10"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
                 <!--无用占一个位子-->
                 <TextView
                     android:layout_width="65dp"
@@ -586,8 +586,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_marginRight="@dimen/space_10"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="65dp"
@@ -662,8 +662,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_10"
                 android:layout_marginRight="@dimen/space_10"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
                 <!--无用占一个位子-->
                 <TextView
                     android:layout_width="65dp"
@@ -683,8 +683,8 @@
                     android:hint="地区置顶金额"
                     android:inputType="numberDecimal"
                     android:textColor="@color/xs_short_gary2"
-                    android:visibility="gone"
-                    android:textSize="@dimen/text_size_8" />
+                    android:textSize="@dimen/text_size_8"
+                    android:visibility="gone" />
 
 
                 <TextView
@@ -740,9 +740,9 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="30dp"
                     android:text="选择推广服务您的信息将在同类信息中强制置顶，置顶幅度跟您的支付金额有关，金额越大信息越靠前，咨询热线：400-110-1100"
-                    android:visibility="gone"
                     android:textColor="@color/xs_short_gary2"
-                    android:textSize="@dimen/text_size_8" />
+                    android:textSize="@dimen/text_size_8"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

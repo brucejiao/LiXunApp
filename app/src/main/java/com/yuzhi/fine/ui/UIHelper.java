@@ -29,6 +29,7 @@ import com.yuzhi.fine.activity.mineActivity.MineClueActivity;
 import com.yuzhi.fine.activity.mineActivity.MineDraftActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFocusActivity;
+import com.yuzhi.fine.activity.mineActivity.MinePayActivity.MinePayPriceActivity;
 import com.yuzhi.fine.activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiActivity;
 import com.yuzhi.fine.activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiPage2Activity;
 import com.yuzhi.fine.activity.mineActivity.MinePromoteActivity;
@@ -145,8 +146,11 @@ public class UIHelper {
     }
 
     //我的-- 我的账户信息
-    public static void showMineAccount(Activity context) {
+    public static void showMineAccount(Activity context,String account,String xuanshang,String jifen) {
         Intent intent = new Intent(context, AccountInfosActivity.class);
+        intent.putExtra("account",account);//余额
+        intent.putExtra("xuanshang",xuanshang);//悬赏
+        intent.putExtra("jifen",jifen);//积分
         context.startActivity(intent);
     }
 
@@ -376,5 +380,12 @@ public class UIHelper {
         Intent intent = new Intent(context, MinePeoVrifiPage2Activity.class);
         context.startActivity(intent);
     }
+
+    //余额充值
+    public  static void showPayPage(Activity context){
+        Intent intent = new Intent(context, MinePayPriceActivity.class);
+        context.startActivity(intent);
+    }
+
 
 }

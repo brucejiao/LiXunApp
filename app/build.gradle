@@ -115,4 +115,5 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile files('src/main/libs/alipaySdk-20170710.jar')
 }

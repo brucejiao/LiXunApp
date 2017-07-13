@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
+import com.yuzhi.fine.ui.UIHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -16,8 +17,11 @@ import butterknife.OnClick;
  * 账户信息
  */
 public class AccountInfosActivity extends AppCompatActivity {
+    private AccountInfosActivity mContext ;
     @Bind(R.id.btnBack)
     LinearLayout mBtnBack;
+    @Bind(R.id.addPrice)
+    LinearLayout mAddPrice;//充值
     @Bind(R.id.textHeadTitle)
     TextView mTextHeadTitle;
     //账户余额
@@ -34,19 +38,35 @@ public class AccountInfosActivity extends AppCompatActivity {
     TextView mAccountTiXian;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_infos);
         ButterKnife.bind(this);
+        mContext = this ;
         initUI();
     }
 
     public void initUI(){
         mBtnBack.setVisibility(View.VISIBLE);
+        mAddPrice.setVisibility(View.VISIBLE);
         mTextHeadTitle.setText("现金余额");
+        String account = getIntent().getStringExtra("account");//余额
+        String xuanshang = getIntent().getStringExtra("xuanshang");//悬赏
+        String jifen = getIntent().getStringExtra("jifen");//积分
+
+        mAccountPrice.setText(account+"元");
+        mAccountXuanShang.setText(xuanshang+"元");
+        mAccountJiFen.setText(jifen+"积分");
+        mAccountTiXian.setText(account+"元");
+
     }
+
+    @OnClick(R.id.addPrice)
+    public void addPrice(View view){
+        UIHelper.showPayPage(mContext);
+    }
+
 
     //返回
     @OnClick(R.id.btnBack)
