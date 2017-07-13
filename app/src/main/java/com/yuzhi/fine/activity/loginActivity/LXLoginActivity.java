@@ -2,6 +2,7 @@ package com.yuzhi.fine.activity.loginActivity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -162,4 +163,14 @@ public class LXLoginActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            UIHelper.showHome(mContext);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

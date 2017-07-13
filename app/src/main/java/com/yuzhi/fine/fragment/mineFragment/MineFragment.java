@@ -43,6 +43,7 @@ import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.Constant.MINE_REQUEST_REFRESH;
 import static com.yuzhi.fine.utils.Constant.MINE_RESULT_REFRESH;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_ISLOGIN;
 import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_USERID;
 
 public class MineFragment extends Fragment {
@@ -132,8 +133,12 @@ public class MineFragment extends Fragment {
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), icon, iconName, true);
         mMineGridView.setAdapter(adapter);
         CommUtil.calGridViewWidthAndHeigh(3, mMineGridView);
-        getUserInfos();
-        editUserMotoo();
+        boolean isLogin = share.getBoolean(SHARE_LOGIN_ISLOGIN, false);// 是否登陆
+        if(isLogin){
+            getUserInfos();
+            editUserMotoo();
+        }
+
     }
 
     private void initData() {
@@ -214,11 +219,11 @@ public class MineFragment extends Fragment {
                 break;
             //设置
             case R.id.mine_setting:
-
+                UIHelper.mineSettingPage(mContext);
                 break;
             //投诉建议
             case R.id.mine_complaints:
-
+                UIHelper.mineComplainPage(mContext);
                 break;
             default:break;
         }
@@ -379,7 +384,10 @@ public class MineFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        getUserInfos();
+        boolean isLogin = share.getBoolean(SHARE_LOGIN_ISLOGIN, false);// 是否登陆
+        if(isLogin){
+            getUserInfos();
+        }
     }
 
     @Override

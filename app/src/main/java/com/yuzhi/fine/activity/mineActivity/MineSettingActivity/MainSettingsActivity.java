@@ -17,6 +17,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.yuzhi.fine.utils.Constant.SHARE_LOGIN_ISLOGIN;
+
 /**
  * 设置
  */
@@ -72,9 +74,15 @@ public class MainSettingsActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.btnBack)
+    public void onBackBtn(View view){
+            finish();
+    }
+
     @OnClick(R.id.setting_exit)
     public void exitCurrentLogin(View view){
         ClearSpData.clearSharePreference(mContext);
+        share.putBoolean(SHARE_LOGIN_ISLOGIN,false);
         finish();
         UIHelper.showLXLogin(mContext);
     }

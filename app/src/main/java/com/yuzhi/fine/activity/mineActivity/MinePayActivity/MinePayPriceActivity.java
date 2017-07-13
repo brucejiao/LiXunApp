@@ -19,8 +19,8 @@ import com.yuzhi.fine.http.HttpClient;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.LXFind.FindListBean;
-import com.yuzhi.fine.pay.aliPay.PayHelper;
-import com.yuzhi.fine.pay.aliPay.PaymentManager;
+import com.yuzhi.fine.pay.PayHelper;
+import com.yuzhi.fine.pay.PaymentManager;
 import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
 

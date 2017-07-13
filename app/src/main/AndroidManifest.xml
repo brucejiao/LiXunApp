@@ -168,8 +168,6 @@
         <activity android:name=".activity.mineActivity.MinePayActivity.MinePayPriceActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-
-
         <!--支付宝支付界面-->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.alipay.sdk.app.AuthTask;
 import com.alipay.sdk.app.PayTask;
 import com.yuzhi.fine.http.Caller;
+import com.yuzhi.fine.pay.BasePaymentManager;
 
 import java.util.Map;
 

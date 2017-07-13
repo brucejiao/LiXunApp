@@ -146,6 +146,12 @@ public class DetailsActivity extends AppCompatActivity {
         finish();
     }
 
+    //举报
+    @OnClick(R.id.details_report)
+    public void reportClick(View view){
+        UIHelper.mineComplainPage(mContext);
+    }
+
     private void initData() {
         getDetailsInfos();
         getCommentList();

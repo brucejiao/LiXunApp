@@ -9,4 +9,217 @@
     <!--标题栏-->
     <include layout="@layout/layout_main_header" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/space_15"
+            android:gravity="center"
+            android:text="选择种类:"
+            android:textColor="@color/xs_short_black"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/id1"
+            android:layout_width="60dp"
+            android:layout_height="23dp"
+            android:layout_marginLeft="@dimen/space_15"
+            android:gravity="center"
+            android:text="投诉举报"
+            android:textColor="@color/xs_short_black"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/id2"
+            android:layout_width="60dp"
+            android:layout_height="23dp"
+            android:layout_marginLeft="@dimen/space_15"
+            android:gravity="center"
+            android:text="APP吐槽"
+            android:textColor="@color/xs_short_black"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/xs_short_gary"/>
+
+    <LinearLayout
+        android:id="@+id/id3"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginRight="@dimen/space_15">
+
+        <TextView
+            android:id="@+id/textView41"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="被举报人昵称:"
+            android:textColor="@color/xs_short_black"
+            android:textSize="14dp" />
+
+        <EditText
+            android:id="@+id/id4"
+            android:layout_width="150dp"
+            android:layout_height="23dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_15"
+            android:textSize="13dp"
+            android:background="@drawable/editsharp_white_edit"
+            android:maxLength="6" />
+    </LinearLayout>
+
+    <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@color/xs_short_gary"
+         android:orientation="vertical">
+<!--       -->
+         <TextView
+             android:id="@+id/id5"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="@dimen/space_15"
+             android:layout_marginRight="@dimen/space_15"
+             android:textColor="@color/xs_short_black"
+             android:layout_marginTop="19dp"
+             android:textSize="@dimen/space_14"
+             android:text="举报原因"/>
+
+         <EditText
+             android:id="@+id/id6"
+             android:layout_width="match_parent"
+             android:layout_height="75dp"
+             android:layout_marginLeft="@dimen/space_10"
+             android:layout_marginRight="@dimen/space_10"
+             android:layout_marginTop="@dimen/space_6"
+             android:background="@drawable/editsharp_white_edit"
+             android:ellipsize="end"
+             android:gravity="top"
+             android:maxLength="100"
+             android:singleLine="false"
+             android:textSize="@dimen/space_10"/>
+
+         <TextView
+             android:id="@+id/id7"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="@dimen/space_10"
+             android:gravity="right"
+             android:text="0/100"
+             android:textColor="@color/xs_short_black"
+             android:textSize="@dimen/text_size_12" />
+         <!--图片 第一行-->
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="@dimen/space_10"
+             android:layout_marginRight="@dimen/space_10"
+             android:layout_marginTop="@dimen/space_10"
+             android:orientation="horizontal">
+
+             <ImageView
+                 android:id="@+id/img1"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+             <ImageView
+                 android:id="@+id/img2"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:layout_marginLeft="@dimen/space_10"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+             <ImageView
+                 android:id="@+id/img3"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:layout_marginLeft="@dimen/space_10"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+             <ImageView
+                 android:id="@+id/img4"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:layout_marginLeft="@dimen/space_10"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+         </LinearLayout>
+
+
+         <!--图片 第二行-->
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="@dimen/space_10"
+             android:layout_marginRight="@dimen/space_10"
+             android:layout_marginTop="@dimen/space_10"
+             android:orientation="horizontal">
+
+             <ImageView
+                 android:id="@+id/img5"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+             <ImageView
+                 android:id="@+id/img6"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:layout_marginLeft="@dimen/space_10"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+             <ImageView
+                 android:id="@+id/img7"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:layout_marginLeft="@dimen/space_10"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+             <ImageView
+                 android:id="@+id/img8"
+                 android:layout_width="73dp"
+                 android:layout_height="73dp"
+                 android:layout_marginLeft="@dimen/space_10"
+                 android:onClick="onCheckImg"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/lx_lodind_image" />
+
+         </LinearLayout>
+        <Button
+            android:id="@+id/id8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_10"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginRight="@dimen/space_10"
+            android:layout_marginTop="@dimen/space_30"
+            android:background="@drawable/selector_button_red_click"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12" />
+     </LinearLayout>
 </LinearLayout>

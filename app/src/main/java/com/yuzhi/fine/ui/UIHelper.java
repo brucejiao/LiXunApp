@@ -26,6 +26,7 @@ import com.yuzhi.fine.activity.loginActivity.RegisteActivity;
 import com.yuzhi.fine.activity.mineActivity.AccountInfosActivity;
 import com.yuzhi.fine.activity.mineActivity.ClueDetailsActivity;
 import com.yuzhi.fine.activity.mineActivity.MineClueActivity;
+import com.yuzhi.fine.activity.mineActivity.MineComplainActivity.MainComplainsActivity;
 import com.yuzhi.fine.activity.mineActivity.MineDraftActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFindActivity;
 import com.yuzhi.fine.activity.mineActivity.MineFocusActivity;
@@ -34,6 +35,7 @@ import com.yuzhi.fine.activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifi
 import com.yuzhi.fine.activity.mineActivity.MinePeopleVerfiActivity.MinePeoVrifiPage2Activity;
 import com.yuzhi.fine.activity.mineActivity.MinePromoteActivity;
 import com.yuzhi.fine.activity.mineActivity.MineProvideClueActivity;
+import com.yuzhi.fine.activity.mineActivity.MineSettingActivity.MainSettingsActivity;
 import com.yuzhi.fine.activity.mineActivity.MineUserCompletedActivity;
 import com.yuzhi.fine.activity.mineActivity.MineWLSJActivity;
 import com.yuzhi.fine.activity.mineActivity.MineZLRLActivity;
@@ -387,5 +389,16 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
+    //设置
+    public  static void mineSettingPage(Activity context){
+        Intent intent = new Intent(context, MainSettingsActivity.class);
+        context.startActivity(intent);
+    }
+
+    //投诉建议
+    public  static void mineComplainPage(Activity context){
+        Intent intent = new Intent(context, MainComplainsActivity.class);
+        context.startActivity(intent);
+    }
 
 }

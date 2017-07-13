@@ -219,4 +219,8 @@ public class Caller  {
 
     //支付宝回调地址
     public static String ALIPAY_CALLBACK_URL= "http://user.lixun110.com/payment/alipay/notify_url.aspx";
+
+  //获取消息列表
+  public static String GET_MESSAGE_LIST=HTTP+"common/messages/getstationmsglist.html?appid="+APPID ;// +"&sign={SIGN}";
+
 }

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.fragment.findFragment.FindMainFragment;
@@ -38,8 +39,11 @@ public class MainActivity extends BaseFragmentActivity {
     private ArrayList<String> fragmentTags;
     private FragmentManager fragmentManager;
 
+
     private ImageView mIssue;//发布
     SharePreferenceUtil1 share ;
+
+    private TextView textUnreadLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,13 @@ public class MainActivity extends BaseFragmentActivity {
             }
         });
         showFragment();
+        messageRedPoint();
+
+    }
+
+    private void messageRedPoint(){
+        textUnreadLabel = (TextView) findViewById(R.id.textUnreadLabel);//消息小红点
+        textUnreadLabel.setText("10");
     }
 
     /**
@@ -103,6 +114,12 @@ public class MainActivity extends BaseFragmentActivity {
         mIssue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //判断是否成功登陆过
+                boolean isLogin = share.getBoolean(SHARE_LOGIN_ISLOGIN, false);// 是否登陆
+                if(!isLogin){
+                    UIHelper.showLXLogin(MainActivity.this);
+                    return;
+                }
                 IssuePopWin takePhotoPopWin = new IssuePopWin(MainActivity.this);
                 // 设置Popupwindow显示位置（从底部弹出）
                 takePhotoPopWin.showAtLocation(findViewById(R.id.foot_bar_issue), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -129,7 +146,9 @@ public class MainActivity extends BaseFragmentActivity {
     private void showFragment() {
         //判断是否成功登陆过
         boolean isLogin = share.getBoolean(SHARE_LOGIN_ISLOGIN, false);// 是否登陆
-        if(!isLogin && currIndex == 3){
+        if(!isLogin && currIndex == 2){
+            UIHelper.showLXLogin(MainActivity.this);
+        }else if(!isLogin && currIndex == 3){
             UIHelper.showLXLogin(MainActivity.this);
         }
 
@@ -172,8 +191,19 @@ public class MainActivity extends BaseFragmentActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             moveTaskToBack(true);
+/*            switch (currIndex){
+                case 2:
+                    UIHelper.showHome(mContext);
+                    break;
+                case 3:
+                    UIHelper.showHome(mContext);
+                    break;
+                default:
+                    break;
+            }*/
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
