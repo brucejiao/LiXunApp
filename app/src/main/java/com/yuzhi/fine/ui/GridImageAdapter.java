@@ -12,6 +12,7 @@ import com.yuzhi.fine.R;
 
 
 public class GridImageAdapter extends BaseAdapter{
+	private  Context mContext ;
 	 // 定义Context
 	  private LayoutInflater inflater;
 	  
@@ -29,6 +30,7 @@ public class GridImageAdapter extends BaseAdapter{
 		  this.mImageIds=mImageIds;
 		  this.mTextIs=mTextIs;
 		  this.mLines = mLines;
+		  this.mContext = context;
 	  }
 	  
 	  
@@ -81,9 +83,11 @@ public class GridImageAdapter extends BaseAdapter{
 			Drawable draw =  inflater.getContext().getResources().getDrawable(mImageIds[position]);
 			draw.setBounds(0, 0, draw.getIntrinsicWidth(), draw.getIntrinsicHeight());
 			text.setCompoundDrawables(null, draw, null, null);
+		  	text.setCompoundDrawablePadding(15);//设置图片和text之间的间距
+		    text.setTextSize(10);
 			
 //			paramView.setMinimumHeight((int)(96.0F * inflater.getContext().getResources().getDisplayMetrics().density));
-		    paramView.setMinimumHeight((int)(70.0F * inflater.getContext().getResources().getDisplayMetrics().density));
+		    paramView.setMinimumHeight((int)(70.0F * inflater.getContext().getResources().getDisplayMetrics().density));//70.0
 			paramView.setMinimumWidth(((-12 + inflater.getContext().getResources().getDisplayMetrics().widthPixels) / 3));
 			
 			return paramView;

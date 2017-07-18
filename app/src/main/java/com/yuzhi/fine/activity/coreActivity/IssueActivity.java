@@ -22,14 +22,10 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
-import com.yuzhi.fine.http.HttpRequestUtil;
 import com.yuzhi.fine.http.HttpResponseHandler;
 import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.AddressDtailsEntity;
 import com.yuzhi.fine.model.AddressModel;
-import com.yuzhi.fine.model.GoogleLoc2Add.GoogleAddressComponents;
-import com.yuzhi.fine.model.GoogleLoc2Add.GoogleLoc;
-import com.yuzhi.fine.model.GoogleLoc2Add.GoogleResults;
 import com.yuzhi.fine.model.IssueModel.IssueContent;
 import com.yuzhi.fine.model.IssueModel.SecondMenu;
 import com.yuzhi.fine.model.UploadImg.Picturelist;
@@ -42,7 +38,6 @@ import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.Constant;
 import com.yuzhi.fine.utils.ImageUtils;
 import com.yuzhi.fine.utils.JsonUtil;
-import com.yuzhi.fine.utils.LocationUtils;
 import com.yuzhi.fine.utils.LogUtil;
 import com.yuzhi.fine.utils.SharePreferenceUtil1;
 
@@ -61,7 +56,6 @@ import okhttp3.RequestBody;
 
 import static com.alibaba.fastjson.JSON.parseObject;
 import static com.alibaba.fastjson.JSON.toJSONString;
-import static com.yuzhi.fine.http.Caller.GOOGLE_MAP_LOCATION;
 import static com.yuzhi.fine.utils.CommUtil.generateFileName;
 import static com.yuzhi.fine.utils.CommUtil.getAddressId;
 import static com.yuzhi.fine.utils.CommUtil.readAssert;
@@ -218,7 +212,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         initWheel();
 
         //初始化定位
-        new Thread(networkTask).start();
+       /* new Thread(networkTask).start();*/
 
 
 
@@ -355,6 +349,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 mIssueTextCity.setText("丢失城市");
                 //获取目标类型
                 getIssueSecondList(PARENTID_WTXR);
+                mIssuePriceAfter.setText("悬赏最低50元");
+                mIssuePrice.setHint("悬赏最低50元");
                 break;
             case PARENTID_WTXW:
                 mIssueType.setText("寻物");
@@ -362,6 +358,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                 mIssueTextCity.setText("丢失城市");
                 //获取目标类型
                 getIssueSecondList(PARENTID_WTXW);
+                mIssuePriceAfter.setText("悬赏最低50元");
+                mIssuePrice.setHint("悬赏最低50元");
                 break;
             case PARENTID_ZLRL:
                 mIssueType.setText("招领");
@@ -562,7 +560,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
      * 将经纬度转换为地址
      * location 拼接方式   ： 纬度，经度
      */
-    private String locToAddress(String location){
+ /*   private String locToAddress(String location){
         //baidu
 //        String params = "output=json&location="+location;
 //        String resutl =  HttpRequestUtil.sendGet(BAIDU_MAP_LOCATION,params.trim());
@@ -571,12 +569,12 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         String resutl =  HttpRequestUtil.sendGet(GOOGLE_MAP_LOCATION,params);
 
         return resutl;
-    }
+    }*/
 
     /**
      * 获取请求地址结果并更新到UI
      */
-    Handler handler = new Handler() {
+/*    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -607,13 +605,13 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
             }
 
         }
-    };
+    };*/
 
 
     /**
      * 网络操作相关的子线程
      */
-    Runnable networkTask = new Runnable() {
+/*    Runnable networkTask = new Runnable() {
 
         @Override
         public void run() {
@@ -626,7 +624,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
             msg.setData(data);
             handler.sendMessage(msg);
         }
-    };
+    };*/
 
     /**
      * 选择推送地区 0
@@ -675,6 +673,23 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
     private  void uploadImage(final int Flag){
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
+        ///赏金最低50元  之前是判断低于50元不让发布 sb现在该需求 不操作也可以发布出去
+        ///真是奇葩的需求
+        /*String parentID= getIntent().getStringExtra("parentid");
+        if (parentID.equals(PARENTID_WTXR) || parentID.equals(PARENTID_WTXW)){
+            String pirce = mIssuePrice.getText().toString();
+            if(!CommUtil.isNullOrBlank(pirce)){
+                int pirceNum = Integer.valueOf(pirce);
+                if (pirceNum<50){
+                    CommUtil.showAlert("悬赏最低50元",mContext);
+                    if (progress != null)
+                    {
+                        progress.dismiss();
+                    }
+                    return;
+                }
+            }
+        }*/
         mPicturelists = new ArrayList<Picturelist>();
         //保存图片id集合
         for ( int i =0 ; i< mImgList.size(); i++){
@@ -716,13 +731,13 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                                     Message saveDraftMsg = new Message();
                                     saveDraftMsg.what = mDraftFlag;
                                     saveDraftHandler.sendMessage(saveDraftMsg);
-                                    showToast("图片上传成功",mContext);
+//                                    showToast("图片上传成功",mContext);
                                     break;
                                 case mIssueFlag:
                                     Message saveIssueMsg = new Message();
                                     saveIssueMsg.what = mIssueFlag;
                                     saveDraftHandler.sendMessage(saveIssueMsg);
-                                    showToast("图片上传成功",mContext);
+//                                    showToast("图片上传成功",mContext);
                                     break;
                                 default:break;
                             }
@@ -793,6 +808,8 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
 //             showToast("imgLIST===>"+ toJSONString(mPicturelists),mContext);
          String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+
+
             //发布信息实体
                String publishinfo =  issueContent();
                HashMap<String, String> params = new HashMap<>();
@@ -861,6 +878,7 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
         progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
 //             showToast("imgLIST===>"+ toJSONString(mPicturelists),mContext);
         String userID = share.getString(SHARE_LOGIN_USERID, "");// 用户Id
+
         //发布信息实体
         String publishinfo =  issueContent();
         HashMap<String, String> params = new HashMap<>();
@@ -895,7 +913,12 @@ public class IssueActivity extends AppCompatActivity implements OnAddressChangeL
                     {
                         progress.dismiss();
                     }
-                    showToast(message,mContext);
+                    CommUtil.showAlert(message, mContext, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
                 }
             }
 

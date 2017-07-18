@@ -97,7 +97,8 @@
 	</style>
 
 	<style name="TabLayoutTextStyle">
-		<item name="android:textSize">@dimen/text_size_12</item>
+		<!--<item name="android:textSize">@dimen/text_size_12</item>-->
+		<item name="android:textSize">12sp</item>
 	</style>
 
 	<style name="take_photo_anim" parent="android:Animation">
@@ -136,5 +137,7 @@
 		<item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
 		<item name="android:windowExitAnimation">@anim/push_bottom_out</item>
 	</style>
+
+
 
 </resources>

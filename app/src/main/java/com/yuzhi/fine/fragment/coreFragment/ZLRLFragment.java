@@ -17,6 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
@@ -58,7 +61,8 @@ public class ZLRLFragment extends Fragment {
     //
     @Bind(R.id.shaixuan_textview)
     TextView mSXLayout;
-
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;//
     @Bind(R.id.lx_find_find_listview)
     ListView mFindXSListview;
 
@@ -83,6 +87,8 @@ public class ZLRLFragment extends Fragment {
     List<String> mSecondMenu= new ArrayList<String>();//二级菜单名称列表
     List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
     private ProgressDialog progress;
+    private String lastnumber ="";//最后一条记录的ID
+    private int mSize =0;
 
 
     public ZLRLFragment() {
@@ -97,7 +103,7 @@ public class ZLRLFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_zlrl, container, false);
+        View view = inflater.inflate(R.layout.fragment_wtxr, container, false);
         ButterKnife.bind(this, view);
         customViewpager.setObjectForPosition(view,2);
         return view;
@@ -142,6 +148,7 @@ public class ZLRLFragment extends Fragment {
 
     private void initData() {
         getIssueSecondList(PARENTID_ZLRL);
+        setRefreshLayout();//刷新
     }
 
 
@@ -190,7 +197,7 @@ public class ZLRLFragment extends Fragment {
     /**
      * 委托寻人--获取发布列表
      */
-    private void getWTXRData(String categoryID ,String toptype , String monetype,final String secondmenu) {
+    private void getWTXRData(String categoryID ,String toptype , String monetype,final String secondmenu,String number) {
 //        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
@@ -201,6 +208,9 @@ public class ZLRLFragment extends Fragment {
 //        params.put("keywords", value);//搜索关键词
 //        params.put("pagesize", value);//每页显示条数（默认10条）
 //        params.put("lastnumber", value);//最后一条记录的ID
+        if(!CommUtil.isNullOrBlank(number)){
+            params.put("lastnumber", number);//最后一条记录的ID
+        }
         final ArrayList<LXFindServerBean> arrayBean = new ArrayList<LXFindServerBean>();
         HttpClient.get(Caller.FIND_LIST_INFOS, params, new HttpResponseHandler() {
             @Override
@@ -299,6 +309,10 @@ public class ZLRLFragment extends Fragment {
                         }
                         arrayBean.add(lxFindServerBean);
                     }
+                    if(findListNum >10){
+                        String publishID = findList.get(findListNum-1).getPublishID();
+                        lastnumber = publishID;
+                    }
                     mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,2);
                     mFindXSListview.setAdapter(mFindItemAdapter);
                     mFindXSListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -353,13 +367,14 @@ public class ZLRLFragment extends Fragment {
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
                     List<SecondMenu> menu = JSON.parseArray(data, SecondMenu.class);
                     final int menuNum = menu.size();
+                    mSize = menuNum;
                     for (int index = 0; index < menuNum; index++) {
                         TextView mTextView = new TextView(mContext);
                         String cateID = menu.get(index).getCategoryID();
                         String cateTitle = menu.get(index).getCategoryTitle();
 
                         mTextView.setText(cateTitle);
-                        mTextView.setTextSize(10);
+                        mTextView.setTextSize(11);
                         mTextView.setTextColor(getResources().getColor(R.color.black));
                         mTextView.setGravity(Gravity.CENTER);
                         LinearLayout.LayoutParams mLayoutParams = new
@@ -387,26 +402,27 @@ public class ZLRLFragment extends Fragment {
 
     /**
      * 二级菜单获取选中/非选择效果
+     *
      */
     private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList,final List<String> mSecondMenu) {
         //默认第一位选中状态
         mSecondMenuList.get(0).setBackgroundResource(R.drawable.editsharp_green_all);
         mSecondMenuList.get(0).setTextColor(getResources().getColor(R.color.white));
-        getWTXRData(mCategoryIDList.get(0),"0","0",mSecondMenu.get(0));
+        getWTXRData(mCategoryIDList.get(0),"0","0",mSecondMenu.get(0),lastnumber);
         //筛选置顶/悬赏...
         lxFindOnClick(0);
         mSecondMenuList.get(index).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //先将所有的TextView 刷成白色
-                for (int i = 0 ;i < size; i++) {
+                for (int i = 0 ;i < size; i++){
                     mSecondMenuList.get(i).setBackgroundResource(R.color.white);
                     mSecondMenuList.get(i).setTextColor(getResources().getColor(R.color.black));
                 }
                 //单独将选中的刷绿
                 mSecondMenuList.get(index).setBackgroundResource(R.drawable.editsharp_green_all);
                 mSecondMenuList.get(index).setTextColor(getResources().getColor(R.color.white));
-                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index),lastnumber);
                 //筛选置顶/悬赏...
                 lxFindOnClick(index);
             }
@@ -426,7 +442,7 @@ public class ZLRLFragment extends Fragment {
                 mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"1","0",mSecondMenu.get(index));
+                getWTXRData(mCategoryIDList.get(index),"1","0",mSecondMenu.get(index),"");
             }
         });
         mNewBtn.setOnClickListener(new View.OnClickListener() {
@@ -438,7 +454,7 @@ public class ZLRLFragment extends Fragment {
                 mNewBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index),"");
 
             }
         });
@@ -452,11 +468,26 @@ public class ZLRLFragment extends Fragment {
                 mXSBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","1",mSecondMenu.get(index));
-
+                getWTXRData(mCategoryIDList.get(index),"0","1",mSecondMenu.get(index),"");
             }
         });
     }
 
+    private void setRefreshLayout(){
+        refreshLayout.setEnableRefresh(false);
 
+        refreshLayout.setEnableLoadmore(true);
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(2000);
+                ////最新0  置顶 1
+//                getIssueSecondList(PARENTID_WTXR,lastnumber);
+                for (int i =0 ; i < mSize; i++){
+                    checkedSecondMenu(i,mSize,mCategoryIDList,mSecondMenu);
+                }
+
+            }
+        });
+    }
 }

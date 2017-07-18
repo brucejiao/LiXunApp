@@ -23,6 +23,7 @@ import com.yuzhi.fine.activity.coreActivity.ZLRLActivity;
 import com.yuzhi.fine.activity.loginActivity.ForgetPassActivity;
 import com.yuzhi.fine.activity.loginActivity.LXLoginActivity;
 import com.yuzhi.fine.activity.loginActivity.RegisteActivity;
+import com.yuzhi.fine.activity.mainActivity.LinkUrlActivity;
 import com.yuzhi.fine.activity.mineActivity.AccountInfosActivity;
 import com.yuzhi.fine.activity.mineActivity.ClueDetailsActivity;
 import com.yuzhi.fine.activity.mineActivity.MineClueActivity;
@@ -42,6 +43,9 @@ import com.yuzhi.fine.activity.mineActivity.MineZLRLActivity;
 import com.yuzhi.fine.activity.mineActivity.WLSJDetailsActivity;
 import com.yuzhi.fine.fragment.mineFragment.MineFragment;
 import com.yuzhi.fine.model.LXFind.FindListBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.yuzhi.fine.utils.Constant.MINE_REQUEST_REFRESH;
 
@@ -399,6 +403,28 @@ public class UIHelper {
     public  static void mineComplainPage(Activity context){
         Intent intent = new Intent(context, MainComplainsActivity.class);
         context.startActivity(intent);
+    }
+
+
+    //H5界面
+    public static void toH5Page(Context context, List<String> advList,int pos, String linkurl ,int flag) {
+        Intent intent = new Intent(context, LinkUrlActivity.class);
+        switch (flag) {
+            case 0://轮播
+                intent.putExtra("flag", 0);
+                intent.putStringArrayListExtra("advList", (ArrayList<String>) advList);
+                intent.putExtra("position", pos);
+                context.startActivity(intent);
+                break;
+            case 1://中间广告
+                intent.putExtra("flag", 1);
+                intent.putExtra("linkurl", linkurl);
+                context.startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
     }
 
 }

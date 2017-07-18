@@ -142,6 +142,7 @@
         />
     <!--提现记录-->
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="0dp"
@@ -153,23 +154,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textSize="@dimen/space_14"
-            android:textColor="@color/xs_short_black"
             android:layout_weight="1"
-            android:text="提现记录" />
+            android:text="提现记录"
+            android:textColor="@color/xs_short_black"
+            android:textSize="@dimen/space_14" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_weight="1"
-            android:gravity="right"
-            android:textSize="@dimen/space_14"
-            android:textColor="@color/xs_short_gary2"
-            android:drawableRight="@drawable/arrow_right"
             android:drawablePadding="@dimen/space_15"
-            />
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="right"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_14" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_marginLeft="20dp"
@@ -179,6 +180,7 @@
         />
     <!--收支明细-->
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="0dp"

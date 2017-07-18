@@ -190,13 +190,6 @@ public class MineFragment extends Fragment {
     /**
      * 跳转余额明细
      * @param view
-     *
-     *     @Bind(R.id.mine_account_text)
-    TextView mAccountText;
-     @Bind(R.id.mine_account_xuanshang)
-     TextView mAccountXuanShang;
-     @Bind(R.id.mine_account_jifen)
-     TextView mAccountJiFen;
      */
     @OnClick(R.id.mine_account_layout)
     public void goAccountInfos(View view) {

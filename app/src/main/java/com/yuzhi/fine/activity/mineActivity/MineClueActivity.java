@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -175,7 +174,7 @@ public class MineClueActivity extends AppCompatActivity {
     private void isDataNull(List findList){
         if (CommUtil.isNullOrBlank(findList)){
             setContentView(R.layout.activity_nodata_default);
-            Button btnBack = (Button)findViewById(R.id.btnBack);
+            LinearLayout btnBack = (LinearLayout)findViewById(R.id.btnBack);
             TextView textHeadTitle = (TextView)findViewById(R.id.textHeadTitle);
             TextView default_return_mainpage = (TextView)findViewById(R.id.default_return_mainpage);
             //返回

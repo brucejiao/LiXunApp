@@ -11,6 +11,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.model.DetailsComment.CommentBean;
+import com.yuzhi.fine.utils.CommUtil;
 import com.yuzhi.fine.utils.DeviceUtil;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class ContentItemapter extends BaseAdapter {
                 .placeholder(R.drawable.default_image).into(holder.lx_header_img);
         holder.username.setText(bean.getUserName());
         holder.content.setText(bean.getContent());
-        holder.time.setText(bean.getCreateTime());
+        holder.time.setText(CommUtil.subTime(bean.getCreateTime()));
         return view;
     }
 }

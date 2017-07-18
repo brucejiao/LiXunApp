@@ -9,19 +9,19 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="7dp"
         android:orientation="horizontal">
-        <!--置顶 -->
+        <!--置顶  android:textSize="@dimen/text_size_10"-->
         <Button
             android:id="@+id/lx_top_btn"
             android:layout_width="50dp"
             android:layout_height="25dp"
             android:text="@string/main_lx_top_btn"
-            android:textSize="@dimen/text_size_10"
+            android:textSize="10sp"
             android:background="@drawable/zuixin"
             android:textColor="@color/xs_short_black"
             android:layout_gravity="center"
 
             />
-        <!--最新-->
+        <!--最新 android:textSize="@dimen/text_size_10"-->
         <Button
             android:id="@+id/lx_new_btn"
             android:layout_width="50dp"
@@ -30,7 +30,7 @@
             android:text="@string/main_lx_new_btn"
             android:background="@drawable/zuixin"
             android:textColor="@color/xs_short_black"
-            android:textSize="@dimen/text_size_10"
+            android:textSize="10sp"
             android:layout_gravity="center"
             />
     </LinearLayout>

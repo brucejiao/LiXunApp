@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginLeft="@dimen/space_11"
         android:layout_marginRight="@dimen/space_11"
         android:layout_marginTop="15dp"
@@ -17,6 +17,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             android:src="@drawable/default_headimg"
             app:riv_border_color="@color/green"
             app:riv_border_width="0dp"
@@ -35,14 +36,15 @@
                 android:layout_height="wrap_content"
                 android:text="寻不到的边际"
                 android:textSize="@dimen/space_11" />
-
+<!--@dimen/space_9-->
             <TextView
                 android:id="@+id/details_review_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:layout_marginTop="14px"
                 android:text="我好想找到你的狗了，请和我联系~"
-                android:textSize="@dimen/space_9" />
+                android:textSize="26px" />
         </LinearLayout>
 
         <TextView
@@ -51,6 +53,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="2016-06-27"
+            android:gravity="center"
             android:textSize="@dimen/space_10" />
     </LinearLayout>
 </LinearLayout>

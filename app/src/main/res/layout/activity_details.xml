@@ -112,7 +112,7 @@
                     android:text="悬赏金额"
                     android:textColor="@color/green"
                     android:textSize="@dimen/space_15" />
-<!--￥200-->
+                <!--￥200-->
                 <TextView
                     android:id="@+id/details_price"
                     android:layout_width="@dimen/space_0"
@@ -150,7 +150,7 @@
                     android:text="发布信息位置:  "
                     android:textColor="@color/xs_short_gary2"
                     android:textSize="@dimen/space_10" />
-
+<!--android:textSize="@dimen/space_10" -->
                 <TextView
                     android:id="@+id/details_address"
                     android:layout_width="match_parent"
@@ -178,7 +178,7 @@
                     android:text="找宠"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_10" />
-
+<!--android:textSize="@dimen/text_size_12" -->
                 <TextView
                     android:id="@+id/details_title"
                     android:layout_width="match_parent"
@@ -186,9 +186,9 @@
                     android:layout_marginLeft="@dimen/space_7"
                     android:text=""
                     android:textColor="@color/xs_short_black"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="13sp" />
             </LinearLayout>
-            <!--发布内容-->
+            <!--发布内容  -->
             <TextView
                 android:id="@+id/details_content"
                 android:layout_width="match_parent"
@@ -198,7 +198,7 @@
                 android:layout_marginTop="@dimen/space_11"
                 android:text=""
                 android:textColor="@color/xs_short_gary2"
-                android:textSize="@dimen/space_10" />
+                android:textSize="11sp" />
             <!--发布图片-->
             <LinearLayout
                 android:id="@+id/details_images"
@@ -284,10 +284,10 @@
                 android:id="@+id/details_review_lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dividerHeight="0dp"
-                android:divider="@null"
                 android:layout_marginLeft="@dimen/space_11"
-                android:layout_marginRight="@dimen/space_11" />
+                android:layout_marginRight="@dimen/space_11"
+                android:divider="@null"
+                android:dividerHeight="0dp" />
 
 
         </LinearLayout>
@@ -326,6 +326,7 @@
             android:textSize="@dimen/space_12" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/details_chat"
             android:layout_width="0dp"
             android:layout_height="match_parent"

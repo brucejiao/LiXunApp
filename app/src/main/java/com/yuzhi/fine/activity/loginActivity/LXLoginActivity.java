@@ -77,9 +77,6 @@ public class LXLoginActivity extends AppCompatActivity {
      * 初始化界面
      */
     private void initUI(){
-        //测试数据
-        mPhone.setText("15312376060");
-        mPassWord.setText("123123");
         //返回
         mBackBtn.setVisibility(View.VISIBLE);
         //标题

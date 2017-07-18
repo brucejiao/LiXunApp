@@ -17,6 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
@@ -58,7 +61,8 @@ private Activity mContext ;
     //
     @Bind(R.id.shaixuan_textview)
     TextView mSXLayout;
-
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;//
     @Bind(R.id.lx_find_find_listview)
     ListView mFindXSListview;
 
@@ -84,6 +88,8 @@ private Activity mContext ;
     List<String> mCategoryIDList = new ArrayList<String>();//保存二级菜单ID
     private ProgressDialog progress;
     private int mSecondMenuLength = 0;
+    private String lastnumber ="";//最后一条记录的ID
+    private int mSize =0;
 
     public WLQZFragment() {
         // Required empty public constructor
@@ -98,7 +104,7 @@ private Activity mContext ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wlqz, container, false);
+        View view = inflater.inflate(R.layout.fragment_wtxr, container, false);
         ButterKnife.bind(this, view);
         customViewpager.setObjectForPosition(view,3);
         return view;
@@ -144,6 +150,7 @@ private Activity mContext ;
 
     private void initData() {
         getIssueSecondList(PARENTID_WLQZHU);
+        setRefreshLayout();//刷新
     }
 
 
@@ -227,7 +234,7 @@ private Activity mContext ;
     /**
      * 委托寻人--获取发布列表
      */
-    private void getWTXRData(String categoryID ,String toptype , String monetype,final String secondmenu) {
+    private void getWTXRData(String categoryID ,String toptype , String monetype,final String secondmenu,String number) {
 //        progress = CommUtil.showProgress(mContext, "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
         params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
@@ -238,6 +245,9 @@ private Activity mContext ;
 //        params.put("keywords", value);//搜索关键词
 //        params.put("pagesize", value);//每页显示条数（默认10条）
 //        params.put("lastnumber", value);//最后一条记录的ID
+        if(!CommUtil.isNullOrBlank(number)){
+            params.put("lastnumber", number);//最后一条记录的ID
+        }
         final ArrayList<LXFindServerBean> arrayBean = new ArrayList<LXFindServerBean>();
         HttpClient.get(Caller.FIND_LIST_INFOS, params, new HttpResponseHandler() {
             @Override
@@ -336,6 +346,10 @@ private Activity mContext ;
                         }
                         arrayBean.add(lxFindServerBean);
                     }
+                    if(findListNum >10){
+                        String publishID = findList.get(findListNum-1).getPublishID();
+                        lastnumber = publishID;
+                    }
                     mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,2);
                     mFindXSListview.setAdapter(mFindItemAdapter);
                     mFindXSListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -390,13 +404,14 @@ private Activity mContext ;
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
                     List<SecondMenu> menu = JSON.parseArray(data, SecondMenu.class);
                     final int menuNum = menu.size();
+                    mSize = menuNum;
                     for (int index = 0; index < menuNum; index++) {
                         TextView mTextView = new TextView(mContext);
                         String cateID = menu.get(index).getCategoryID();
                         String cateTitle = menu.get(index).getCategoryTitle();
 
                         mTextView.setText(cateTitle);
-                        mTextView.setTextSize(10);
+                        mTextView.setTextSize(11);
                         mTextView.setTextColor(getResources().getColor(R.color.black));
                         mTextView.setGravity(Gravity.CENTER);
                         LinearLayout.LayoutParams mLayoutParams = new
@@ -425,12 +440,13 @@ private Activity mContext ;
 
     /**
      * 二级菜单获取选中/非选择效果
+     *
      */
     private void checkedSecondMenu(final int index,final int size,final List<String> mCategoryIDList,final List<String> mSecondMenu) {
         //默认第一位选中状态
         mSecondMenuList.get(0).setBackgroundResource(R.drawable.editsharp_green_all);
         mSecondMenuList.get(0).setTextColor(getResources().getColor(R.color.white));
-        getWTXRData(mCategoryIDList.get(0),"0","0",mSecondMenu.get(0));
+        getWTXRData(mCategoryIDList.get(0),"0","0",mSecondMenu.get(0),lastnumber);
         //筛选置顶/悬赏...
         lxFindOnClick(0);
         mSecondMenuList.get(index).setOnClickListener(new View.OnClickListener() {
@@ -444,7 +460,7 @@ private Activity mContext ;
                 //单独将选中的刷绿
                 mSecondMenuList.get(index).setBackgroundResource(R.drawable.editsharp_green_all);
                 mSecondMenuList.get(index).setTextColor(getResources().getColor(R.color.white));
-                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index),lastnumber);
                 //筛选置顶/悬赏...
                 lxFindOnClick(index);
             }
@@ -464,7 +480,7 @@ private Activity mContext ;
                 mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"1","0",mSecondMenu.get(index));
+                getWTXRData(mCategoryIDList.get(index),"1","0",mSecondMenu.get(index),"");
             }
         });
         mNewBtn.setOnClickListener(new View.OnClickListener() {
@@ -476,7 +492,7 @@ private Activity mContext ;
                 mNewBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mXSBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index));
+                getWTXRData(mCategoryIDList.get(index),"0","0",mSecondMenu.get(index),"");
 
             }
         });
@@ -490,7 +506,23 @@ private Activity mContext ;
                 mXSBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mNewBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData(mCategoryIDList.get(index),"0","1",mSecondMenu.get(index));
+                getWTXRData(mCategoryIDList.get(index),"0","1",mSecondMenu.get(index),"");
+            }
+        });
+    }
+
+    private void setRefreshLayout(){
+        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableLoadmore(true);
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(2000);
+                ////最新0  置顶 1
+//                getIssueSecondList(PARENTID_WTXR,lastnumber);
+                for (int i =0 ; i < mSize; i++){
+                    checkedSecondMenu(i,mSize,mCategoryIDList,mSecondMenu);
+                }
 
             }
         });

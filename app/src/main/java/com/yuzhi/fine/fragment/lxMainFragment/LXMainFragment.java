@@ -24,6 +24,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.scwang.smartrefresh.header.TaurusHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.activity.functionActivity.LXMainAddressActivity;
 import com.yuzhi.fine.activity.mainActivity.SearchActivity;
@@ -115,6 +121,8 @@ public class LXMainFragment extends Fragment {
     //GridView 图片封装为一个数组
     @Bind(R.id.lxmain_gridview)
     GridView mLxMainGridView;
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     private Integer[] icon = {R.drawable.menu_xr, R.drawable.menu_xw,
             R.drawable.menu_zlrl, R.drawable.menu_zsjm, R.drawable.menu_wlbg,
             R.drawable.menu_wlqz, R.drawable.menu_quanzi, R.drawable.menu_shop};
@@ -210,7 +218,8 @@ public class LXMainFragment extends Fragment {
 
         //5.判断是否签到
         isLXAddPoint();
-
+        //刷新
+        setRefreshLayout();
 
     }
 
@@ -313,24 +322,30 @@ public class LXMainFragment extends Fragment {
                 String message = response.getMessage();
                 String data = response.getData();
                 List<String> imageList = new ArrayList<String>();
+                List<String> advList = new ArrayList<String>();
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
                     List<MainAd> findList = JSON.parseArray(data, MainAd.class);
                     final int findListNum = findList.size();
-                    for (int index = 0; index < findListNum; index++) {
-                        String Imgpath = findList.get(index).getImgpath();
-                        imageList.add(Imgpath);
-                    }
+                    if(findListNum != 0){
+                        for (int index = 0; index < findListNum; index++) {
+                            String Imgpath = findList.get(index).getImgpath();
+                            String linkurl = findList.get(index).getLinkurl();
+                            imageList.add(Imgpath);
+                            advList.add(linkurl);
+                        }
 
-                    imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
-                    galleryAdapter = new GalleryPagerAdapter(imageList, imageList, getActivity());
-                    pager.setAdapter(galleryAdapter);
-                    indicator.setViewPager(pager);
-                    indicator.setPadding(5, 5, 10, 5);
+//                        imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
+                        galleryAdapter = new GalleryPagerAdapter(imageList, advList, getActivity());
+                        pager.setAdapter(galleryAdapter);
+                        indicator.setViewPager(pager);
+                        indicator.setPadding(5, 5, 10, 5);
 
-                    if (progress != null) {
-                        progress.dismiss();
+                        if (progress != null) {
+                            progress.dismiss();
+                        }
+
                     }
-                } else {
+               } else {
                     showToast(message, getActivity());
                     if (progress != null) {
                         progress.dismiss();
@@ -369,7 +384,7 @@ public class LXMainFragment extends Fragment {
                 String data = response.getData();
                 ArrayList<MainAd> adBeanList = new ArrayList<MainAd>();
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                    List<MainAd> findList = JSON.parseArray(data, MainAd.class);
+                 final   List<MainAd> findList = JSON.parseArray(data, MainAd.class);
                     final int findListNum = findList.size();
                     for (int index = 0; index < findListNum; index++) {
                         MainAd adBean = new MainAd();
@@ -379,6 +394,7 @@ public class LXMainFragment extends Fragment {
                         String Linktype = findList.get(index).getLinktype();
                         String Linkurl = findList.get(index).getLinkurl();
                         String Cityid = findList.get(index).getCityid();*/
+                        String Linkurl = findList.get(index).getLinkurl();
                         adBean.setTitle(Title);
                         adBean.setImgpath(Imgpath);
                         adBeanList.add(adBean);
@@ -387,6 +403,13 @@ public class LXMainFragment extends Fragment {
                     hlva = new HorizontalListViewAdapter(getActivity(),adBeanList);
                     hlva.notifyDataSetChanged();
                     mHorLViewImg.setAdapter(hlva);
+                    mHorLViewImg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String Linkurl = findList.get(position).getLinkurl();
+                            UIHelper.toH5Page(getActivity(),null,0,Linkurl,1);
+                        }
+                    });
                     if (progress != null) {
                         progress.dismiss();
                     }
@@ -419,8 +442,8 @@ public class LXMainFragment extends Fragment {
 
 
         //初始化各fragment
-        xsFragment = new LXFindXSFragmet(vp_FindFragment_pager);//悬赏找寻服务fragment
-        ptFragment = new LXFindPTFragment(vp_FindFragment_pager); //普通找寻服务fragment
+        xsFragment = new LXFindXSFragmet(vp_FindFragment_pager);//地区寻找
+        ptFragment = new LXFindPTFragment(vp_FindFragment_pager); //全国寻找
 
 
         //将fragment装进列表中
@@ -430,8 +453,8 @@ public class LXMainFragment extends Fragment {
 
         //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         list_title = new ArrayList<String>();
-        list_title.add("悬赏找寻服务");
-        list_title.add("普通找寻服务");
+        list_title.add("地区寻找");
+        list_title.add("全国寻找");
 
         //设置TabLayout的模式
         tab_FindFragment_title.setTabMode(TabLayout.MODE_FIXED);
@@ -752,6 +775,35 @@ public class LXMainFragment extends Fragment {
         new Thread(networkTask).interrupt();
     }
 
+
+    private void setRefreshLayout(){
+        //设置 Header 为 Material风格
+        refreshLayout.setRefreshHeader(new TaurusHeader(getActivity()));
+        //设置 Footer 为 球脉冲
+        refreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()).setSpinnerStyle(SpinnerStyle.Scale));
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000);
+                getFristAd();
+                //2. 添加元素给gridview
+                gridViewOnItemClick();
+                //3.图片切换
+                //4.悬赏/普通找寻服务
+                findServersViewPager();
+                //5.判断是否签到
+                isLXAddPoint();
+            }
+        });
+//        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+//            @Override
+//            public void onLoadmore(RefreshLayout refreshlayout) {
+//                CommUtil.showToast("shuaxin222",getActivity());
+//                refreshlayout.finishLoadmore(2000);
+//            }
+//        });
+        refreshLayout.setEnableLoadmore(false);
+    }
 }
 
 

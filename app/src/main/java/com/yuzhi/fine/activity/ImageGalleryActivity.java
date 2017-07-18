@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuzhi.fine.R;
@@ -22,9 +22,10 @@ public class ImageGalleryActivity extends SwipeBackActivity {
     private int position;
     private List<String> imgUrls; //图片列表
     private TextView headTitle;
-    private Button headBackBtn;
+    private LinearLayout headBackBtn;
 
     private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class ImageGalleryActivity extends SwipeBackActivity {
     private void initView() {
         headTitle = (TextView)findViewById(R.id.textHeadTitle);
         headTitle.setText("1/" + imgUrls.size());
-        headBackBtn = (Button)findViewById(R.id.btnBack);
+        headBackBtn = (LinearLayout)findViewById(R.id.btnBack);
         headBackBtn.setVisibility(View.VISIBLE);
     }
 

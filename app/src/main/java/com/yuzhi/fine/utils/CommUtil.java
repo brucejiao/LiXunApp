@@ -38,6 +38,7 @@ import com.yuzhi.fine.http.RestApiResponse;
 import com.yuzhi.fine.model.CateGoryID;
 import com.yuzhi.fine.model.CateGoryID2Name;
 import com.yuzhi.fine.ui.AddContentDialog;
+import com.yuzhi.fine.ui.pulltorefresh.PullToRefreshListView;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -345,6 +346,35 @@ public class CommUtil {
 			// 设置参数
 			listView.setLayoutParams(params);
 		}
+
+	// 自定义listView每个Itenview的高度
+	public static void setListViewHeightBasedOnChildren(PullToRefreshListView listView, BaseAdapter adapter) {
+		// 获取listview的adapter
+		if (adapter == null) {
+			return;
+		}
+		// 固定列宽，有多少列
+		int col = 1;// listView.getNumColumns();
+		int totalHeight = 0;
+		// i每次加4，相当于listAdapter.getCount()小于等于4时 循环一次，计算一次item的高度，
+		// listAdapter.getCount()小于等于8时计算两次高度相加
+		for (int i = 0; i < adapter.getCount(); i += col) {
+			// 获取listview的每一个item
+			View listItem = adapter.getView(i, null, listView);
+			listItem.measure(0, 0);
+			// 获取item的高度和
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		// 获取listview的布局参数
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		// 设置高度
+		params.height = totalHeight;
+		// 设置margin
+		((MarginLayoutParams) params).setMargins(10, 10, 10, 10);
+		// 设置参数
+		listView.setLayoutParams(params);
+	}
 
 	// 自定义GridView每个Itenview的高度
 	public static void setGridViewHeightBasedOnChildren(GridView listView, BaseAdapter adapter) {
@@ -768,5 +798,24 @@ public class CommUtil {
 		return categoryName;
 	}
 
+	/**
+	 * 截取时间字符串
+	 * @param time
+	 * @return
+	 */
+	public static String subTime(String time){
+		String[] timeArray = time.split("T");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String dateStr = dateFormat.format(date);
+		if (dateStr.equals(timeArray[0])){
+			return timeArray[1];
+		}else{
+			return timeArray[0];
+		}
+
+
+	}
 }
+
 

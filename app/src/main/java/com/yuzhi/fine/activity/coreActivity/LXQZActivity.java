@@ -35,7 +35,6 @@ import butterknife.OnClick;
 import okhttp3.Request;
 
 import static com.alibaba.fastjson.JSON.parseArray;
-import static com.yuzhi.fine.R.id.btnBack;
 import static com.yuzhi.fine.utils.CommUtil.currentDate;
 import static com.yuzhi.fine.utils.CommUtil.daysBetween2;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
@@ -109,7 +108,7 @@ public class LXQZActivity extends AppCompatActivity {
     }
 
     //返回
-    @OnClick(btnBack)
+    @OnClick(R.id.btnBack)
     public void onBack(View view) {
         UIHelper.showHome(mContext);
         finish();
@@ -195,7 +194,7 @@ public class LXQZActivity extends AppCompatActivity {
                     //如果没有数据 则展示默认页
                     if (CommUtil.isNullOrBlank(findList)&& isOpenNet == true){
                         setContentView(R.layout.activity_nodata_default);
-                        Button btnBack = (Button)findViewById(R.id.btnBack);
+                        LinearLayout btnBack = (LinearLayout)findViewById(R.id.btnBack);
                         TextView textHeadTitle = (TextView)findViewById(R.id.textHeadTitle);
                         TextView default_return_mainpage = (TextView)findViewById(R.id.default_return_mainpage);
                         //返回

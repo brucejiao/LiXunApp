@@ -63,11 +63,6 @@ public class RegisteActivity extends AppCompatActivity {
      * 初始化界面
      */
     private void initUI(){
-        mPhone.setText("15312376060");
-        mCode.setText("078270");
-        mNiCheng.setText("安卓菌");
-        mPwd.setText("123123");
-
         //返回
         mBackBtn.setVisibility(View.VISIBLE);
         //标题

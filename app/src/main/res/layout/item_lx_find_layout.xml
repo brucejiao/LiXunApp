@@ -57,14 +57,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
             <!--标题-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                <!--android:textSize="@dimen/text_size_12" -->
                 <TextView
                     android:id="@+id/lx_title"
                     android:layout_width="0dp"
@@ -72,7 +72,7 @@
                     android:layout_weight="1"
                     android:text="寻找我的宠物狗法克"
                     android:textColor="@color/xs_short_black2"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -87,15 +87,15 @@
                         android:layout_marginLeft="11dp"
                         android:background="@drawable/editsharp_red_all"
                         android:text="找宠"
-                        android:visibility="invisible"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_9" />
-
+                        android:textSize="@dimen/text_size_9"
+                        android:visibility="invisible" />
+                    <!---->
                     <TextView
                         android:id="@+id/lx_isgenerailze"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginLeft="35dp"
                         android:background="@drawable/editsharp_gary_all"
                         android:text="全国推广"
                         android:textColor="@color/white"
@@ -105,24 +105,25 @@
 
             </LinearLayout>
             <!--地点-->
-            <!--地点-->
+            <!--地点android:layout_marginTop="8dp"-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="9dp"
                         android:layout_height="11dp"
                         android:layout_gravity="center"
                         android:background="@drawable/address" />
-
+                    <!-- android:textSize="@dimen/text_size_9" -->
                     <TextView
                         android:id="@+id/lx_address"
                         android:layout_width="130dp"
@@ -133,13 +134,16 @@
                         android:singleLine="true"
                         android:text="丢失地：电信一区 艾欧尼亚 野区"
                         android:textColor="@color/xs_short_gary2"
-                        android:textSize="@dimen/text_size_9" />
+                        android:textSize="10sp" />
+
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -149,7 +153,7 @@
                         android:text="悬赏金"
                         android:textColor="@color/xs_short_gary2"
                         android:textSize="@dimen/text_size_9" />
-
+                    <!--android:textSize="@dimen/text_size_12"-->
                     <TextView
                         android:id="@+id/lx_price"
                         android:layout_width="wrap_content"
@@ -159,23 +163,24 @@
                         android:singleLine="true"
                         android:text="50元"
                         android:textColor="@color/xs_short_red"
-                        android:textSize="@dimen/text_size_12" />
+                        android:textSize="32px" />
 
                 </LinearLayout>
-
-
             </LinearLayout>
 
+
+            <!--android:textSize="@dimen/text_size_11" -->
             <TextView
                 android:id="@+id/lx_content"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="13dp"
+                android:layout_marginTop="6dp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="床前明月光，疑是地上霜。举头望明月，低头思故乡。eqweweweqwewqewqewe鹅鹅鹅，曲向想提昂个ad阿萨德阿萨德啊实打实大asdwqqweqwe"
                 android:textColor="@color/xs_short_black"
-                android:textSize="@dimen/text_size_11" />
+                android:textSize="12sp" />
             <!--11111111111111-->
             <!--2-->
             <!--图片-->
@@ -183,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -210,9 +216,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="11dp"
                 android:layout_marginLeft="2dp"
-                android:layout_marginTop="@dimen/space_13"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
                 <!--发布时间-->
                 <ImageView

@@ -155,7 +155,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/idpicfacade" />
+            android:background="@drawable/idpicobverse" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

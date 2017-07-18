@@ -12,6 +12,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
@@ -47,7 +50,7 @@ import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 
 /**
  * Created by Administrator on 2017/5/31.
- * 悬赏找寻服务
+ * 地区寻找
  */
 
 public class LXFindXSFragmet extends Fragment {
@@ -58,13 +61,16 @@ public class LXFindXSFragmet extends Fragment {
     Button mTopBtn;//置顶
     @Bind(R.id.lx_new_btn)
     Button mNenBtn;//最新
-
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     FindServerItemapter mFindItemAdapter;
 
     public CustomViewpager customViewpager;
     private ProgressDialog progress;
     private SharePreferenceUtil1 share;
+    private int mFlag =0  ;//最新0  置顶 1
+    private String lastnumber ="";//最后一条记录的ID
 
     public LXFindXSFragmet() {
         super();
@@ -113,38 +119,7 @@ public class LXFindXSFragmet extends Fragment {
     public void init() {
         share = new SharePreferenceUtil1(getActivity(), "lx_data", 0);
         lxFindOnClick();
-
-       /* ArrayList<LXFindServerBean> arrayBean = new ArrayList<LXFindServerBean>();
-
-        String ImagerURL = "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg";
-
-        for (int i = 0; i < 10; i++) {
-            LXFindServerBean bean = new LXFindServerBean();
-//            bean.setUserHeaderImg(ImagerURL);//头像
-            bean.setUserName("阿" + i);//用户名
-            bean.setIsCertification("已认证");//是否认证
-            bean.setTitle("丢了丢了丢了");
-            bean.setIsFind("招领" + i);
-            bean.setIsGenerailze("宇宙推广" + i);
-            bean.setAddress("男爵领地");
-            bean.setPrice("50元");
-            bean.setContent("我有一只小毛驴，我从来也不骑，我有一我骑着它去法克你一一一");
-//            bean.setImgOne(ImagerURL);
-//            bean.setImgTwo(ImagerURL);
-//            bean.setImgThree(ImagerURL);
-            bean.setTime(i + "分钟前发布");
-            bean.setLookerNum("14");
-            bean.setFocusonNum("21");
-            bean.setMessageNum("35");
-
-            arrayBean.add(bean);
-        }
-
-
-        mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean);
-        mFindXSListview.setAdapter(mFindItemAdapter);
-        CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);*/
-
+        setRefreshLayout();//刷新
 
     }
 
@@ -152,18 +127,20 @@ public class LXFindXSFragmet extends Fragment {
      * 主页----悬赏找寻服务
      * moneytype : 1
      */
-    private void getWTXRData(String toptype) {
-        final   List<CateGoryID2Name> cateIDList =  share.getModels("categoryIDListKey", CateGoryID2Name.class);
+    private void getWTXRData(String toptype ,String number) {
+        final List<CateGoryID2Name> cateIDList = share.getModels("categoryIDListKey", CateGoryID2Name.class);
         progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
-        params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
+        params.put("pushtype", "2");//推广类型（0所有，1推广，2不推广）
         params.put("toptype", toptype);//	置顶类型（0所有，1置顶，2不置顶）
-        params.put("moneytype", "1");//赏金类型（0所有，1有赏金，2无赏金）
+        params.put("moneytype", "0");//赏金类型（0所有，1有赏金，2无赏金）
 //        params.put("parentid", PARENTID_WTXR);//发布类别父级ID
 //        params.put("categoryid", categoryID);//发布类别ID
 //        params.put("keywords", value);//搜索关键词
 //        params.put("pagesize", value);//每页显示条数（默认10条）
-//        params.put("lastnumber", value);//最后一条记录的ID
+        if(!CommUtil.isNullOrBlank(number)){
+            params.put("lastnumber", number);//最后一条记录的ID
+        }
         final ArrayList<LXFindServerBean> arrayBean = new ArrayList<LXFindServerBean>();
         HttpClient.get(Caller.MAIN_FIND_LIST_INFOS, params, new HttpResponseHandler() {
             @Override
@@ -173,12 +150,11 @@ public class LXFindXSFragmet extends Fragment {
                 String data = response.getData();
 
                 if (!CommUtil.isNullOrBlank(result) && result.equals(RESUTL_TRUE)) {
-                   final List<FindListBean> findList =  parseArray(data, FindListBean.class);
+                    final List<FindListBean> findList = parseArray(data, FindListBean.class);
                     final int findListNum = findList.size();
-                    for (int index  = 0 ; index < findListNum ; index ++){
+                    for (int index = 0; index < findListNum; index++) {
                         LXFindServerBean lxFindServerBean = new LXFindServerBean();
                         //接口数据
-//                        findList.get(index).getPublishID();
                         String title = findList.get(index).getTitle();//标题
                         String content = findList.get(index).getContent();//内容
 //                        findList.get(index).getUserID();
@@ -227,12 +203,12 @@ public class LXFindXSFragmet extends Fragment {
                         lxFindServerBean.setIsCertification("已认证");//是否认证
                         lxFindServerBean.setTitle(title);
                         lxFindServerBean.setIsFind("招领" + index);
-                        lxFindServerBean.setIsGenerailze(pushType.trim().equals("1")?"全国推广":"");
+                        lxFindServerBean.setIsGenerailze(pushType.trim().equals("1") ? "全国推广" : "");
                         lxFindServerBean.setAddress(provinceName + cityName + countryName);
-                        lxFindServerBean.setPrice(subMoneyZero(money,1)+"元");
+                        lxFindServerBean.setPrice(subMoneyZero(money, 1) + "元");
                         lxFindServerBean.setContent(content);
 
-                        String distanceTime = daysBetween2(createTime,currentDate());
+                        String distanceTime = daysBetween2(createTime, currentDate());
                         lxFindServerBean.setTime(distanceTime);
                         lxFindServerBean.setLookerNum(visitCount);
                         lxFindServerBean.setFocusonNum(followCount);
@@ -263,16 +239,21 @@ public class LXFindXSFragmet extends Fragment {
                         arrayBean.add(lxFindServerBean);
                     }
 
+                    if(findListNum >10){
+                        String publishID = findList.get(findListNum-1).getPublishID();
+                        lastnumber = publishID;
+                    }
 
-                    mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,1);
+
+                    mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean, 1);
                     mFindXSListview.setAdapter(mFindItemAdapter);
-                    CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);
+//                    CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);
                     mFindXSListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String publistID = findList.get(position).getPublishID();
-                            String mCategoryName = getCategoryId2Name(findList.get(position).getCategoryID(),cateIDList);
-                            UIHelper.showDetails(getActivity(),publistID,mCategoryName,0);
+                            String mCategoryName = getCategoryId2Name(findList.get(position).getCategoryID(), cateIDList);
+                            UIHelper.showDetails(getActivity(), publistID, mCategoryName, 0);
                         }
                     });
 
@@ -300,12 +281,11 @@ public class LXFindXSFragmet extends Fragment {
     }
 
 
-
     /**
      * 置顶/最新-按钮背景切换
      */
-    public void lxFindOnClick(){
-        getWTXRData("0");
+    public void lxFindOnClick() {
+        getWTXRData("0","");
         mTopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -313,7 +293,8 @@ public class LXFindXSFragmet extends Fragment {
                 mNenBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
                 mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNenBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData("1");
+                getWTXRData("1","");
+                mFlag = 1;//最新0  置顶 1
 
             }
         });
@@ -324,8 +305,39 @@ public class LXFindXSFragmet extends Fragment {
                 mNenBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mNenBtn.setBackgroundResource(R.drawable.editsharp_green_all);
-                getWTXRData("0");
+                getWTXRData("0","");
+                mFlag =0 ;//最新0  置顶 1
 
+            }
+        });
+    }
+
+
+    private void setRefreshLayout(){
+//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                refreshlayout.finishRefresh(2000);
+//
+//            }
+//        });
+        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(2000);
+                ////最新0  置顶 1
+                switch (mFlag){
+                    case 0:
+                        getWTXRData("0",lastnumber);
+                        break;
+                    case 1:
+                        getWTXRData("1",lastnumber);
+                        break;
+                    default:
+                        getWTXRData("0",lastnumber);
+                        break;
+                }
             }
         });
     }

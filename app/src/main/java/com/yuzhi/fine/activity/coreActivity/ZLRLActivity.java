@@ -197,7 +197,7 @@ public class ZLRLActivity extends AppCompatActivity {
                     //如果没有数据 则展示默认页
                     if (CommUtil.isNullOrBlank(findList)&& isOpenNet == true){
                         setContentView(R.layout.activity_nodata_default);
-                        Button btnBack = (Button)findViewById(R.id.btnBack);
+                        LinearLayout btnBack = (LinearLayout)findViewById(R.id.btnBack);
                         TextView textHeadTitle = (TextView)findViewById(R.id.textHeadTitle);
                         TextView default_return_mainpage = (TextView)findViewById(R.id.default_return_mainpage);
                         //返回

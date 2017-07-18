@@ -1,10 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.yuzhi.fine.fragment.coreFragment.WTXRFragment">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <LinearLayout
         android:id="@+id/find_second_list"
         android:layout_width="match_parent"
@@ -36,10 +39,10 @@
 
             <TextView
                 android:id="@+id/shaixuan_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
-                android:gravity="right|center"
+                android:gravity="center"
                 android:text="筛选"
                 android:textColor="@color/green"
                 android:textSize="@dimen/space_12" />
@@ -58,14 +61,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/line" />
+
     <LinearLayout
         android:id="@+id/find_third_btn"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/find_top_btn"
@@ -107,17 +111,16 @@
         android:background="@color/line" />
 
 
+    <!--355dp     android:fastScrollEnabled = "true"-->
 
-<!--355dp     android:fastScrollEnabled = "true"-->
-            <ListView
-                android:id="@+id/lx_find_find_listview"
-                android:scrollbars="none"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-
-
+    <ListView
+        android:id="@+id/lx_find_find_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
 
 
 
 </LinearLayout>
+  <!--  <include layout="@layout/include_refresh_listview"/>-->
+</com.scwang.smartrefresh.layout.SmartRefreshLayout >

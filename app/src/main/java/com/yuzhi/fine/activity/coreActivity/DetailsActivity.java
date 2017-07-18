@@ -43,7 +43,6 @@ import okhttp3.Request;
 
 import static com.alibaba.fastjson.JSON.parseArray;
 import static com.yuzhi.fine.R.id.btnBack;
-import static com.yuzhi.fine.R.id.details_loseaddress;
 import static com.yuzhi.fine.utils.CommUtil.showToast;
 import static com.yuzhi.fine.utils.CommUtil.subMoneyZero;
 import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
@@ -78,7 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
     TextView mDetailsAddress;//发布信息位置
     @Bind(R.id.details_content)
     TextView mDetailsContent;//发布内容
-    @Bind(details_loseaddress)
+    @Bind(R.id.details_loseaddress)
     TextView mDetailsLoseAddress;//目标丢失地
     @Bind(R.id.details_find_people_num)
     TextView mDetailsPeoNum;//线索提供人数
@@ -256,7 +255,8 @@ public class DetailsActivity extends AppCompatActivity {
                         mLayoutParams.topMargin = 10;
                         mLayoutParams.gravity = Gravity.CENTER;
                         Picasso.with(mContext).load(picDetails)
-                                .resize(DeviceUtil.dp2px(mContext, 290), DeviceUtil.dp2px(mContext, 375))
+//                                .resize(DeviceUtil.dp2px(mContext, 290), DeviceUtil.dp2px(mContext, 375))
+//                                .resize(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 .placeholder(R.drawable.default_image).into(imageView);
                         mDetailsImages.addView(imageView, mLayoutParams);
 

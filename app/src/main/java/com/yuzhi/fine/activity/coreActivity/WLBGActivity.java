@@ -195,7 +195,7 @@ public class WLBGActivity extends AppCompatActivity {
                     //如果没有数据 则展示默认页
                     if (CommUtil.isNullOrBlank(findList)&& isOpenNet == true){
                         setContentView(R.layout.activity_nodata_default);
-                        Button btnBack = (Button)findViewById(R.id.btnBack);
+                        LinearLayout btnBack = (LinearLayout)findViewById(R.id.btnBack);
                         TextView textHeadTitle = (TextView)findViewById(R.id.textHeadTitle);
                         TextView default_return_mainpage = (TextView)findViewById(R.id.default_return_mainpage);
                         //返回
@@ -371,7 +371,7 @@ public class WLBGActivity extends AppCompatActivity {
                         mTextView.setGravity(Gravity.CENTER);
                         LinearLayout.LayoutParams mLayoutParams = new
 //                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                                LinearLayout.LayoutParams(180,60);
+                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,60);
                         mLayoutParams.leftMargin = 35;
                         mLayoutParams.gravity= Gravity.CENTER;
                         mCheckedHorlistLayout.addView(mTextView, mLayoutParams);

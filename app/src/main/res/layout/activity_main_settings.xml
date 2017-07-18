@@ -8,57 +8,74 @@
     tools:context="com.yuzhi.fine.activity.mineActivity.MineSettingActivity.MainSettingsActivity">
     <!--标题栏-->
     <include layout="@layout/layout_main_header" />
-
     <LinearLayout
         android:id="@+id/setting_infos"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="18dp"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
             android:text="通知与消息"
             android:textSize="@dimen/space_13" />
 
-        <ImageView
-            android:layout_width="11dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:background="@drawable/arrow_right_md"
-            android:scaleType="fitXY" />
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/space_15"
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="right"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_13" />
     </LinearLayout>
+
+
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/xs_short_gary"/>
+
     <LinearLayout
         android:id="@+id/setting_clear_data"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="18dp"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
             android:text="清除缓存"
             android:textSize="@dimen/space_13" />
 
-        <ImageView
-            android:layout_width="11dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:background="@drawable/arrow_right_md"
-            android:scaleType="fitXY" />
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/space_15"
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="right"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_14" />
     </LinearLayout>
+
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -66,26 +83,34 @@
     <LinearLayout
         android:id="@+id/setting_update_apk"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="18dp"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
             android:text="检查更新"
             android:textSize="@dimen/space_13" />
 
-        <ImageView
-            android:layout_width="11dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:background="@drawable/arrow_right_md"
-            android:scaleType="fitXY" />
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/space_15"
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="right"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_14" />
     </LinearLayout>
+
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -94,26 +119,33 @@
     <LinearLayout
         android:id="@+id/setting_about_app"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="18dp"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
             android:text="关于立寻"
             android:textSize="@dimen/space_13" />
 
-        <ImageView
-            android:layout_width="11dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:background="@drawable/arrow_right_md"
-            android:scaleType="fitXY" />
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/space_15"
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="right"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_14" />
     </LinearLayout>
+
+
 
     <View
         android:layout_width="match_parent"
@@ -122,26 +154,30 @@
     <LinearLayout
         android:id="@+id/setting_complain"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView39"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="18dp"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
             android:text="反馈意见"
             android:textSize="@dimen/space_13" />
 
-        <ImageView
-            android:layout_width="11dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:background="@drawable/arrow_right_md"
-            android:scaleType="fitXY" />
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/space_15"
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="right"
+            android:textColor="@color/xs_short_gary2"
+            android:textSize="@dimen/space_14" />
     </LinearLayout>
 
     <LinearLayout

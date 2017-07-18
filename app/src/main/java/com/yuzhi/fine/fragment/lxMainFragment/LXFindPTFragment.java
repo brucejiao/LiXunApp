@@ -12,6 +12,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.yuzhi.fine.R;
 import com.yuzhi.fine.http.Caller;
 import com.yuzhi.fine.http.HttpClient;
@@ -45,13 +48,14 @@ import static com.yuzhi.fine.utils.Constant.RESUTL_TRUE;
 
 /**
  * Created by Administrator on 2017/5/31.
- * 普通找寻服务
+ *全国寻找
  */
 
 public class LXFindPTFragment extends Fragment {
     @Bind(R.id.lx_find_pt_listview)
     ListView mFindXSListview;
-
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     @Bind(R.id.lx_top_btn)
     Button mTopBtn;//置顶
     @Bind(R.id.lx_new_btn)
@@ -61,6 +65,8 @@ public class LXFindPTFragment extends Fragment {
 
     private ProgressDialog progress;
     private SharePreferenceUtil1 share;
+    private int mFlag =0  ;//最新0  置顶 1
+    private String lastnumber ="";//最后一条记录的ID
 
     public CustomViewpager customViewpager;
     public LXFindPTFragment(){}
@@ -95,6 +101,7 @@ public class LXFindPTFragment extends Fragment {
     public void init() {
         share = new SharePreferenceUtil1(getActivity(), "lx_data", 0);
         lxFindOnClick();
+        setRefreshLayout();//刷新
     }
 
 
@@ -102,18 +109,20 @@ public class LXFindPTFragment extends Fragment {
      * 主页----悬赏找寻服务
      * moneytype : 1
      */
-    private void getWTXRData(String toptype) {
+    private void getWTXRData(String toptype ,String number) {
         final   List<CateGoryID2Name> cateIDList =  share.getModels("categoryIDListKey", CateGoryID2Name.class);
         progress = CommUtil.showProgress(getActivity(), "正在加载数据，请稍候...");
         HashMap<String, String> params = new HashMap<>();
-        params.put("pushtype", "0");//推广类型（0所有，1推广，2不推广）
+        params.put("pushtype", "1");//推广类型（0所有，1推广，2不推广）
         params.put("toptype", toptype);//	置顶类型（0所有，1置顶，2不置顶）
-        params.put("moneytype", "2");//赏金类型（0所有，1有赏金，2无赏金）
+        params.put("moneytype", "0");//赏金类型（0所有，1有赏金，2无赏金）
 //        params.put("parentid", PARENTID_WTXR);//发布类别父级ID
 //        params.put("categoryid", categoryID);//发布类别ID
 //        params.put("keywords", value);//搜索关键词
 //        params.put("pagesize", value);//每页显示条数（默认10条）
-//        params.put("lastnumber", value);//最后一条记录的ID
+        if(!CommUtil.isNullOrBlank(number)){
+            params.put("lastnumber", number);//最后一条记录的ID
+        }
         final ArrayList<LXFindServerBean> arrayBean = new ArrayList<LXFindServerBean>();
         HttpClient.get(Caller.MAIN_FIND_LIST_INFOS, params, new HttpResponseHandler() {
             @Override
@@ -212,7 +221,10 @@ public class LXFindPTFragment extends Fragment {
                         }
                         arrayBean.add(lxFindServerBean);
                     }
-
+                    if(findListNum >10){
+                        String publishID = findList.get(findListNum-1).getPublishID();
+                        lastnumber = publishID;
+                    }
                     mFindItemAdapter = new FindServerItemapter(getActivity(), arrayBean,1);
                     mFindXSListview.setAdapter(mFindItemAdapter);
                     CommUtil.setListViewHeightBasedOnChildren(mFindXSListview, mFindItemAdapter);
@@ -253,7 +265,7 @@ public class LXFindPTFragment extends Fragment {
      * 置顶/最新-按钮背景切换
      */
     public void lxFindOnClick(){
-        getWTXRData("0");
+        getWTXRData("0","");
         mTopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,7 +273,8 @@ public class LXFindPTFragment extends Fragment {
                 mNenBtn.setTextColor(getActivity().getResources().getColor(R.color.black));
                 mTopBtn.setBackgroundResource(R.drawable.editsharp_green_all);
                 mNenBtn.setBackgroundResource(R.drawable.zuixin);
-                getWTXRData("1");
+                getWTXRData("1","");
+                mFlag = 1;//最新0  置顶 1
 
             }
         });
@@ -272,7 +285,8 @@ public class LXFindPTFragment extends Fragment {
                 mNenBtn.setTextColor(getActivity().getResources().getColor(R.color.white));
                 mTopBtn.setBackgroundResource(R.drawable.zuixin);
                 mNenBtn.setBackgroundResource(R.drawable.editsharp_green_all);
-                getWTXRData("0");
+                getWTXRData("0","");
+                mFlag =0 ;//最新0  置顶 1
 
             }
         });
@@ -286,5 +300,34 @@ public class LXFindPTFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private void setRefreshLayout(){
+//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                refreshlayout.finishRefresh(2000);
+//
+//            }
+//        });
+        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(2000);
+                ////最新0  置顶 1
+                switch (mFlag){
+                    case 0:
+                        getWTXRData("0",lastnumber);
+                        break;
+                    case 1:
+                        getWTXRData("1",lastnumber);
+                        break;
+                    default:
+                        getWTXRData("0",lastnumber);
+                        break;
+                }
+            }
+        });
     }
 }

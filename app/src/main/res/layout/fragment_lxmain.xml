@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,7 +10,10 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     >
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <!--<include layout="@layout/layout_main_header" />-->
     <include layout="@layout/header_first_lixun" />
 
@@ -17,8 +21,8 @@
         android:id="@+id/mainscrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_marginBottom="50dp"
+        android:background="@color/white"
         android:fadingEdge="none"
         android:scrollbars="none">
 
@@ -48,8 +52,6 @@
                     android:padding="5dp" />
 
 
-
-
             </RelativeLayout>
 
             <!--分类-->
@@ -57,41 +59,46 @@
                 android:id="@+id/lxmain_gridview"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:numColumns="4"
-                android:stretchMode="columnWidth"
                 android:background="@color/white"
+                android:layout_marginTop="8dp"
+                android:numColumns="4"
                 android:scrollbars="none"
-                />
+                android:stretchMode="columnWidth" />
 
-             <View
-                     android:layout_width="match_parent"
-                     android:layout_height="1dp"
-                     android:background="@color/line" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/line" />
             <!--签到-->
             <LinearLayout
                 android:id="@+id/qiandao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="19dp"
-                android:visibility="visible"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:textSize="@dimen/text_size_13"
-                     android:text="签到加积分"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_9"
-                        android:text="可在积分商城直接退换商品开发中"/>
+                        android:text="签到加积分"
+
+                        android:textSize="@dimen/text_size_13" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="可在积分商城直接退换商品开发中"
+                        android:layout_marginTop="10dp"
+                        android:textSize="@dimen/text_size_9" />
                 </LinearLayout>
 
                 <View
@@ -100,32 +107,33 @@
                     android:layout_marginLeft="90dp"
                     android:background="@color/line" />
 
-                    <Button
-                        android:id="@+id/lx_add_point"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="@dimen/space_10"
-                        android:text="签到"
-                        android:textSize="@dimen/text_size_13"
-                        android:textColor="@color/green"
-                        android:background="@drawable/editsharp_green"/>
+                <Button
+                    android:id="@+id/lx_add_point"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:background="@drawable/editsharp_green"
+                    android:text="签到"
+                    android:layout_gravity="center"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/text_size_13" />
 
             </LinearLayout>
             <!--分割线-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/line" />
 
-           <!-- <android.support.v4.view.ViewPager
+            <!-- <android.support.v4.view.ViewPager
                 android:id="@+id/lixunviewpager"
                 android:layout_width="match_parent"
                 android:layout_height="125dp" />-->
             <com.yuzhi.fine.ui.HorizontalListView
                 android:id="@+id/lx_hor_listview_img"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                />
+                android:layout_height="80dp" />
             <!--分割线-->
             <View
                 android:layout_width="match_parent"
@@ -145,3 +153,4 @@
 
     </ScrollView>
 </LinearLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -156,25 +156,22 @@ public class MineWTZRFragment extends Fragment {
                         String moneyPaid = findList.get(index).getMoneyPaid();
 
                         bean.setMineFindHeaderImg(headerImg);
-                        bean.setMineFindTime("发布时间:"+createTime);
+                        bean.setMineFindTime("发布时间:"+CommUtil.subTime(createTime));
                         bean.setMineFindLooker(visitCount);
                         bean.setMineFindFocuson(followCount);
                         bean.setMineFindMessage(commentCount);
                         bean.setMineFindPrice(subMoneyZero(moneyPaid,2) + "元");
                         bean.setMineFindTitle(title);
                         bean.setMineFindContent(content);
-                        switch (publishStatus){
+                        switch (checkState){
                             case "1":
-                                bean.setMineFindIng("待发布");
+                                bean.setMineFindIng("待审核");
                                 break;
                             case "2":
-                                bean.setMineFindIng("已发布");
+                                bean.setMineFindIng("审核通过");
                                 break;
                             case "3":
-                                bean.setMineFindIng("已结束");
-                                break;
-                            case "4":
-                                bean.setMineFindIng("已完成");
+                                bean.setMineFindIng("审核不通过");
                                 break;
                             default:break;
 
