@@ -3,7 +3,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
-tools:context="com.yuzhi.fine.fragment.mineFragment.mineFindFragment.MineFindAllFragment">
+tools:context="com.yuzhi.lixun110ccd.fragment.mineFragment.mineFindFragment.MineFindAllFragment">
 
 <ListView
     android:id="@+id/mine_rl_list"

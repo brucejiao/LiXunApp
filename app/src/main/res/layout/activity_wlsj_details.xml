@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yuzhi.fine.activity.mineActivity.ClueDetailsActivity">
+    tools:context="com.yuzhi.lixun110ccd.activity.mineActivity.ClueDetailsActivity">
     <include layout="@layout/layout_main_header" />
     <!--3-->
     <LinearLayout

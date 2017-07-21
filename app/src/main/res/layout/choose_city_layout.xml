@@ -38,19 +38,19 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <com.yuzhi.fine.ui.wheelview.MyWheelView
+        <com.yuzhi.lixun110ccd.ui.wheelview.MyWheelView
             android:id="@+id/province_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.yuzhi.fine.ui.wheelview.MyWheelView
+        <com.yuzhi.lixun110ccd.ui.wheelview.MyWheelView
             android:id="@+id/city_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.yuzhi.fine.ui.wheelview.MyWheelView
+        <com.yuzhi.lixun110ccd.ui.wheelview.MyWheelView
             android:id="@+id/district_wheel"
             android:layout_width="0dp"
             android:layout_height="match_parent"

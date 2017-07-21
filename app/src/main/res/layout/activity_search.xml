@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yuzhi.fine.activity.mainActivity.SearchActivity"
+    tools:context="com.yuzhi.lixun110ccd.activity.mainActivity.SearchActivity"
     android:orientation="vertical">
     <include layout="@layout/header_searc_lixun" />
     <TextView
@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/space_15"
         android:layout_marginLeft="@dimen/space_15"
         android:text="热门标签"/>
-    <com.yuzhi.fine.ui.FlowTagLayout
+    <com.yuzhi.lixun110ccd.ui.FlowTagLayout
         android:id="@+id/flowTagLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

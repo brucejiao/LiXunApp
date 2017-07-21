@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dip"
-                android:text="正在定位所在城市.."
+                android:text="正在定位所在城市..."
                 android:textColor="#515151" />
         </LinearLayout>
     </RelativeLayout>
@@ -100,7 +100,7 @@
         android:divider="#00000000"
         android:scrollbars="none" />
 
-    <com.yuzhi.fine.ui.MyLetterListView
+    <com.yuzhi.lixun110ccd.ui.MyLetterListView
         android:id="@+id/MyLetterListView01"
         android:layout_width="30dip"
         android:layout_height="fill_parent"

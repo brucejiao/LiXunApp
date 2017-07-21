@@ -17,7 +17,7 @@
         />
 
 
-    <com.yuzhi.fine.ui.CustomViewpager
+    <com.yuzhi.lixun110ccd.ui.CustomViewpager
         android:id="@+id/vp_FindFragment_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

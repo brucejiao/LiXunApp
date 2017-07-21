@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yuzhi.fine.activity.coreActivity.MineRLActivity"
+    tools:context="com.yuzhi.lixun110ccd.activity.coreActivity.MineRLActivity"
     android:orientation="vertical">
     <!--标题栏-->
     <include layout="@layout/layout_main_header" />

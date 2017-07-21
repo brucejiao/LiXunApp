@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/sx_gary"
     android:orientation="vertical"
-    tools:context="com.yuzhi.fine.activity.mineActivity.AccountInfosActivity">
+    tools:context="com.yuzhi.lixun110ccd.activity.mineActivity.AccountInfosActivity">
 
     <!--标题栏-->
     <include layout="@layout/layout_account_header" />

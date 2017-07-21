@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yuzhi.fine.fragment.coreFragment.WTXRFragment">
+    tools:context="com.yuzhi.lixun110ccd.fragment.coreFragment.WTXRFragment">
 
     <LinearLayout
         android:id="@+id/find_second_list"
